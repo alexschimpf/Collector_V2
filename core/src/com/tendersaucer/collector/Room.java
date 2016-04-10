@@ -5,5 +5,5 @@ package com.tendersaucer.collector;
  *
  * Created by Alex on 4/8/2016.
  */
-public class Room {
+public class Room implements IUpdate, IRender {
 }

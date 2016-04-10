@@ -1,9 +1,12 @@
 package com.tendersaucer.collector.background;
 
+import com.tendersaucer.collector.IRender;
+
 /**
- * Layer of a parallax background
+ * Layer in ParallaxBackground
  *
- * Created by Alex on 4/8/2016.
+ * Created by Alex on 4/9/2016.
  */
-public class ParallaxLayer {
+public abstract class ParallaxLayer implements IRender {
+
 }

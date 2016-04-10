@@ -5,5 +5,5 @@ package com.tendersaucer.collector;
  *
  * Created by Alex on 4/8/2016.
  */
-public class World {
+public class World implements IUpdate, IRender {
 }
