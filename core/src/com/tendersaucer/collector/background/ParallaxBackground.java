@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.background;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tendersaucer.collector.IRender;
 
 /**
@@ -8,4 +9,13 @@ import com.tendersaucer.collector.IRender;
  * Created by Alex on 4/8/2016.
  */
 public class ParallaxBackground implements IRender {
+
+    public ParallaxBackground() {
+
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch) {
+
+    }
 }

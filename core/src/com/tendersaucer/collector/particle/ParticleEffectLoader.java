@@ -5,5 +5,8 @@ package com.tendersaucer.collector.particle;
  *
  * Created by Alex on 4/8/2016.
  */
-public class ParticleEffectLoader {
+public final class ParticleEffectLoader {
+
+    private ParticleEffectLoader() {
+    }
 }

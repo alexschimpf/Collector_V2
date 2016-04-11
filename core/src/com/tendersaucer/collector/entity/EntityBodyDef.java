@@ -5,5 +5,9 @@ package com.tendersaucer.collector.entity;
  *
  * Created by Alex on 4/8/2016.
  */
-public class EntityBodyDef {
+public final class EntityBodyDef {
+
+    public EntityBodyDef() {
+
+    }
 }

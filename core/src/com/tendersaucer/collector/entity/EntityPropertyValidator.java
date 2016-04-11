@@ -5,5 +5,14 @@ package com.tendersaucer.collector.entity;
  *
  * Created by Alex on 4/8/2016.
  */
-public class EntityPropertyValidator {
+public final class EntityPropertyValidator {
+
+    private static final EntityPropertyValidator instance = new EntityPropertyValidator();
+
+    private EntityPropertyValidator() {
+    }
+
+    public static EntityPropertyValidator getInstance() {
+        return instance;
+    }
 }

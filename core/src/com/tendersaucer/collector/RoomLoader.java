@@ -5,5 +5,12 @@ package com.tendersaucer.collector;
  *
  * Created by Alex on 4/8/2016.
  */
-public class RoomLoader {
+public final class RoomLoader {
+
+    private RoomLoader() {
+    }
+
+    public static Room load(IRoomLoadable roomLoadable) {
+        return null;
+    }
 }

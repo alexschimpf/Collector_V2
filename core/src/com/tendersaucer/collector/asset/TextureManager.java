@@ -5,5 +5,14 @@ package com.tendersaucer.collector.asset;
  *
  * Created by Alex on 4/8/2016.
  */
-public class TextureManager {
+public final class TextureManager {
+
+    private static final TextureManager instance = new TextureManager();
+
+    private TextureManager() {
+    }
+
+    public static TextureManager getInstance() {
+        return instance;
+    }
 }

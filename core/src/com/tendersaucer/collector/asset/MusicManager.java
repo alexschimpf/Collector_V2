@@ -5,5 +5,14 @@ package com.tendersaucer.collector.asset;
  *
  * Created by Alex on 4/8/2016.
  */
-public class MusicManager {
+public final class MusicManager {
+
+    private static final MusicManager instance = new MusicManager();
+
+    private MusicManager() {
+    }
+
+    public static MusicManager getInstance() {
+        return instance;
+    }
 }

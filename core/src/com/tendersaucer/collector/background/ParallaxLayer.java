@@ -9,4 +9,7 @@ import com.tendersaucer.collector.IRender;
  */
 public abstract class ParallaxLayer implements IRender {
 
+    public ParallaxLayer() {
+
+    }
 }

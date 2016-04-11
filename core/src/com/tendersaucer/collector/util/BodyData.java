@@ -5,5 +5,9 @@ package com.tendersaucer.collector.util;
  *
  * Created by Alex on 4/8/2016.
  */
-public class BodyData {
+public final class BodyData {
+
+    public BodyData() {
+
+    }
 }

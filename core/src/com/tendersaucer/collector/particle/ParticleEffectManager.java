@@ -5,5 +5,14 @@ package com.tendersaucer.collector.particle;
  *
  * Created by Alex on 4/8/2016.
  */
-public class ParticleEffectManager {
+public final class ParticleEffectManager {
+
+    private static final ParticleEffectManager instance = new ParticleEffectManager();
+
+    private ParticleEffectManager() {
+    }
+
+    public static ParticleEffectManager getInstance() {
+        return instance;
+    }
 }
