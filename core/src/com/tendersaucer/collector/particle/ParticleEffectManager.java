@@ -1,18 +1,56 @@
 package com.tendersaucer.collector.particle;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
+import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.IUpdate;
+
 /**
  * Manages game particle effects
  *
  * Created by Alex on 4/8/2016.
  */
-public final class ParticleEffectManager {
+public final class ParticleEffectManager implements IUpdate, IRender {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
+
+    private final Array<ParticleEffect> particleEffects = new Array<ParticleEffect>();
 
     private ParticleEffectManager() {
     }
 
     public static ParticleEffectManager getInstance() {
         return instance;
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch) {
+        for (ParticleEffect particleEffect : particleEffects) {
+            particleEffect.render(spriteBatch);
+        }
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public void onDone() {
+    }
+
+    public ParticleEffect buildParticleEffect(String key, float x, float y) {
+        return null;
+    }
+
+    public ParticleEffect buildAndAddParticleEffect(String key, float x, float y) {
+        ParticleEffect particleEffect = buildParticleEffect(key, x, y);
+        addLiveParticleEffect(particleEffect);
+
+        return particleEffect;
+    }
+
+    public void addLiveParticleEffect(ParticleEffect particleEffect) {
+        particleEffects.add(particleEffect);
     }
 }

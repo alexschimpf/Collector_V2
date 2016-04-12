@@ -12,7 +12,7 @@ import com.tendersaucer.collector.IUpdate;
  */
 public abstract class Entity implements IUpdate, IRender, ICollide {
 
-    public Entity() {
+    public Entity(EntityDefinition def) {
 
     }
 
@@ -27,7 +27,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide {
     }
 
     @Override
-    public boolean onDone() {
-        return false;
+    public void onDone() {
     }
 }

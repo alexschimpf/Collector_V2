@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.particle.ParticleEffect;
+import com.tendersaucer.collector.world.WorldLoader;
 
 /**
  * Main update and render logic
@@ -16,8 +15,6 @@ import com.tendersaucer.collector.particle.ParticleEffect;
  * Created by Alex on 4/8/2016.
  */
 public class Driver implements Screen {
-
-    private static final int NUM_LAYERS = 10;
 
     private final Matrix4 debugMatrix = new Matrix4();
     private final SpriteBatch spriteBatch = new SpriteBatch();
@@ -32,8 +29,11 @@ public class Driver implements Screen {
             // TODO: Display mode hack
         }
 
-        // TODO: Determine last world
-        // TODO: Load entry room
+        Layers layers = Globals.getLayers();
+        layers.addToLayer(1, Globals.getParticleEffectManager());
+        layers.addToLayer(2, Globals.getWorld());
+
+        WorldLoader.load("0");
     }
 
     @Override
@@ -41,8 +41,6 @@ public class Driver implements Screen {
         if(Globals.PRINT_FPS) {
             Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
         }
-
-        Globals.getCamera().update();
 
         update();
         render();
@@ -75,17 +73,17 @@ public class Driver implements Screen {
     }
 
     private void update() {
-        Globals.getGameWorld().update();
+        Globals.getCamera().update();
+        Globals.getWorld().update();
         Globals.getHUD().update();
-
-        // TODO: Update ParticleEffects
+        Globals.getParticleEffectManager().update();
     }
 
     private void render(){
         Gdx.gl.glClearColor((240 / 255.0f), (250 / 255.0f), (250 / 255.0f), 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        OrthographicCamera camera = Globals.getCamera().getRawCamera();
+        OrthographicCamera camera = (OrthographicCamera)Globals.getCamera().getRawCamera();
 
         spriteBatch.setProjectionMatrix(camera.combined);
 

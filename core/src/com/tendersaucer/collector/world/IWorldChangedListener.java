@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.world;
 
 /**
  * Interface for listeners of changed world event

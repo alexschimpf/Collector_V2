@@ -26,7 +26,6 @@ public class ParticleEffect implements IUpdate, IRender {
     }
 
     @Override
-    public boolean onDone() {
-        return false;
+    public void onDone() {
     }
 }

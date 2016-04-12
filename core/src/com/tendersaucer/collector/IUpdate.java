@@ -9,5 +9,5 @@ public interface IUpdate {
 
     public boolean update();
 
-    public boolean onDone();
+    public void onDone();
 }

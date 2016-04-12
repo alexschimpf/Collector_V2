@@ -26,7 +26,6 @@ public class AnimationSystem implements IUpdate, IRender, IAnimate {
     }
 
     @Override
-    public boolean onDone() {
-        return false;
+    public void onDone() {
     }
 }

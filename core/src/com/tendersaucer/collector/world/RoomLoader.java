@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.world;
 
 /**
  * Loads rooms from config
@@ -11,6 +11,8 @@ public final class RoomLoader {
     }
 
     public static Room load(IRoomLoadable roomLoadable) {
+        // TODO: Load room's background as well
+        // TODO: Add layers appropriately
         return null;
     }
 }

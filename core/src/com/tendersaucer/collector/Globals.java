@@ -1,15 +1,16 @@
 package com.tendersaucer.collector;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.tendersaucer.collector.asset.MusicManager;
 import com.tendersaucer.collector.asset.SoundManager;
 import com.tendersaucer.collector.asset.TextureManager;
 import com.tendersaucer.collector.entity.EntityPropertyValidator;
 import com.tendersaucer.collector.entity.Player;
+import com.tendersaucer.collector.particle.ParticleEffect;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.util.Vector2Pool;
+import com.tendersaucer.collector.world.Room;
+import com.tendersaucer.collector.world.World;
 
 /**
  * Game global variables
@@ -55,6 +56,10 @@ public final class Globals {
         return Camera.getInstance();
     }
 
+    public static Layers getLayers() {
+        return Layers.getInstance();
+    }
+
     public static TextureManager getTextureManager() {
         return TextureManager.getInstance();
     }
@@ -84,27 +89,27 @@ public final class Globals {
     }
 
     public static float getTileSize() {
-        return getCamera().getViewportWidth() / TheCamera.NUM_TILES_PER_SCREEN_WIDTH;
+        return getCamera().getViewportWidth() / Camera.SCREEN_NUM_TILES_WIDE;
     }
 
-    public static Sprite getSprite(String textureKey) {
-        return getTextureManager().getSprite(textureKey);
-    }
+//    public static Sprite getSprite(String textureKey) {
+//        return getTextureManager().getSprite(textureKey);
+//    }
+//
+//    public static TextureRegion getImageTexture(String textureKey) {
+//        return getTextureManager().getImageTexture(textureKey);
+//    }
+//
+//    public static TextureRegion getImageTexture(String textureKey, int index) {
+//        return getTextureManager().getImageTexture(textureKey, index);
+//    }
+//
+//    public static Array<AtlasRegion> getAnimationTextures(String animationKey) {
+//        return getTextureManager().getAnimationTextures(animationKey);
+//    }
 
-    public static TextureRegion getImageTexture(String textureKey) {
-        return getTextureManager().getImageTexture(textureKey);
-    }
-
-    public static TextureRegion getImageTexture(String textureKey, int index) {
-        return getTextureManager().getImageTexture(textureKey, index);
-    }
-
-    public static Array<AtlasRegion> getAnimationTextures(String animationKey) {
-        return getTextureManager().getAnimationTextures(animationKey);
-    }
-
-    public static ParticleEffect getParticleEffect(String particleEffectKey, float x, float y) {
-        return getParticleEffectManager().getParticleEffect(particleEffectKey, x, y);
+    public static ParticleEffect getParticleEffect(String key, float x, float y) {
+        return getParticleEffectManager().buildParticleEffect(key, x, y);
     }
 
     public static boolean isGameRunning() {

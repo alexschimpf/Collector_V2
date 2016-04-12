@@ -1,6 +1,8 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.IUpdate;
 
 /**
  * Sub-levels of a world
@@ -24,7 +26,6 @@ public class Room implements IUpdate, IRender {
     }
 
     @Override
-    public boolean onDone() {
-        return false;
+    public void onDone() {
     }
 }

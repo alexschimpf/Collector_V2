@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public final class Player extends Entity {
 
-    public Player() {
-
+    public Player(EntityDefinition def) {
+        super(def);
     }
 
     @Override
@@ -24,7 +24,6 @@ public final class Player extends Entity {
     }
 
     @Override
-    public boolean onDone() {
-        return false;
+    public void onDone() {
     }
 }
