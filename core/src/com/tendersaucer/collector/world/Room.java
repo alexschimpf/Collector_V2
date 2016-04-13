@@ -11,8 +11,13 @@ import com.tendersaucer.collector.IUpdate;
  */
 public class Room implements IUpdate, IRender {
 
-    public Room() {
+    private static Room instance = new Room();
 
+    private Room() {
+    }
+
+    public static Room getInstance() {
+        return instance;
     }
 
     @Override
@@ -27,5 +32,9 @@ public class Room implements IUpdate, IRender {
 
     @Override
     public void onDone() {
+    }
+
+    public void set(IRoomLoadable roomLoadable) {
+
     }
 }

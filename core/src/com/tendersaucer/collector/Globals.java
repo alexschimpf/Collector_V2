@@ -44,8 +44,8 @@ public final class Globals {
         return World.getInstance();
     }
 
-    public static Room getCurrentRoom() {
-        return getWorld().getCurrentRoom();
+    public static Room getRoom() {
+        return Room.getInstance();
     }
 
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {

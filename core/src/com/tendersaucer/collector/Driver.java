@@ -30,8 +30,8 @@ public class Driver implements Screen {
         }
 
         Layers layers = Globals.getLayers();
-        layers.addToLayer(1, Globals.getParticleEffectManager());
-        layers.addToLayer(2, Globals.getWorld());
+        layers.addToLayer(Layers.PARTICLE_LAYER, Globals.getParticleEffectManager());
+        layers.addToLayer(Layers.WORLD_LAYER, Globals.getWorld());
 
         WorldLoader.load("0");
     }

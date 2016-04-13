@@ -36,25 +36,27 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                 TiledMapTileLayer tileLayer = (TiledMapTileLayer)layer;
                 processLayer(tileLayer);
 
+                // TODO: Need to skip object layers.
                 TiledMapLayer layerWrapper = new TiledMapLayer(tileLayer);
                 int layerPos = layerWrapper.getIntProperty("layer_pos");
+                if (layerPos < 0 || layerPos > Layers.NUM_LAYERS - 1) {
+                    throw new IllegalArgumentException("Tiled map layer position is not valid");
+                }
                 renderLayers.insert(layerPos, layerWrapper);
             }
         }
+
+        // TODO: Add background to renderLayers
     }
 
     private void processLayer(TiledMapTileLayer layer) {
         // Extract entities and bodies
+        // The world is guaranteed to be cleared before this
     }
 
     @Override
     public Array<Entity> getEntities() {
         return entities;
-    }
-
-    @Override
-    public Array<Body> getNonEntityBodies() {
-        return nonEntityBodies;
     }
 
     @Override
