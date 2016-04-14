@@ -3,7 +3,6 @@ package com.tendersaucer.collector.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.util.FileUtils;
 
 import java.io.IOException;
@@ -15,7 +14,8 @@ import java.io.IOException;
  */
 public final class WorldLoader {
 
-    private final static Array<IWorldChangedListener> worldChangedListeners = new Array<IWorldChangedListener>();
+    private static final String ENTITY_ROOM_ID_PROP = "entity_room_id";
+    private static final Array<IWorldChangedListener> worldChangedListeners = new Array<IWorldChangedListener>();
 
     private WorldLoader() {
     }
@@ -29,7 +29,7 @@ public final class WorldLoader {
     }
 
     public static void load(String worldId) {
-        Globals.getWorld().clearPhysicsWorld();
+        World.getInstance().clearPhysicsWorld();
 
         try {
             XmlReader reader = new XmlReader();
@@ -43,7 +43,7 @@ public final class WorldLoader {
     }
 
     private static void loadEntryRoom(String worldId, XmlReader.Element root) {
-        String roomId = root.getChildByName("entryRoomId").getText();
+        String roomId = root.getChildByName(ENTITY_ROOM_ID_PROP).getText();
         IRoomLoadable roomLoadable = new TiledMapRoomLoadable(worldId, roomId);
         RoomLoader.load(roomLoadable);
     }

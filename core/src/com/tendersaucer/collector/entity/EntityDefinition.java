@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.tendersaucer.collector.util.BodyDefinition;
+import com.tendersaucer.collector.Globals;
 
 /**
  * Abstract entity definition
@@ -13,12 +13,18 @@ import com.tendersaucer.collector.util.BodyDefinition;
  */
 public abstract class EntityDefinition {
 
-    protected final String name;
-    protected final BodyDefinition bodyDef;
+    protected static final String WIDTH_PROP = "width";
+    protected static final String HEIGHT_PROP = "height";
 
-    public EntityDefinition(String name, BodyDefinition bodyDef) {
+    protected final String name;
+    protected final BodyDef bodyDef;
+    protected final Vector2 size;
+
+    public EntityDefinition(String name, BodyDef bodyDef) {
         this.name = validateName(name);
         this.bodyDef = bodyDef;
+
+        size = new Vector2();
     }
 
     public abstract Object getProperty(String key);
@@ -29,20 +35,24 @@ public abstract class EntityDefinition {
         return name;
     }
 
-    public BodyDefinition getBodyDef() {
+    public BodyDef getBodyDef() {
         return bodyDef;
+    }
+
+    public Vector2 getSize() {
+        float unitScale = Globals.getCamera().getTileMapScale();
+        float width = getFloatProperty(WIDTH_PROP) * unitScale;
+        float height = getFloatProperty(HEIGHT_PROP) * unitScale;
+
+        return size.set(width, height);
     }
 
     public Vector2 getPosition() {
         return bodyDef.position;
     }
 
-    public Vector2 getSize() {
-        return bodyDef.size;
-    }
-
     public BodyDef.BodyType getBodyType() {
-        return bodyDef.bodyType;
+        return bodyDef.type;
     }
 
     public boolean propertyExists(String key) {

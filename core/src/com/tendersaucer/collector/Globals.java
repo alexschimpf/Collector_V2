@@ -1,15 +1,8 @@
 package com.tendersaucer.collector;
 
-import com.tendersaucer.collector.asset.MusicManager;
-import com.tendersaucer.collector.asset.SoundManager;
-import com.tendersaucer.collector.asset.TextureManager;
-import com.tendersaucer.collector.entity.EntityPropertyValidator;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.particle.ParticleEffect;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.ui.HUD;
-import com.tendersaucer.collector.util.Vector2Pool;
-import com.tendersaucer.collector.world.Room;
 import com.tendersaucer.collector.world.World;
 
 /**
@@ -36,60 +29,15 @@ public final class Globals {
     private Globals() {
     }
 
-    public static HUD getHUD() {
-        return HUD.getInstance();
-    }
-
-    public static World getWorld() {
-        return World.getInstance();
-    }
-
-    public static Room getRoom() {
-        return Room.getInstance();
-    }
-
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
-        return getWorld().getPhysicsWorld();
+        return World.getInstance().getPhysicsWorld();
     }
-
-    public static Camera getCamera() {
-        return Camera.getInstance();
-    }
-
-    public static Layers getLayers() {
-        return Layers.getInstance();
-    }
-
-    public static TextureManager getTextureManager() {
-        return TextureManager.getInstance();
-    }
-
-    public static SoundManager getSoundManager() {
-        return SoundManager.getInstance();
-    }
-
-    public static MusicManager getMusicManager() {
-        return MusicManager.getInstance();
-    }
-
-    public static ParticleEffectManager getParticleEffectManager() {
-        return ParticleEffectManager.getInstance();
-    }
-
-    public static Vector2Pool getVector2Pool() {
-        return Vector2Pool.getInstance();
-    }
-
-    public static EntityPropertyValidator getEntityPropertyValidator() {
-        return EntityPropertyValidator.getInstance();
-    }
-
-    public static Player getPlayer() {
-        return getWorld().getPlayer();
+public static Player getPlayer() {
+        return World.getInstance().getPlayer();
     }
 
     public static float getTileSize() {
-        return getCamera().getViewportWidth() / Camera.SCREEN_NUM_TILES_WIDE;
+        return Camera.getInstance().getViewportWidth() / Camera.SCREEN_NUM_TILES_WIDE;
     }
 
 //    public static Sprite getSprite(String textureKey) {
@@ -109,7 +57,7 @@ public final class Globals {
 //    }
 
     public static ParticleEffect getParticleEffect(String key, float x, float y) {
-        return getParticleEffectManager().buildParticleEffect(key, x, y);
+        return ParticleEffectManager.getInstance().buildParticleEffect(key, x, y);
     }
 
     public static boolean isGameRunning() {

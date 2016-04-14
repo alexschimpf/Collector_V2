@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Globals;
 
 /**
@@ -34,7 +35,7 @@ public final class TiledUtils {
     public static Body createBodyFromRectangle(MapObject object) {
         Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
 
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
         float left = rectangle.x * unitScale;
         float top = rectangle.y * unitScale;
         float width = rectangle.width * unitScale;
@@ -73,7 +74,7 @@ public final class TiledUtils {
     public static Body createBodyFromCircle(MapObject object) {
         Circle circle = ((CircleMapObject)object).getCircle();
 
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
         float x = circle.x * unitScale;
         float y = circle.y * unitScale;
 
@@ -96,7 +97,7 @@ public final class TiledUtils {
     public static Body createBodyFromEllipse(MapObject object) {
         Ellipse circle = ((EllipseMapObject)object).getEllipse();
 
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
         float x = (circle.x + circle.width / 2) * unitScale;
         float y = (circle.y + circle.height / 2) * unitScale;
 
@@ -115,6 +116,7 @@ public final class TiledUtils {
         return body;
     }
 
+    public static Body createBodyFromPolygon(MapObject object) {
     public static Body createBodyFromPolygon(MapObject object) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(0, 0);
@@ -145,7 +147,7 @@ public final class TiledUtils {
         fixtureDef.restitution = 0;
 
         Shape shape = null;
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
         if(object instanceof TextureMapObject) {
             shape = getTextureMapShape(object, scale);
         } else if(object instanceof RectangleMapObject) {
@@ -166,7 +168,7 @@ public final class TiledUtils {
     }
 
     private static Shape getTextureMapShape(MapObject object, float scale) {
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
 
         TextureMapObject textureMapObject = (TextureMapObject)object;
         float width = (Float)textureMapObject.getProperties().get("width");
@@ -178,7 +180,7 @@ public final class TiledUtils {
     }
 
     private static Shape getRectangleShape(MapObject object, float scale) {
-        float unitScale = Globals.getCamera().getTileMapScale();
+        float unitScale = Camera.getInstance().getTileMapScale();
 
         Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
         PolygonShape shape = new PolygonShape();
@@ -190,7 +192,7 @@ public final class TiledUtils {
         Polyline polyline = ((PolylineMapObject)object).getPolyline();
         float[] vertices = polyline.getTransformedVertices();
         for(int i = 0; i < vertices.length; i++) {
-            vertices[i] *= Globals.getCamera().getTileMapScale() * scale;
+            vertices[i] *= Camera.getInstance().getTileMapScale() * scale;
         }
 
         ChainShape shape = new ChainShape();
@@ -202,7 +204,7 @@ public final class TiledUtils {
     private static Shape getCircleShape(MapObject object, float scale) {
         Circle circle = ((CircleMapObject)object).getCircle();
         CircleShape shape = new CircleShape();
-        shape.setRadius(circle.radius * Globals.getCamera().getTileMapScale() * scale);
+        shape.setRadius(circle.radius * Camera.getInstance().getTileMapScale() * scale);
 
         return shape;
     }
@@ -211,7 +213,7 @@ public final class TiledUtils {
     private static Shape getEllipseShape(MapObject object, float scale) {
         Ellipse circle = ((EllipseMapObject)object).getEllipse();
         CircleShape shape = new CircleShape();
-        shape.setRadius(circle.width / 2 * Globals.getCamera().getTileMapScale() * scale);
+        shape.setRadius(circle.width / 2 * Camera.getInstance().getTileMapScale() * scale);
 
         return shape;
     }
@@ -220,7 +222,7 @@ public final class TiledUtils {
         Polygon polygon = ((PolygonMapObject)object).getPolygon();
         float[] vertices = polygon.getTransformedVertices();
         for(int i = 0; i < vertices.length; i++) {
-            vertices[i] *= Globals.getCamera().getTileMapScale() * scale;
+            vertices[i] *= Camera.getInstance().getTileMapScale() * scale;
         }
 
         PolygonShape shape = new PolygonShape();

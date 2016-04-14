@@ -1,7 +1,6 @@
 package com.tendersaucer.collector.world;
 
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.Layers;
 
@@ -28,16 +27,16 @@ public final class RoomLoader {
     public static void load(IRoomLoadable roomLoadable) {
         for (int i = 0; i < Layers.NUM_LAYERS; i++) {
             if (i != Layers.PARTICLE_LAYER && i != Layers.WORLD_LAYER) {
-                Globals.getLayers().clearLayer(i);
+                Layers.getInstance().clearLayer(i);
             }
         }
 
         int i = 0;
         for (IRender layer : roomLoadable.getRenderLayers()) {
-            Globals.getLayers().addToLayer(i++, layer);
+            Layers.getInstance().addToLayer(i++, layer);
         }
 
-        Globals.getRoom().set(roomLoadable);
+        Room.getInstance().set(roomLoadable);
 
         notifyRoomChangedListeners();
     }

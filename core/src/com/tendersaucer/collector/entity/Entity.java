@@ -29,4 +29,7 @@ public abstract class Entity implements IUpdate, IRender, ICollide {
     @Override
     public void onDone() {
     }
+
+    public void onCreate(EntityDefinition entityDef) {
+    }
 }

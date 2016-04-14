@@ -2,8 +2,8 @@ package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.tendersaucer.collector.util.BodyDefinition;
 import com.tendersaucer.collector.util.TiledUtils;
 
 /**
@@ -14,14 +14,13 @@ import com.tendersaucer.collector.util.TiledUtils;
 public class TiledEntityDefinition extends EntityDefinition {
 
     private final MapProperties properties;
-    private final FixtureDef fixtureDef;
+    private final MapObject bodySkeleton;
 
-    public TiledEntityDefinition(String name, BodyDefinition bodyDef, MapProperties properties, MapObject bodySkeleton) {
+    public TiledEntityDefinition(String name, BodyDef bodyDef, MapObject bodySkeleton, MapProperties properties) {
         super(name, bodyDef);
 
         this.properties = properties;
-
-        fixtureDef = TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
+        this.bodySkeleton = bodySkeleton;
     }
 
     @Override
@@ -31,6 +30,6 @@ public class TiledEntityDefinition extends EntityDefinition {
 
     @Override
     public FixtureDef getFixtureDef() {
-        return fixtureDef;
+        return TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
     }
 }
