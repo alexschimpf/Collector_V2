@@ -1,16 +1,16 @@
 package com.tendersaucer.collector.util;
 
 /**
- * Miscellaneous utility functions
+ * File / config utility functions
  *
  * Created by Alex on 4/8/2016.
  */
-public final class Utils {
+public final class FileUtils {
 
     private static final String WORLD_DIR = "world";
     private static final String WORLD_CONFIG_NAME = "world_config.xml";
 
-    private Utils() {
+    private FileUtils() {
     }
 
     public static String getWorldConfigURI(String worldId) {

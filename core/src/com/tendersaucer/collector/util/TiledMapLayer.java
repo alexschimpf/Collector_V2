@@ -1,6 +1,8 @@
 package com.tendersaucer.collector.util;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.tendersaucer.collector.IRender;
@@ -25,6 +27,14 @@ public final class TiledMapLayer implements IRender {
 
     public TiledMapTileLayer getRawLayer() {
         return rawLayer;
+    }
+
+    public String getName() {
+        return rawLayer.getName();
+    }
+
+    public MapObjects getObjects() {
+        return rawLayer.getObjects();
     }
 
     public boolean propertyExists(String key) {
@@ -55,5 +65,34 @@ public final class TiledMapLayer implements IRender {
 
     public float getFloatProperty(String key) {
         return Float.parseFloat(getStringProperty(key));
+    }
+
+    public boolean propertyExists(MapObject object, String key) {
+        return object.getProperties().containsKey(key);
+    }
+
+    public boolean isPropertyEmpty(MapObject object, String key) {
+        MapProperties properties = object.getProperties();
+        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+    }
+
+    public Object getProperty(MapObject object, String key) {
+        return object.getProperties().get(key);
+    }
+
+    public String getStringProperty(MapObject object, String key) {
+        return getProperty(object, key).toString();
+    }
+
+    public boolean getBooleanProperty(MapObject object, String key) {
+        return Boolean.parseBoolean(getStringProperty(object, key));
+    }
+
+    public int getIntProperty(MapObject object, String key) {
+        return Integer.parseInt(getStringProperty(object, key));
+    }
+
+    public float getFloatProperty(MapObject object, String key) {
+        return Float.parseFloat(getStringProperty(object, key));
     }
 }

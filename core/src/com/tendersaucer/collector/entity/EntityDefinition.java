@@ -1,37 +1,36 @@
 package com.tendersaucer.collector.entity;
 
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.util.BodyDefinition;
-import com.tendersaucer.collector.util.FixtureUtils;
 
 /**
- * Created by Alex on 4/12/2016.
+ * Abstract entity definition
+ *
+ * Created by Alex on 4/13/2016.
  */
-public final class EntityDefinition {
+public abstract class EntityDefinition {
 
-    private final String name;
-    private final BodyDefinition bodyDef;
-    private final FixtureDef fixtureDef;
-    private final MapProperties properties;
+    protected final String name;
+    protected final BodyDefinition bodyDef;
 
-    public EntityDefinition(String name, BodyDefinition bodyDef, MapProperties properties, MapObject bodyObject) {
-        if(name == null || name.isEmpty()) {
-            name = getSynthesizedName(bodyDef, properties, bodyObject);
-        }
-
-        this.name = name;
+    public EntityDefinition(String name, BodyDefinition bodyDef) {
+        this.name = validateName(name);
         this.bodyDef = bodyDef;
-        this.properties = properties;
-
-        fixtureDef = FixtureUtils.getFixtureDef(bodyObject);
     }
+
+    public abstract Object getProperty(String key);
+
+    public abstract FixtureDef getFixtureDef();
 
     public String getName() {
         return name;
+    }
+
+    public BodyDefinition getBodyDef() {
+        return bodyDef;
     }
 
     public Vector2 getPosition() {
@@ -46,20 +45,12 @@ public final class EntityDefinition {
         return bodyDef.bodyType;
     }
 
-    public FixtureDef getFixtureDef() {
-        return fixtureDef;
-    }
-
     public boolean propertyExists(String key) {
-        return properties.containsKey(key);
+        return getStringProperty(key) != null;
     }
 
     public boolean isPropertyEmpty(String key) {
-        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
-    }
-
-    public Object getProperty(String key) {
-        return properties.get(key);
+        return !propertyExists(key) || getStringProperty(key).isEmpty();
     }
 
     public String getStringProperty(String key) {
@@ -78,17 +69,17 @@ public final class EntityDefinition {
         return Float.parseFloat(getStringProperty(key));
     }
 
-    public Vector2 getPropertyVector2(MapObject mapObject, String key) {
+    public Vector2 getVector2Property(String key) {
         if(getStringProperty(key).isEmpty()) {
             return new Vector2();
         }
 
-        float[] vals = getPropertyFloatArray(key, ",");
+        float[] vals = getFloatArrayProperty(key, ",");
         return new Vector2(vals[0], vals[1]);
 
     }
 
-    public boolean[] getPropertyBooleanArray(String key, String delim) {
+    public boolean[] getBooleanArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
 
         if(full.isEmpty()) {
@@ -106,7 +97,7 @@ public final class EntityDefinition {
         return booleanArr;
     }
 
-    public int[] getPropertyIntArray(String key, String delim) {
+    public int[] getIntArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
 
         if(full.isEmpty()) {
@@ -124,7 +115,7 @@ public final class EntityDefinition {
         return intArr;
     }
 
-    public float[] getPropertyFloatArray(String key, String delim) {
+    public float[] getFloatArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
 
         if(full.isEmpty()) {
@@ -142,7 +133,7 @@ public final class EntityDefinition {
         return floatArr;
     }
 
-    public String[] getPropertyStringArray(String key, String delim) {
+    public String[] getStringArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
 
         if(full.isEmpty()) {
@@ -152,8 +143,11 @@ public final class EntityDefinition {
         return full.split(delim);
     }
 
-    private String getSynthesizedName(BodyDefinition bodyDef, MapProperties properties, MapObject bodyObject) {
-        return String.join(String.valueOf(bodyDef.hashCode()), String.valueOf(properties.hashCode()),
-                String.valueOf(bodyObject.hashCode()));
+    private String validateName(String name) {
+        if (name != null && !name.isEmpty()) {
+            return name;
+        }
+
+        return String.valueOf(MathUtils.random(0, Integer.MAX_VALUE));
     }
 }

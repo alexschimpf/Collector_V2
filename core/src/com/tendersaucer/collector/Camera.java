@@ -42,5 +42,9 @@ public final class Camera implements IUpdate {
     public float getViewportHeight() {
         return 0;
     }
+
+    public float getTileMapScale() {
+        return 0;
+    }
 }
 

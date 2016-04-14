@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public final class Player extends Entity {
 
-    public Player(EntityDefinition def) {
+    public Player(TiledEntityDefinition def) {
         super(def);
     }
 

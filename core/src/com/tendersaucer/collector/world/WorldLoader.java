@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.util.Utils;
+import com.tendersaucer.collector.util.FileUtils;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public final class WorldLoader {
 
         try {
             XmlReader reader = new XmlReader();
-            XmlReader.Element root = reader.parse(Gdx.files.internal(Utils.getWorldConfigURI(worldId)));
+            XmlReader.Element root = reader.parse(Gdx.files.internal(FileUtils.getWorldConfigURI(worldId)));
             loadEntryRoom(worldId, root);
         } catch (IOException e) {
             // TODO:
