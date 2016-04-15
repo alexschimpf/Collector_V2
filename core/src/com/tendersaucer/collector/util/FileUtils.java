@@ -8,7 +8,7 @@ package com.tendersaucer.collector.util;
 public final class FileUtils {
 
     private static final String WORLD_DIR = "world";
-    private static final String WORLD_CONFIG_NAME = "world_config.xml";
+    private static final String WORLD_CONFIG_NAME = "world.conf";
 
     private FileUtils() {
     }
