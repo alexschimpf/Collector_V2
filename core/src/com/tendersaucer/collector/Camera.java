@@ -8,7 +8,6 @@ package com.tendersaucer.collector;
 public final class Camera implements IUpdate {
 
     public static final int SCREEN_NUM_TILES_WIDE = 18;
-
     private static final Camera instance = new Camera();
 
     private Camera() {
@@ -32,7 +31,6 @@ public final class Camera implements IUpdate {
     }
 
     public void resizeViewport(int width, int height) {
-
     }
 
     public float getViewportWidth() {

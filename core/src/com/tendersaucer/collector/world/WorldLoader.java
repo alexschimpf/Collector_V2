@@ -14,21 +14,27 @@ import java.io.IOException;
  */
 public final class WorldLoader {
 
+    private static final WorldLoader instance = new WorldLoader();
     private static final String ENTITY_ROOM_ID_PROP = "entity_room_id";
-    private static final Array<IWorldChangedListener> worldChangedListeners = new Array<IWorldChangedListener>();
+
+    private final Array<IWorldChangedListener> worldChangedListeners = new Array<IWorldChangedListener>();
 
     private WorldLoader() {
     }
 
-    public static void addWorldChangedListener(IWorldChangedListener listener) {
+    public static WorldLoader getInstance() {
+        return instance;
+    }
+
+    public void addWorldChangedListener(IWorldChangedListener listener) {
         worldChangedListeners.add(listener);
     }
 
-    public static void removeWorldChangedListener(IWorldChangedListener listener) {
+    public void removeWorldChangedListener(IWorldChangedListener listener) {
         worldChangedListeners.removeValue(listener, true);
     }
 
-    public static void load(String worldId) {
+    public void load(String worldId) {
         World.getInstance().clearPhysicsWorld();
 
         try {
@@ -42,13 +48,13 @@ public final class WorldLoader {
         notifyWorldChangedListeners();
     }
 
-    private static void loadEntryRoom(String worldId, XmlReader.Element root) {
+    private void loadEntryRoom(String worldId, XmlReader.Element root) {
         String roomId = root.getChildByName(ENTITY_ROOM_ID_PROP).getText();
         IRoomLoadable roomLoadable = new TiledMapRoomLoadable(worldId, roomId);
-        RoomLoader.load(roomLoadable);
+        RoomLoader.getInstance().load(roomLoadable);
     }
 
-    private static void notifyWorldChangedListeners() {
+    private void notifyWorldChangedListeners() {
         for (IWorldChangedListener listener : worldChangedListeners) {
             listener.onWorldChanged();
         }

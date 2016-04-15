@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by Alex on 4/14/2016.
  */
-public class EntityFactory {
+public final class EntityFactory {
 
     public static Entity buildEntity(String type, EntityDefinition entityDef) {
         Entity entity = null;

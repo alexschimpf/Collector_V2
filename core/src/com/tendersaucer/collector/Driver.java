@@ -17,13 +17,19 @@ import com.tendersaucer.collector.world.WorldLoader;
  *
  * Created by Alex on 4/8/2016.
  */
-public class Driver implements Screen {
+public final class Driver implements Screen {
+
+    private static final Driver instance = new Driver();
 
     private final Matrix4 debugMatrix = new Matrix4();
     private final SpriteBatch spriteBatch = new SpriteBatch();
     private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
-    public Driver() {
+    private Driver() {
+    }
+
+    public static Driver getInstance() {
+        return instance;
     }
 
     @Override
@@ -36,7 +42,7 @@ public class Driver implements Screen {
         layers.addToLayer(Layers.PARTICLE_LAYER, ParticleEffectManager.getInstance());
         layers.addToLayer(Layers.WORLD_LAYER, World.getInstance());
 
-        WorldLoader.load("0");
+        WorldLoader.getInstance().load("0");
     }
 
     @Override

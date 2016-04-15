@@ -11,20 +11,26 @@ import com.tendersaucer.collector.Layers;
  */
 public final class RoomLoader {
 
-    private final static Array<IRoomChangedListener> roomChangedListeners = new Array<IRoomChangedListener>();
+    private static final RoomLoader instance = new RoomLoader();
+
+    private final Array<IRoomChangedListener> roomChangedListeners = new Array<IRoomChangedListener>();
 
     private RoomLoader() {
     }
 
-    public static void addRoomChangedListener(IRoomChangedListener listener) {
+    public static RoomLoader getInstance() {
+        return instance;
+    }
+
+    public void addRoomChangedListener(IRoomChangedListener listener) {
         roomChangedListeners.add(listener);
     }
 
-    public static void removeRoomChangedListener(IRoomChangedListener listener) {
+    public void removeRoomChangedListener(IRoomChangedListener listener) {
         roomChangedListeners.removeValue(listener, true);
     }
 
-    public static void load(IRoomLoadable roomLoadable) {
+    public void load(IRoomLoadable roomLoadable) {
         for (int i = 0; i < Layers.NUM_LAYERS; i++) {
             if (i != Layers.PARTICLE_LAYER && i != Layers.WORLD_LAYER) {
                 Layers.getInstance().clearLayer(i);
@@ -41,7 +47,7 @@ public final class RoomLoader {
         notifyRoomChangedListeners();
     }
 
-    private static void notifyRoomChangedListeners() {
+    private void notifyRoomChangedListeners() {
         for (IRoomChangedListener listener : roomChangedListeners) {
             listener.onRoomChanged();
         }

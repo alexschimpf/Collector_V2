@@ -117,7 +117,6 @@ public final class TiledUtils {
     }
 
     public static Body createBodyFromPolygon(MapObject object) {
-    public static Body createBodyFromPolygon(MapObject object) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(0, 0);
         bodyDef.type = BodyDef.BodyType.StaticBody;

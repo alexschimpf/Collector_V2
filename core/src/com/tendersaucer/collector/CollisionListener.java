@@ -12,8 +12,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public final class CollisionListener implements ContactListener {
 
-    public CollisionListener() {
+    private static final CollisionListener instance = new CollisionListener();
 
+    private CollisionListener() {
+
+    }
+
+    public static CollisionListener getInstance() {
+        return instance;
     }
 
     @Override

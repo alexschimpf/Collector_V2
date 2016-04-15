@@ -7,11 +7,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.util.TiledUtils;
 
 /**
- * Entity definition based on Tiled map object and properties
+ * Entity definition also based on Tiled map objects and properties
  *
  * Created by Alex on 4/12/2016.
  */
-public class TiledEntityDefinition extends EntityDefinition {
+public final class TiledEntityDefinition extends EntityDefinition {
 
     private final MapProperties properties;
     private final MapObject bodySkeleton;

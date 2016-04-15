@@ -55,6 +55,9 @@ public final class World implements IUpdate, IRender {
         return getPhysicsWorld().getBodies();
     }
 
+    public void setPlayer(Player player) {
+    }
+
     public Player getPlayer() {
         return null;
     }

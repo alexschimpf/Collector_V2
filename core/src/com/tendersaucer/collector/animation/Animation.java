@@ -6,7 +6,6 @@ import com.tendersaucer.collector.IUpdate;
 
 /**
  * Wrapper around libgdx's Animation
-
  *
  * Created by Alex on 4/8/2016.
  */

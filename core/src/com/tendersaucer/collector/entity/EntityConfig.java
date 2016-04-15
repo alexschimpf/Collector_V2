@@ -1,9 +1,11 @@
 package com.tendersaucer.collector.entity;
 
 /**
+ * Gives access to configured entity properties
+ *
  * Created by Alex on 4/14/2016.
  */
-public class EntityConfig {
+public final class EntityConfig {
 
     private static EntityConfig instance = new EntityConfig();
 

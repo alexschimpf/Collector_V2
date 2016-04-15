@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.Array;
  */
 public final class Layers implements IRender {
 
+    private static final Layers instance = new Layers();
+
     public static final int NUM_LAYERS = 10;
     public static final int BACKGROUND_LAYER = 0;
     public static final int PARTICLE_LAYER = 1;
     public static final int WORLD_LAYER = 2;
-
-    private static final Layers instance = new Layers();
 
     // 0 = Background, 10 = Foreground
     private final Array<Array<IRender>> layers = new Array<Array<IRender>>(NUM_LAYERS);

@@ -32,7 +32,8 @@ public final class Globals {
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
         return World.getInstance().getPhysicsWorld();
     }
-public static Player getPlayer() {
+
+    public static Player getPlayer() {
         return World.getInstance().getPlayer();
     }
 

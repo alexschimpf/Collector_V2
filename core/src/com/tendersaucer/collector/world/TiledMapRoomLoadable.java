@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
@@ -37,33 +36,14 @@ import java.util.Map;
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
 
-    private static final String TYPE_PROP = "type";
-    private static final String LAYER_POS_PROP = "layer_pos";
-    private static final String X_PROP = "x";
-    private static final String Y_PROP = "y";
-    private static final String WIDTH_PROP = "width";
-    private static final String HEIGHT_PROP = "height";
-    private static final String BODY_WIDTH_PROP = "body_width";
-    private static final String BODY_TYPE_PROP = "body_type";
-    private static final String KINEMATIC_BODY_TYPE = "kinematic";
-    private static final String DYNAMIC_BODY_TYPE = "dynamic";
-    private static final String STATIC_BODY_TYPE = "static";
-    private static final String BODY_HEIGHT_PROP = "body_height";
-    private static final String BODY_SKELETON_ID_PROP = "body_skeleton_id";
-    private static final String BODY_SKELETON_TYPE = "body_skeleton";
-    private static final String PLAYER_TYPE = "player";
-    private static final String BODIES_LAYER = "bodies";
-
     private final String filename;
     private final TiledMap tiledMap;
     private final Array<Entity> entities;
-    private final Array<Body> nonEntityBodies;
     private final Array<IRender> renderLayers;
     private final Map<String, MapObject> bodySkeletonMap;
 
     public TiledMapRoomLoadable(String worldId, String roomId) {
         entities = new Array<Entity>();
-        nonEntityBodies = new Array<Body>();
         renderLayers = new Array<IRender>(Layers.NUM_LAYERS);
         bodySkeletonMap = new HashMap<String, MapObject>();
 

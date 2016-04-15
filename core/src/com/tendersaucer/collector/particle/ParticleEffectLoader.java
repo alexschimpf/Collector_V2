@@ -7,6 +7,12 @@ package com.tendersaucer.collector.particle;
  */
 public final class ParticleEffectLoader {
 
+    public static final ParticleEffectLoader instance = new ParticleEffectLoader();
+
     private ParticleEffectLoader() {
+    }
+
+    public static ParticleEffectLoader getInstance() {
+        return instance;
     }
 }
