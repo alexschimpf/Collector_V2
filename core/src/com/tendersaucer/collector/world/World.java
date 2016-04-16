@@ -1,11 +1,10 @@
 package com.tendersaucer.collector.world;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.CollisionListener;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.entity.Player;
 
 import java.util.Iterator;
 
@@ -14,11 +13,20 @@ import java.util.Iterator;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class World implements IUpdate, IRender {
+public final class World implements IUpdate {
 
+    public static final float DEFAULT_GRAVITY = 20;
     private static final World instance = new World();
 
+    private String id;
+    private String entryRoomId;
+    private final com.badlogic.gdx.physics.box2d.World physicsWorld;
+
     private World() {
+        physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, DEFAULT_GRAVITY), true);
+
+        com.badlogic.gdx.physics.box2d.World.setVelocityThreshold(0.5f);
+        physicsWorld.setContactListener(CollisionListener.getInstance());
     }
 
     public static World getInstance() {
@@ -26,39 +34,53 @@ public final class World implements IUpdate, IRender {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-
-    }
-
-    @Override
     public boolean update() {
+        physicsWorld.step(1 / 45.0f, 5, 5);
+
+        Room.getInstance().update();
+
         return false;
     }
 
     @Override
     public void onDone() {
+        physicsWorld.dispose();
     }
 
     public void clearPhysicsWorld() {
         Iterator<Body> bodiesIter = getBodies().iterator();
-        while(bodiesIter.hasNext()) {
+        while (bodiesIter.hasNext()) {
             Body body = bodiesIter.next();
-            getPhysicsWorld().destroyBody(body);
+            physicsWorld.destroyBody(body);
+
+            bodiesIter.remove();
         }
     }
 
     public com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
-        return null;
+        return physicsWorld;
     }
 
     public Array<Body> getBodies() {
-        return getPhysicsWorld().getBodies();
+        Array<Body> bodies = new Array<Body>();
+        physicsWorld.getBodies(bodies);
+
+        return bodies;
     }
 
-    public void setPlayer(Player player) {
+    public String getId() {
+        return id;
     }
 
-    public Player getPlayer() {
-        return null;
+    public String getEntryRoomId() {
+        return entryRoomId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEntryRoomId(String entryRoomId) {
+        this.entryRoomId = entryRoomId;
     }
 }

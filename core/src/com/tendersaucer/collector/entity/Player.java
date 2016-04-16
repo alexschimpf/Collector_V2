@@ -26,4 +26,9 @@ public final class Player extends Entity {
     @Override
     public void onDone() {
     }
+
+    @Override
+    public String getType() {
+        return "player";
+    }
 }

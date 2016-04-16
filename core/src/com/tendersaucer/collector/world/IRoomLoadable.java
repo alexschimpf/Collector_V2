@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.entity.Entity;
 
+import java.util.Map;
+
 /**
  * Interface for a loadable room
  *
@@ -30,5 +32,5 @@ public interface IRoomLoadable {
 
     public Array<Entity> getEntities();
 
-    public Array<IRender> getRenderLayers();
+    public Map<IRender, Integer> getRenderableLayerMap();
 }

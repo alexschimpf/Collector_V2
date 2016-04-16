@@ -1,8 +1,6 @@
 package com.tendersaucer.collector.particle;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
 
 /**
@@ -10,7 +8,7 @@ import com.tendersaucer.collector.IUpdate;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class ParticleEffectManager implements IUpdate, IRender {
+public final class ParticleEffectManager implements IUpdate {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
 
@@ -21,13 +19,6 @@ public final class ParticleEffectManager implements IUpdate, IRender {
 
     public static ParticleEffectManager getInstance() {
         return instance;
-    }
-
-    @Override
-    public void render(SpriteBatch spriteBatch) {
-        for (ParticleEffect particleEffect : particleEffects) {
-            particleEffect.render(spriteBatch);
-        }
     }
 
     @Override

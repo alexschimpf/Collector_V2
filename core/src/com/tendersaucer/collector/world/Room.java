@@ -1,7 +1,5 @@
 package com.tendersaucer.collector.world;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.Player;
@@ -15,10 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class Room implements IUpdate, IRender {
+public final class Room implements IUpdate {
 
     private static final Room instance = new Room();
 
+    private Player player;
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<String, Entity>();
 
     private Room() {
@@ -26,11 +25,6 @@ public final class Room implements IUpdate, IRender {
 
     public static Room getInstance() {
         return instance;
-    }
-
-    @Override
-    public void render(SpriteBatch spriteBatch) {
-
     }
 
     @Override
@@ -43,6 +37,8 @@ public final class Room implements IUpdate, IRender {
     }
 
     public void set(IRoomLoadable roomLoadable) {
+        entityMap.clear();
+
         for (Entity entity : roomLoadable.getEntities()) {
             String id = entity.getId();
             if (entityMap.containsKey(id)) {
@@ -51,8 +47,16 @@ public final class Room implements IUpdate, IRender {
 
             entityMap.put(id, entity);
             if (Entity.isPlayer(entity)) {
-                World.getInstance().setPlayer((Player)entity);
+                setPlayer((Player)entity);
             }
         }
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

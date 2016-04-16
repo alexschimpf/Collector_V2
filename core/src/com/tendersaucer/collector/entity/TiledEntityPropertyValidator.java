@@ -1,7 +1,6 @@
-package com.tendersaucer.collector.world;
+package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.maps.MapProperties;
-import com.tendersaucer.collector.entity.EntityConfig;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
 import java.util.Iterator;
@@ -22,7 +21,7 @@ public final class TiledEntityPropertyValidator {
         return instance;
     }
 
-    public void validate(String type, MapProperties properties) {
+    public void validateAndProcess(String type, MapProperties properties) {
         EntityConfig.EntityProperties entityProperties = EntityConfig.getInstance().getEntityProperties(type);
 
         // Check that all required properties are set.

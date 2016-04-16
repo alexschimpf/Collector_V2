@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.Layers;
 
+import java.util.Map;
+
 /**
  * Loads rooms from config
  *
@@ -30,16 +32,16 @@ public final class RoomLoader {
         roomChangedListeners.removeValue(listener, true);
     }
 
-    public void load(IRoomLoadable roomLoadable) {
-        for (int i = 0; i < Layers.NUM_LAYERS; i++) {
-            if (i != Layers.PARTICLE_LAYER && i != Layers.WORLD_LAYER) {
-                Layers.getInstance().clearLayer(i);
-            }
-        }
+    public void load(String worldId, String roomId) {
+        Layers layers = Layers.getInstance();
+        layers.clearLayers();
 
-        int i = 0;
-        for (IRender layer : roomLoadable.getRenderLayers()) {
-            Layers.getInstance().addToLayer(i++, layer);
+        IRoomLoadable roomLoadable = new TiledMapRoomLoadable(worldId, roomId);
+
+        Map<IRender, Integer> renderableLayerMap = roomLoadable.getRenderableLayerMap();
+        for (IRender object : renderableLayerMap.keySet()) {
+            int layer = renderableLayerMap.get(object);
+            layers.addToLayer(layer, object);
         }
 
         Room.getInstance().set(roomLoadable);

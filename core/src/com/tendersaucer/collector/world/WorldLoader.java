@@ -15,11 +15,12 @@ import java.io.IOException;
 public final class WorldLoader {
 
     private static final WorldLoader instance = new WorldLoader();
-    private static final String ENTITY_ROOM_ID_PROP = "entity_room_id";
+    private static final String ENTRY_ROOM_ID_PROP = "entry_room_id";
 
-    private final Array<IWorldChangedListener> worldChangedListeners = new Array<IWorldChangedListener>();
+    private final Array<IWorldChangedListener> worldChangedListeners;
 
     private WorldLoader() {
+        worldChangedListeners = new Array<IWorldChangedListener>();
     }
 
     public static WorldLoader getInstance() {
@@ -35,7 +36,9 @@ public final class WorldLoader {
     }
 
     public void load(String worldId) {
-        World.getInstance().clearPhysicsWorld();
+        World world = World.getInstance();
+        world.clearPhysicsWorld();
+        world.setId(worldId);
 
         try {
             XmlReader reader = new XmlReader();
@@ -49,9 +52,9 @@ public final class WorldLoader {
     }
 
     private void loadEntryRoom(String worldId, XmlReader.Element root) {
-        String roomId = root.getChildByName(ENTITY_ROOM_ID_PROP).getText();
-        IRoomLoadable roomLoadable = new TiledMapRoomLoadable(worldId, roomId);
-        RoomLoader.getInstance().load(roomLoadable);
+        String roomId = root.getChildByName(ENTRY_ROOM_ID_PROP).getText();
+        World.getInstance().setEntryRoomId(roomId);
+        RoomLoader.getInstance().load(worldId, roomId);
     }
 
     private void notifyWorldChangedListeners() {

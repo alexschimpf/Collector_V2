@@ -38,10 +38,6 @@ public final class Driver implements Screen {
             // TODO: Display mode hack
         }
 
-        Layers layers = Layers.getInstance();
-        layers.addToLayer(Layers.PARTICLE_LAYER, ParticleEffectManager.getInstance());
-        layers.addToLayer(Layers.WORLD_LAYER, World.getInstance());
-
         WorldLoader.getInstance().load("0");
     }
 

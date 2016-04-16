@@ -83,7 +83,7 @@ public final class EntityConfig {
         // Add global optional properties.
         Array<XmlReader.Element> optionalElements =
                 globalPropertiesRoot.getChildByName("optional").getChildrenByName("property");
-        for (XmlReader.Element element : requiredElements) {
+        for (XmlReader.Element element : optionalElements) {
             String name = element.getAttribute("name");
             if (name.isEmpty()) {
                 throw new InvalidConfigException(CONFIG_FILENAME, "name", "null");

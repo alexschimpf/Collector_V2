@@ -3,6 +3,10 @@ package com.tendersaucer.collector;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Layers of IRender objects
  *
@@ -13,16 +17,16 @@ public final class Layers implements IRender {
     private static final Layers instance = new Layers();
 
     public static final int NUM_LAYERS = 10;
-    public static final int BACKGROUND_LAYER = 0;
-    public static final int PARTICLE_LAYER = 1;
-    public static final int WORLD_LAYER = 2;
 
     // 0 = Background, 10 = Foreground
-    private final Array<Array<IRender>> layers = new Array<Array<IRender>>(NUM_LAYERS);
+    private final ConcurrentHashMap<IRender, Integer> objectLayerMap;
+    private final Array<LinkedHashMap<IRender, Boolean>> layers;
 
     private Layers() {
+        objectLayerMap = new ConcurrentHashMap<IRender, Integer>();
+        layers = new Array<LinkedHashMap<IRender, Boolean>>();
         for (int i = 0; i < layers.size; i++) {
-            layers.set(i, new Array<IRender>());
+            layers.set(i, new LinkedHashMap<IRender, Boolean>());
         }
     }
 
@@ -33,28 +37,51 @@ public final class Layers implements IRender {
     @Override
     public void render(SpriteBatch spriteBatch) {
         for (int i = 0; i < layers.size; i++) {
-            Array<IRender> layer = layers.get(i);
-            for (int j = 0; j < layer.size; j++) {
-                layer.get(i).render(spriteBatch);
+            LinkedHashMap<IRender, Boolean> layer = layers.get(i);
+            for (IRender object : layer.keySet()) {
+                object.render(spriteBatch);
             }
         }
     }
 
     public void clearLayers() {
-        for (int i = 0; i < layers.size; i++) {
-            clearLayer(i);
-        }
+        layers.clear();
+        objectLayerMap.clear();
     }
 
     public void clearLayer(int layer) {
+        checkLayer(layer);
         layers.get(layer).clear();
+
+        Iterator objectLayerMapIter = objectLayerMap.keySet().iterator();
+        while (objectLayerMapIter.hasNext()) {
+            IRender object = (IRender)objectLayerMapIter.next();
+            int objectLayer = objectLayerMap.get(object);
+            if (objectLayer == layer) {
+                objectLayerMapIter.remove();
+            }
+        }
     }
 
-    public void addToLayer(int layer, IRender obj) {
-        layers.get(layer).add(obj);
+    public void addToLayer(int layer, IRender object) {
+        checkLayer(layer);
+        layers.get(layer).put(object, true);
+        objectLayerMap.put(object, layer);
     }
 
-    public void removeFromLayer(int layer, IRender obj) {
-        layers.get(layer).removeValue(obj, true);
+    public void remove(IRender object) {
+        int layer = objectLayerMap.get(object);
+        layers.get(layer).remove(object);
+        objectLayerMap.remove(object);
+    }
+
+    public int getLayer(IRender object) {
+        return objectLayerMap.get(object);
+    }
+
+    private void checkLayer(int layer) {
+        if (layer < 0 || layer >= NUM_LAYERS) {
+            throw new IndexOutOfBoundsException("Layer " + layer + " is out of bounds");
+        }
     }
 }

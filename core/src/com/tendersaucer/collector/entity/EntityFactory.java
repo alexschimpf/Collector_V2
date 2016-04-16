@@ -8,6 +8,9 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class EntityFactory {
 
+    private EntityFactory() {
+    }
+
     public static Entity buildEntity(String type, EntityDefinition entityDef) {
         Entity entity = null;
         try {
