@@ -36,7 +36,6 @@ public final class World implements IUpdate {
     @Override
     public boolean update() {
         physicsWorld.step(1 / 45.0f, 5, 5);
-
         Room.getInstance().update();
 
         return false;

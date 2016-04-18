@@ -15,12 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Layers implements IRender {
 
     private static final Layers instance = new Layers();
-
     public static final int NUM_LAYERS = 10;
 
-    // 0 = Background, 10 = Foreground
     private final ConcurrentHashMap<IRender, Integer> objectLayerMap;
-    private final Array<LinkedHashMap<IRender, Boolean>> layers;
+    private final Array<LinkedHashMap<IRender, Boolean>> layers; // 0 = Background, 10 = Foreground
 
     private Layers() {
         objectLayerMap = new ConcurrentHashMap<IRender, Integer>();
@@ -73,10 +71,6 @@ public final class Layers implements IRender {
         int layer = objectLayerMap.get(object);
         layers.get(layer).remove(object);
         objectLayerMap.remove(object);
-    }
-
-    public int getLayer(IRender object) {
-        return objectLayerMap.get(object);
     }
 
     private void checkLayer(int layer) {

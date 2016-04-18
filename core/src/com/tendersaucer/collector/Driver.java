@@ -21,11 +21,14 @@ public final class Driver implements Screen {
 
     private static final Driver instance = new Driver();
 
-    private final Matrix4 debugMatrix = new Matrix4();
-    private final SpriteBatch spriteBatch = new SpriteBatch();
-    private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+    private final Matrix4 debugMatrix;
+    private final SpriteBatch spriteBatch;
+    private final Box2DDebugRenderer debugRenderer;
 
     private Driver() {
+        debugMatrix = new Matrix4();
+        spriteBatch = new SpriteBatch();
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     public static Driver getInstance() {

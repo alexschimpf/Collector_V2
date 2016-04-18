@@ -18,9 +18,10 @@ public final class Room implements IUpdate {
     private static final Room instance = new Room();
 
     private Player player;
-    private final Map<String, Entity> entityMap = new ConcurrentHashMap<String, Entity>();
+    private final Map<String, Entity> entityMap;
 
     private Room() {
+        entityMap = new ConcurrentHashMap<String, Entity>();
     }
 
     public static Room getInstance() {

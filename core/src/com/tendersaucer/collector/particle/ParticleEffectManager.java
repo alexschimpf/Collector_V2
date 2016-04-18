@@ -12,9 +12,10 @@ public final class ParticleEffectManager implements IUpdate {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
 
-    private final Array<ParticleEffect> particleEffects = new Array<ParticleEffect>();
+    private final Array<ParticleEffect> particleEffects;
 
     private ParticleEffectManager() {
+        particleEffects = new Array<ParticleEffect>();
     }
 
     public static ParticleEffectManager getInstance() {

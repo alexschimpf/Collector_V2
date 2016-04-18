@@ -7,8 +7,8 @@ package com.tendersaucer.collector;
  */
 public final class Camera implements IUpdate {
 
-    public static final int SCREEN_NUM_TILES_WIDE = 18;
     private static final Camera instance = new Camera();
+    public static final int SCREEN_NUM_TILES_WIDE = 18;
 
     private Camera() {
     }

@@ -3,6 +3,7 @@ package com.tendersaucer.collector;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.particle.ParticleEffect;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
+import com.tendersaucer.collector.world.Room;
 import com.tendersaucer.collector.world.World;
 
 /**
@@ -12,21 +13,20 @@ import com.tendersaucer.collector.world.World;
  */
 public final class Globals {
 
-    public static boolean ENABLE_MUSIC = true;
-    public static boolean FULLSCREEN_MODE = true;
-    public static boolean DEBUG_PHYSICS = false;
-    public static boolean PRINT_FPS = false;
-    public static boolean PACK_TEXTURES = false;
-
     public enum State {
         RUNNING, PAUSED, LOADING
-    };
+    }
 
-    public static State state = State.RUNNING;
-
+    public static final boolean ENABLE_MUSIC = true;
+    public static final boolean FULLSCREEN_MODE = true;
+    public static final boolean DEBUG_PHYSICS = false;
+    public static final boolean PRINT_FPS = false;
+    public static final boolean PACK_TEXTURES = false;
     public static final short PLAYER_COLLISION_MASK = 0x0002;
+    public static State state;
 
     private Globals() {
+        state = State.RUNNING;
     }
 
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
@@ -34,7 +34,7 @@ public final class Globals {
     }
 
     public static Player getPlayer() {
-        return World.getInstance().getPlayer();
+        return Room.getInstance().getPlayer();
     }
 
     public static float getTileSize() {

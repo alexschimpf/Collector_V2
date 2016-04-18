@@ -15,9 +15,10 @@ public final class RoomLoader {
 
     private static final RoomLoader instance = new RoomLoader();
 
-    private final Array<IRoomChangedListener> roomChangedListeners = new Array<IRoomChangedListener>();
+    private final Array<IRoomChangedListener> roomChangedListeners;
 
     private RoomLoader() {
+        roomChangedListeners = new Array<IRoomChangedListener>();
     }
 
     public static RoomLoader getInstance() {

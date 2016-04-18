@@ -20,10 +20,13 @@ public final class EntityConfig {
     private static final EntityConfig instance = new EntityConfig();
     private static final String CONFIG_FILENAME = "entity.conf";
 
-    private final Map<String, EntityProperties> entityTypePropertiesMap = new HashMap<String, EntityProperties>();
-    private final Map<String, String> entityTypeClassMap = new HashMap<String, String>();
+    private final Map<String, EntityProperties> entityTypePropertiesMap;
+    private final Map<String, String> entityTypeClassMap;
 
     private EntityConfig() {
+        entityTypePropertiesMap = new HashMap<String, EntityProperties>();
+        entityTypeClassMap = new HashMap<String, String>();
+
         try {
             XmlReader reader = new XmlReader();
             XmlReader.Element root = reader.parse(Gdx.files.internal(CONFIG_FILENAME));
