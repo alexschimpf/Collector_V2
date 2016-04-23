@@ -5,5 +5,8 @@ package com.tendersaucer.collector.world;
  */
 public interface IRoomLoadEndListener {
 
-    public void onRoomLoadEnd();
+    /**
+     * Fired by Room after loading is complete.
+     */
+    void onRoomLoadEnd();
 }

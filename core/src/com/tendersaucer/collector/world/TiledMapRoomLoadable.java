@@ -38,6 +38,7 @@ import java.util.Map;
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
 
+    private final String id;
     private final String filename;
     private final TiledMap tiledMap;
     private final Array<Entity> entities;
@@ -45,6 +46,8 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     private final Map<String, MapObject> bodySkeletonMap;
 
     public TiledMapRoomLoadable(String worldId, String roomId) {
+        this.id = roomId;
+
         entities = new Array<Entity>();
         renderableLayerMap = new LinkedHashMap<IRender, Integer>();
         bodySkeletonMap = new HashMap<String, MapObject>();
@@ -54,6 +57,11 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
         processLayers();
         createBackground();
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override

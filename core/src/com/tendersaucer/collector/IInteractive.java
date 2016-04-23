@@ -1,5 +1,7 @@
 package com.tendersaucer.collector;
 
+import com.tendersaucer.collector.entity.PlayerInteractionType;
+
 /**
  * Interface for interactive objects
  *
@@ -7,5 +9,9 @@ package com.tendersaucer.collector;
  */
 public interface IInteractive {
 
-    public void onInteraction();
+    /**
+     * Fired when the player interacts with this object.
+     * @param interactionType
+     */
+    void onInteraction(PlayerInteractionType interactionType);
 }

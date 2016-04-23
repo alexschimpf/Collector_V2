@@ -2,8 +2,7 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.entity.Entity;
-import com.tendersaucer.collector.entity.IEntityDoneListener;
+import com.tendersaucer.collector.world.IRoomLoadBeginListener;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * Created by Alex on 4/10/2016.
  */
-public final class Canvas implements IRender, IEntityDoneListener {
+public final class Canvas implements IRender, IRoomLoadBeginListener {
 
     private static final Canvas instance = new Canvas();
     public static final int NUM_LAYERS = 10;
@@ -46,8 +45,8 @@ public final class Canvas implements IRender, IEntityDoneListener {
     }
 
     @Override
-    public void onDone(Entity entity) {
-
+    public void onRoomLoadBegin() {
+        clearLayers();
     }
 
     public void clearLayers() {

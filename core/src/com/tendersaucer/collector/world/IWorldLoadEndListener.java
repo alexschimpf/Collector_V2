@@ -5,5 +5,8 @@ package com.tendersaucer.collector.world;
  */
 public interface IWorldLoadEndListener {
 
-    public void onWorldLoadEnd();
+    /**
+     * Fired by World after loading is complete (including entry room).
+     */
+    void onWorldLoadEnd();
 }

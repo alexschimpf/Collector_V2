@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
+import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;
+import com.tendersaucer.collector.world.XMLWorldLoadable;
 
 /**
  * Main update and render logic
@@ -40,7 +42,8 @@ public final class Driver implements Screen {
             // TODO: Display mode hack
         }
 
-        WorldLoader.getInstance().load("0");
+        IWorldLoadable worldLoadable = new XMLWorldLoadable("0");
+        World.getInstance().load(worldLoadable);
     }
 
     @Override

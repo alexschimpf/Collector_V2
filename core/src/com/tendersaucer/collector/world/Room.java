@@ -67,10 +67,6 @@ public final class Room implements IUpdate {
         notifyRoomLoadEndListeners();
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -97,6 +93,10 @@ public final class Room implements IUpdate {
 
     public void removeRoomLoadEndListener(IRoomLoadEndListener listener) {
         roomLoadEndListeners.removeValue(listener, true);
+    }
+
+    private void setPlayer(Player player) {
+        this.player = player;
     }
 
     private void notifyRoomLoadBeginListeners() {

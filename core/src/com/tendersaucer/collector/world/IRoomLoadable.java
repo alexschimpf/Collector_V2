@@ -13,24 +13,38 @@ import java.util.Map;
  */
 public interface IRoomLoadable {
 
-    static final String TYPE_PROP = "type";
-    static final String LAYER_POS_PROP = "layer_pos";
-    static final String X_PROP = "x";
-    static final String Y_PROP = "y";
-    static final String WIDTH_PROP = "width";
-    static final String HEIGHT_PROP = "height";
-    static final String BODY_WIDTH_PROP = "body_width";
-    static final String BODY_TYPE_PROP = "body_type";
-    static final String KINEMATIC_BODY_TYPE = "kinematic";
-    static final String DYNAMIC_BODY_TYPE = "dynamic";
-    static final String STATIC_BODY_TYPE = "static";
-    static final String BODY_HEIGHT_PROP = "body_height";
-    static final String BODY_SKELETON_ID_PROP = "body_skeleton_id";
-    static final String BODY_SKELETON_TYPE = "body_skeleton";
-    static final String PLAYER_TYPE = "player";
-    static final String BODIES_LAYER = "bodies";
+    String TYPE_PROP = "type";
+    String LAYER_POS_PROP = "layer_pos";
+    String X_PROP = "x";
+    String Y_PROP = "y";
+    String WIDTH_PROP = "width";
+    String HEIGHT_PROP = "height";
+    String BODY_WIDTH_PROP = "body_width";
+    String BODY_TYPE_PROP = "body_type";
+    String KINEMATIC_BODY_TYPE = "kinematic";
+    String DYNAMIC_BODY_TYPE = "dynamic";
+    String STATIC_BODY_TYPE = "static";
+    String BODY_HEIGHT_PROP = "body_height";
+    String BODY_SKELETON_ID_PROP = "body_skeleton_id";
+    String BODY_SKELETON_TYPE = "body_skeleton";
+    String PLAYER_TYPE = "player";
+    String BODIES_LAYER = "bodies";
 
-    public Array<Entity> getEntities();
+    /**
+     * Returns the room's id. This id should be unique within a world.
+     * @return room's id
+     */
+    String getId();
 
-    public Map<IRender, Integer> getRenderableLayerMap();
+    /**
+     * TODO
+     * @return
+     */
+    Array<Entity> getEntities();
+
+    /**
+     * TODO
+     * @return
+     */
+    Map<IRender, Integer> getRenderableLayerMap();
 }

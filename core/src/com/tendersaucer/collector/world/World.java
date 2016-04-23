@@ -49,19 +49,12 @@ public final class World implements IUpdate {
     public void load(IWorldLoadable loadable) {
         notifyWorldLoadBeginListeners();
 
-        // TODO
+        clearPhysicsWorld();
+
+        entryRoomId = loadable.getEntryRoomId();
+        Room.getInstance().load(new TiledMapRoomLoadable(id, entryRoomId));
 
         notifyWorldLoadEndListeners();
-    }
-
-    public void clearPhysicsWorld() {
-        Iterator<Body> bodiesIter = getBodies().iterator();
-        while (bodiesIter.hasNext()) {
-            Body body = bodiesIter.next();
-            physicsWorld.destroyBody(body);
-
-            bodiesIter.remove();
-        }
     }
 
     public com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
@@ -113,6 +106,16 @@ public final class World implements IUpdate {
 
     public void removeWorldLoadEndListener(IWorldLoadEndListener listener) {
         worldLoadEndListeners.removeValue(listener, true);
+    }
+
+    private void clearPhysicsWorld() {
+        Iterator<Body> bodiesIter = getBodies().iterator();
+        while (bodiesIter.hasNext()) {
+            Body body = bodiesIter.next();
+            physicsWorld.destroyBody(body);
+
+            bodiesIter.remove();
+        }
     }
 
     private void notifyWorldLoadBeginListeners() {

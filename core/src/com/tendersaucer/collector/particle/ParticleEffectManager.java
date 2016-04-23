@@ -2,13 +2,14 @@ package com.tendersaucer.collector.particle;
 
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.world.IRoomLoadBeginListener;
 
 /**
  * Manages game particle effects
  *
  * Created by Alex on 4/8/2016.
  */
-public final class ParticleEffectManager implements IUpdate {
+public final class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
 
@@ -25,6 +26,11 @@ public final class ParticleEffectManager implements IUpdate {
     @Override
     public boolean update() {
         return false;
+    }
+
+    @Override
+    public void onRoomLoadBegin() {
+        particleEffects.clear();
     }
 
     public ParticleEffect buildParticleEffect(String key, float x, float y) {

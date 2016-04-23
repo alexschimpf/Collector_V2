@@ -5,5 +5,8 @@ package com.tendersaucer.collector.world;
  */
 public interface IWorldLoadBeginListener {
 
-    public void onWorldLoadBegin();
+    /**
+     * Fired by World before any loading occurs.
+     */
+    void onWorldLoadBegin();
 }

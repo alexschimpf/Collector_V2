@@ -5,5 +5,8 @@ package com.tendersaucer.collector.world;
  */
 public interface IRoomLoadBeginListener {
 
-    public void onRoomLoadBegin();
+    /**
+     * Fired by Room before any loading occurs.
+     */
+    void onRoomLoadBegin();
 }
