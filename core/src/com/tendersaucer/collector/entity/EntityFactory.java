@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
+ * Factory that builds entities from type and definition
+ *
  * Created by Alex on 4/14/2016.
  */
 public final class EntityFactory {

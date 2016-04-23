@@ -24,8 +24,4 @@ public class Animation implements IUpdate, IRender, IAnimate {
     public boolean update() {
         return false;
     }
-
-    @Override
-    public void onDone() {
-    }
 }

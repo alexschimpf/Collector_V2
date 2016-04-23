@@ -27,10 +27,6 @@ public final class ParticleEffectManager implements IUpdate {
         return false;
     }
 
-    @Override
-    public void onDone() {
-    }
-
     public ParticleEffect buildParticleEffect(String key, float x, float y) {
         return null;
     }

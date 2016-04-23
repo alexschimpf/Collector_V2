@@ -1,5 +1,7 @@
 package com.tendersaucer.collector.util;
 
+import com.tendersaucer.collector.entity.Entity;
+
 /**
  * Object metadata to be attached to a body
  *
@@ -7,7 +9,9 @@ package com.tendersaucer.collector.util;
  */
 public final class BodyData {
 
-    public BodyData() {
+    public final Entity entity;
 
+    public BodyData(Entity entity) {
+        this.entity = entity;
     }
 }

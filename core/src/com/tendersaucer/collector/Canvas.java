@@ -2,33 +2,36 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.tendersaucer.collector.entity.Entity;
+import com.tendersaucer.collector.entity.IEntityDoneListener;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Layers of IRender objects
+ * Canvas, composed of layers of IRender objects
  *
  * Created by Alex on 4/10/2016.
  */
-public final class Layers implements IRender {
+public final class Canvas implements IRender, IEntityDoneListener {
 
-    private static final Layers instance = new Layers();
+    private static final Canvas instance = new Canvas();
     public static final int NUM_LAYERS = 10;
 
-    private final ConcurrentHashMap<IRender, Integer> objectLayerMap;
+    private final Map<IRender, Integer> objectLayerMap;
     private final Array<LinkedHashMap<IRender, Boolean>> layers; // 0 = Background, 10 = Foreground
 
-    private Layers() {
+    private Canvas() {
         objectLayerMap = new ConcurrentHashMap<IRender, Integer>();
         layers = new Array<LinkedHashMap<IRender, Boolean>>();
-        for (int i = 0; i < layers.size; i++) {
-            layers.set(i, new LinkedHashMap<IRender, Boolean>());
+        for (int i = 0; i < NUM_LAYERS; i++) {
+            layers.add(new LinkedHashMap<IRender, Boolean>());
         }
     }
 
-    public static Layers getInstance() {
+    public static Canvas getInstance() {
         return instance;
     }
 
@@ -42,8 +45,16 @@ public final class Layers implements IRender {
         }
     }
 
+    @Override
+    public void onDone(Entity entity) {
+
+    }
+
     public void clearLayers() {
-        layers.clear();
+        for (int i = 0; i < NUM_LAYERS; i++) {
+            layers.get(i).clear();
+        }
+
         objectLayerMap.clear();
     }
 

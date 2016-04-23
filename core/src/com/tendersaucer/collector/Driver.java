@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.World;
-import com.tendersaucer.collector.world.WorldLoader;
 
 /**
  * Main update and render logic
@@ -96,7 +95,7 @@ public final class Driver implements Screen {
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin(); {
-            Layers.getInstance().render(spriteBatch);
+            Canvas.getInstance().render(spriteBatch);
         } spriteBatch.end();
 
         if(Globals.DEBUG_PHYSICS) {

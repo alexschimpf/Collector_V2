@@ -24,8 +24,4 @@ public class Particle implements IUpdate, IRender {
     public boolean update() {
         return false;
     }
-
-    @Override
-    public void onDone() {
-    }
 }

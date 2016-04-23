@@ -30,10 +30,6 @@ public final class HUD implements IUpdate, IRender {
         return false;
     }
 
-    @Override
-    public void onDone() {
-    }
-
     public void resize(int width, int height) {
 
     }

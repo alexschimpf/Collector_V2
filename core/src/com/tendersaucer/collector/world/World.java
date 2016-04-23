@@ -21,12 +21,17 @@ public final class World implements IUpdate {
     private String id;
     private String entryRoomId;
     private final com.badlogic.gdx.physics.box2d.World physicsWorld;
+    private final Array<IWorldLoadBeginListener> worldLoadBeginListeners;
+    private final Array<IWorldLoadEndListener> worldLoadEndListeners;
 
     private World() {
         physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, DEFAULT_GRAVITY), true);
 
         com.badlogic.gdx.physics.box2d.World.setVelocityThreshold(0.5f);
         physicsWorld.setContactListener(CollisionListener.getInstance());
+
+        worldLoadBeginListeners = new Array<IWorldLoadBeginListener>();
+        worldLoadEndListeners = new Array<IWorldLoadEndListener>();
     }
 
     public static World getInstance() {
@@ -41,9 +46,12 @@ public final class World implements IUpdate {
         return false;
     }
 
-    @Override
-    public void onDone() {
-        physicsWorld.dispose();
+    public void load(IWorldLoadable loadable) {
+        notifyWorldLoadBeginListeners();
+
+        // TODO
+
+        notifyWorldLoadEndListeners();
     }
 
     public void clearPhysicsWorld() {
@@ -81,5 +89,41 @@ public final class World implements IUpdate {
 
     public void setEntryRoomId(String entryRoomId) {
         this.entryRoomId = entryRoomId;
+    }
+
+    public void clearWorldLoadBeginListeners() {
+        worldLoadBeginListeners.clear();
+    }
+
+    public void addWorldLoadBeginListener(IWorldLoadBeginListener listener) {
+        worldLoadBeginListeners.add(listener);
+    }
+
+    public void removeWorldLoadBeginListener(IWorldLoadBeginListener listener) {
+        worldLoadBeginListeners.removeValue(listener, true);
+    }
+
+    public void clearWorldLoadEndListeners() {
+        worldLoadEndListeners.clear();
+    }
+
+    public void addWorldLoadEndListener(IWorldLoadEndListener listener) {
+        worldLoadEndListeners.add(listener);
+    }
+
+    public void removeWorldLoadEndListener(IWorldLoadEndListener listener) {
+        worldLoadEndListeners.removeValue(listener, true);
+    }
+
+    private void notifyWorldLoadBeginListeners() {
+        for (IWorldLoadBeginListener listener : worldLoadBeginListeners) {
+            listener.onWorldLoadBegin();
+        }
+    }
+
+    private void notifyWorldLoadEndListeners() {
+        for (IWorldLoadEndListener listener : worldLoadEndListeners) {
+            listener.onWorldLoadEnd();
+        }
     }
 }

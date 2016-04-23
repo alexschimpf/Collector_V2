@@ -1,6 +1,7 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Contact;
 
 /**
  * User-controlled player
@@ -14,21 +15,30 @@ public final class Player extends Entity {
     }
 
     @Override
+    public String getType() {
+        return "player";
+    }
+
+    @Override
     public void render(SpriteBatch spriteBatch) {
 
     }
 
     @Override
-    public boolean update() {
-        return false;
+    protected void tick() {
     }
 
     @Override
-    public void onDone() {
+    protected void onDone() {
     }
 
     @Override
-    public String getType() {
-        return "player";
+    public void onBeginContact(Contact contact, Entity entity) {
+
+    }
+
+    @Override
+    public void onEndContact(Contact contact, Entity entity) {
+
     }
 }

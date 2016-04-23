@@ -15,8 +15,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.IRender;
-import com.tendersaucer.collector.Layers;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.EntityFactory;
@@ -220,7 +220,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private boolean isLayerPosValid(int layerPos) {
-        return layerPos > -1 && layerPos < Layers.NUM_LAYERS;
+        return layerPos > -1 && layerPos < Canvas.NUM_LAYERS;
     }
 
     private boolean isFreeBody(String type) {
