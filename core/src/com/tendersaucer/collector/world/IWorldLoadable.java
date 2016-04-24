@@ -7,6 +7,8 @@ package com.tendersaucer.collector.world;
  */
 public interface IWorldLoadable {
 
+    String ENTRY_ROOM_ID_PROP = "entry_room_id";
+
     /**
      * Returns the world's id. This id should be unique
      * @return world's id

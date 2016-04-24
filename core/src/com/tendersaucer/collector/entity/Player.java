@@ -29,10 +29,6 @@ public final class Player extends Entity {
     }
 
     @Override
-    protected void onDone() {
-    }
-
-    @Override
     public void onBeginContact(Contact contact, Entity entity) {
 
     }

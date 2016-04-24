@@ -16,10 +16,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
+import com.tendersaucer.collector.FixtureBodyDefinition;
 import com.tendersaucer.collector.IRender;
-import com.tendersaucer.collector.entity.Entity;
+import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
-import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
 import com.tendersaucer.collector.util.FileUtils;
@@ -41,22 +41,27 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     private final String id;
     private final String filename;
     private final TiledMap tiledMap;
-    private final Array<Entity> entities;
-    private final Map<IRender, Integer> renderableLayerMap;
+    private final ParallaxBackground background;
+    private final Array<FixtureBodyDefinition> freeBodyDefinitions;
+    private final Array<EntityDefinition> entityDefinitions;
+    private final Map<IRender, Integer> canvasMap;
     private final Map<String, MapObject> bodySkeletonMap;
 
     public TiledMapRoomLoadable(String worldId, String roomId) {
         this.id = roomId;
 
-        entities = new Array<Entity>();
-        renderableLayerMap = new LinkedHashMap<IRender, Integer>();
+        freeBodyDefinitions = new Array<FixtureBodyDefinition>();
+        entityDefinitions = new Array<EntityDefinition>();
+        canvasMap = new LinkedHashMap<IRender, Integer>();
         bodySkeletonMap = new HashMap<String, MapObject>();
 
         filename = FileUtils.getRoomConfigURI(worldId, roomId);
         tiledMap = new TmxMapLoader().load(filename);
 
         processLayers();
-        createBackground();
+
+        background = new ParallaxBackground();
+        setBackground();
     }
 
     @Override
@@ -65,13 +70,23 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     @Override
-    public Array<Entity> getEntities() {
-        return entities;
+    public ParallaxBackground getBackground() {
+        return background;
     }
 
     @Override
-    public Map<IRender, Integer> getRenderableLayerMap() {
-        return renderableLayerMap;
+    public Array<EntityDefinition> getEntityDefinitions() {
+        return entityDefinitions;
+    }
+
+    @Override
+    public Array<FixtureBodyDefinition> getFreeBodyDefinitions() {
+        return freeBodyDefinitions;
+    }
+
+    @Override
+    public Map<IRender, Integer> getCanvasMap() {
+        return canvasMap;
     }
 
     private void processLayers() {
@@ -91,7 +106,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                     }
 
                     layersToProcess.add(layerWrapper);
-                    renderableLayerMap.put(layerWrapper, layerPos);
+                    canvasMap.put(layerWrapper, layerPos);
                 }
             }
         }
@@ -125,18 +140,21 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void processFreeBodies(Array<MapObject> bodies) {
-        for(MapObject object : bodies) {
-            if(object instanceof RectangleMapObject) {
-                TiledUtils.createBodyFromRectangle(object);
-            } else if(object instanceof PolylineMapObject) {
-                TiledUtils.createBodyFromPolyline(object);
-            } else if(object instanceof CircleMapObject) {
-                TiledUtils.createBodyFromCircle(object);
-            } else if(object instanceof EllipseMapObject) {
-                TiledUtils.createBodyFromEllipse(object);
-            } else if(object instanceof PolygonMapObject) {
-                TiledUtils.createBodyFromPolygon(object);
+        for (MapObject object : bodies) {
+            FixtureBodyDefinition fixtureBodyDefinition;
+            if (object instanceof RectangleMapObject) {
+                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((RectangleMapObject)object);
+            } else if (object instanceof CircleMapObject) {
+                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((CircleMapObject)object);
+            } else if (object instanceof EllipseMapObject) {
+                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((EllipseMapObject)object);
+            } else if (object instanceof PolylineMapObject || object instanceof PolygonMapObject) {
+                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef(object);
+            } else {
+                throw new InvalidConfigException(filename, "Unknown MapObject type");
             }
+
+            freeBodyDefinitions.add(fixtureBodyDefinition);
         }
     }
 
@@ -168,22 +186,19 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                 ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
             }
 
+            int layerPos = getLayerPos(layer, object);
             BodyDef bodyDef = getBodyDef(layer, object);
-            EntityDefinition entityDef = new TiledEntityDefinition(object.getName(), bodyDef,
-                    bodySkeleton, object.getProperties());
-            Entity entity = EntityFactory.buildEntity(type, entityDef);
-            this.entities.add(entity);
-
-            int layerPos = getEntityLayerPos(layer, object);
-            renderableLayerMap.put(entity, layerPos);
+            EntityDefinition entityDef = new TiledEntityDefinition(object.getName(), layerPos,
+                    bodyDef, bodySkeleton, object.getProperties());
+            entityDefinitions.add(entityDef);
         }
     }
 
-    private void createBackground() {
+    private void setBackground() {
         // TODO: Get texture file(s) from some map property
     }
 
-    private int getEntityLayerPos(TiledMapLayer layer, TextureMapObject object) {
+    private int getLayerPos(TiledMapLayer layer, TextureMapObject object) {
         if (layer.propertyExists(object, LAYER_POS_PROP)) {
             return layer.getIntProperty(object, LAYER_POS_PROP);
         } else if (layer.propertyExists(LAYER_POS_PROP)) {

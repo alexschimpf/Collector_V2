@@ -49,9 +49,10 @@ public final class World implements IUpdate {
     public void load(IWorldLoadable loadable) {
         notifyWorldLoadBeginListeners();
 
-        clearPhysicsWorld();
-
+        id = loadable.getId();
         entryRoomId = loadable.getEntryRoomId();
+
+        clearPhysicsWorld();
         Room.getInstance().load(new TiledMapRoomLoadable(id, entryRoomId));
 
         notifyWorldLoadEndListeners();
@@ -74,14 +75,6 @@ public final class World implements IUpdate {
 
     public String getEntryRoomId() {
         return entryRoomId;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setEntryRoomId(String entryRoomId) {
-        this.entryRoomId = entryRoomId;
     }
 
     public void clearWorldLoadBeginListeners() {

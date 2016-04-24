@@ -78,9 +78,11 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
     }
 
     public void remove(IRender object) {
-        int layer = objectLayerMap.get(object);
-        layers.get(layer).remove(object);
-        objectLayerMap.remove(object);
+        Integer layer = objectLayerMap.get(object);
+        if (layer != null) {
+            layers.get(layer).remove(object);
+            objectLayerMap.remove(object);
+        }
     }
 
     private void checkLayer(int layer) {

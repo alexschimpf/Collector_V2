@@ -13,10 +13,11 @@ public final class EntityFactory {
     private EntityFactory() {
     }
 
-    public static Entity buildEntity(String type, EntityDefinition entityDef) {
+    public static Entity buildEntity(EntityDefinition entityDef) {
         Entity entity = null;
         try {
-            String className = EntityConfig.getInstance().getClassName(type);
+            String entityType = entityDef.getType();
+            String className = EntityConfig.getInstance().getClassName(entityType);
             Class<?> c = Class.forName(className);
             Constructor<?> constructor = c.getConstructor(EntityDefinition.class);
             entity = (Entity)constructor.newInstance(entityDef);

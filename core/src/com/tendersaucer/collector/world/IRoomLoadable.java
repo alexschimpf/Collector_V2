@@ -1,8 +1,10 @@
 package com.tendersaucer.collector.world;
 
 import com.badlogic.gdx.utils.Array;
+import com.tendersaucer.collector.FixtureBodyDefinition;
 import com.tendersaucer.collector.IRender;
-import com.tendersaucer.collector.entity.Entity;
+import com.tendersaucer.collector.background.ParallaxBackground;
+import com.tendersaucer.collector.entity.EntityDefinition;
 
 import java.util.Map;
 
@@ -37,14 +39,26 @@ public interface IRoomLoadable {
     String getId();
 
     /**
-     * TODO
-     * @return
+     * Returns the room's background
+     * @return background
      */
-    Array<Entity> getEntities();
+    ParallaxBackground getBackground();
 
     /**
-     * TODO
+     * Returns all initial entity definitions
+     * @return entity definitions
+     */
+    Array<EntityDefinition> getEntityDefinitions();
+
+    /**
+     * Returns all non-entity body definitions
+     * @return body definitions
+     */
+    Array<FixtureBodyDefinition> getFreeBodyDefinitions();
+
+    /**
+     * Returns map from [non-background/entity] IRender objects to their Canvas layer
      * @return
      */
-    Map<IRender, Integer> getRenderableLayerMap();
+    Map<IRender, Integer> getCanvasMap();
 }

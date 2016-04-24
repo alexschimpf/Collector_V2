@@ -13,12 +13,15 @@ import com.tendersaucer.collector.util.TiledUtils;
  */
 public final class TiledEntityDefinition extends EntityDefinition {
 
+    private final int layer;
     private final MapProperties properties;
     private final MapObject bodySkeleton;
 
-    public TiledEntityDefinition(String name, BodyDef bodyDef, MapObject bodySkeleton, MapProperties properties) {
-        super(name, bodyDef);
+    public TiledEntityDefinition(String name, String type, int layer, BodyDef bodyDef,
+                                 MapObject bodySkeleton, MapProperties properties) {
+        super(name, type, bodyDef);
 
+        this.layer = layer;
         this.properties = properties;
         this.bodySkeleton = bodySkeleton;
     }
@@ -31,5 +34,10 @@ public final class TiledEntityDefinition extends EntityDefinition {
     @Override
     public FixtureDef getFixtureDef() {
         return TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
+    }
+
+    @Override
+    public int getLayer() {
+        return layer;
     }
 }

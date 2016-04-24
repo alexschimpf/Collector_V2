@@ -11,6 +11,10 @@ public final class InvalidConfigException extends RuntimeException {
         super(message);
     }
 
+    public InvalidConfigException(String configName, String message) {
+        super(configName + ": " + message);
+    }
+
     public InvalidConfigException(String configName, String property, Object value) {
         super(configName + ": " + property + " = " + (value != null ? value.toString() : "null"));
     }

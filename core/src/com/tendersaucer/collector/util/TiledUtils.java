@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -20,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.tendersaucer.collector.Camera;
-import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.FixtureBodyDefinition;
 
 /**
  * Tiled utility functions
@@ -32,8 +31,18 @@ public final class TiledUtils {
     private TiledUtils() {
     }
 
-    public static Body createBodyFromRectangle(MapObject object) {
-        Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
+    public static FixtureBodyDefinition createFixtureBodyDef(MapObject object) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(0, 0);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+
+        FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
+
+        return new FixtureBodyDefinition(fixtureDef, bodyDef);
+    }
+
+    public static FixtureBodyDefinition createFixtureBodyDef(RectangleMapObject object) {
+        Rectangle rectangle = object.getRectangle();
 
         float unitScale = Camera.getInstance().getTileMapScale();
         float left = rectangle.x * unitScale;
@@ -48,31 +57,11 @@ public final class TiledUtils {
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
 
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        fixtureDef.shape.dispose();
-
-        return body;
+        return new FixtureBodyDefinition(fixtureDef, bodyDef);
     }
 
-    public static Body createBodyFromPolyline(MapObject object) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(0, 0);
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-
-        FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
-
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        fixtureDef.shape.dispose();
-
-        return body;
-    }
-
-    public static Body createBodyFromCircle(MapObject object) {
-        Circle circle = ((CircleMapObject)object).getCircle();
+    public static FixtureBodyDefinition createFixtureBodyDef(CircleMapObject object) {
+        Circle circle = object.getCircle();
 
         float unitScale = Camera.getInstance().getTileMapScale();
         float x = circle.x * unitScale;
@@ -85,17 +74,12 @@ public final class TiledUtils {
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
 
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        fixtureDef.shape.dispose();
-
-        return body;
+        return new FixtureBodyDefinition(fixtureDef, bodyDef);
     }
 
     // Just assume the ellipse is a circle for now.
-    public static Body createBodyFromEllipse(MapObject object) {
-        Ellipse circle = ((EllipseMapObject)object).getEllipse();
+    public static FixtureBodyDefinition createFixtureBodyDef(EllipseMapObject object) {
+        Ellipse circle = object.getEllipse();
 
         float unitScale = Camera.getInstance().getTileMapScale();
         float x = (circle.x + circle.width / 2) * unitScale;
@@ -108,27 +92,7 @@ public final class TiledUtils {
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
 
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        fixtureDef.shape.dispose();
-
-        return body;
-    }
-
-    public static Body createBodyFromPolygon(MapObject object) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(0, 0);
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-
-        FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
-
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
-        body.createFixture(fixtureDef);
-
-        fixtureDef.shape.dispose();
-
-        return body;
+        return new FixtureBodyDefinition(fixtureDef, bodyDef);
     }
 
     public static FixtureDef getFixtureDefFromBodySkeleton(MapObject object) {

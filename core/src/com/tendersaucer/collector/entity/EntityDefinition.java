@@ -17,11 +17,13 @@ public abstract class EntityDefinition {
     protected static final String HEIGHT_PROP = "height";
 
     protected final String name;
+    protected final String type;
     protected final BodyDef bodyDef;
     protected final Vector2 size;
 
-    public EntityDefinition(String name, BodyDef bodyDef) {
+    public EntityDefinition(String name, String type, BodyDef bodyDef) {
         this.name = validateName(name);
+        this.type = type;
         this.bodyDef = bodyDef;
 
         size = new Vector2();
@@ -31,8 +33,14 @@ public abstract class EntityDefinition {
 
     public abstract FixtureDef getFixtureDef();
 
+    public abstract int getLayer();
+
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public BodyDef getBodyDef() {

@@ -1,10 +1,15 @@
 package com.tendersaucer.collector.world;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Canvas;
+import com.tendersaucer.collector.FixtureBodyDefinition;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
+import com.tendersaucer.collector.entity.EntityDefinition;
+import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -20,6 +25,7 @@ public final class Room implements IUpdate {
 
     private static final Room instance = new Room();
 
+    private String id;
     private Player player;
     private final Map<String, Entity> entityMap;
     private final Array<IRoomLoadBeginListener> roomLoadBeginListeners;
@@ -43,16 +49,23 @@ public final class Room implements IUpdate {
     public void load(IRoomLoadable roomLoadable) {
         notifyRoomLoadBeginListeners();
 
-        // Add entities to Canvas.
-        Map<IRender, Integer> renderableLayerMap = roomLoadable.getRenderableLayerMap();
-        for (IRender object : renderableLayerMap.keySet()) {
-            int layer = renderableLayerMap.get(object);
+        id = roomLoadable.getId();
+
+        // TODO: roomLoadable.getBackground();
+
+        // Add non-entity/background canvas objects.
+        Map<IRender, Integer> canvasMap = roomLoadable.getCanvasMap();
+        for (IRender object : canvasMap.keySet()) {
+            int layer = canvasMap.get(object);
             Canvas.getInstance().addToLayer(layer, object);
         }
 
         entityMap.clear();
 
-        for (Entity entity : roomLoadable.getEntities()) {
+        // Add new entities.
+        for (EntityDefinition entityDefinition : roomLoadable.getEntityDefinitions()) {
+            Entity entity = EntityFactory.buildEntity(entityDefinition);
+
             String id = entity.getId();
             if (entityMap.containsKey(id)) {
                 throw new InvalidConfigException("Duplicate entity id: " + id);
@@ -62,6 +75,17 @@ public final class Room implements IUpdate {
             if (Entity.isPlayer(entity)) {
                 setPlayer((Player)entity);
             }
+
+            // Add entity to canvas.
+            Canvas.getInstance().addToLayer(entityDefinition.getLayer(), entity);
+        }
+
+        // Add free bodies.
+        for (FixtureBodyDefinition fixtureBodyDef : roomLoadable.getFreeBodyDefinitions()) {
+            Body body = Globals.getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
+            body.createFixture(fixtureBodyDef.fixtureDef);
+
+            fixtureBodyDef.fixtureDef.shape.dispose();
         }
 
         notifyRoomLoadEndListeners();
@@ -93,6 +117,10 @@ public final class Room implements IUpdate {
 
     public void removeRoomLoadEndListener(IRoomLoadEndListener listener) {
         roomLoadEndListeners.removeValue(listener, true);
+    }
+
+    public String getId() {
+        return id;
     }
 
     private void setPlayer(Player player) {
