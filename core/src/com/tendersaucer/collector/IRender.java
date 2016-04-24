@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public interface IRender {
 
     /**
-     * Renders the object, using a single spriteBatch.
+     * Renders the object, using a single spriteBatch
      * @param spriteBatch
      */
     void render(SpriteBatch spriteBatch);

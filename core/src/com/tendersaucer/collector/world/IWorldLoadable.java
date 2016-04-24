@@ -8,13 +8,13 @@ package com.tendersaucer.collector.world;
 public interface IWorldLoadable {
 
     /**
-     * Returns the world's id. This id should be unique.
+     * Returns the world's id. This id should be unique
      * @return world's id
      */
     String getId();
 
     /**
-     * Returns the world's entry room's id.
+     * Returns the world's entry room's id
      * @return entry room's id
      */
     String getEntryRoomId();

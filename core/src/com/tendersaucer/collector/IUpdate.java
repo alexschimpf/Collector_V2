@@ -8,7 +8,7 @@ package com.tendersaucer.collector;
 public interface IUpdate {
 
     /**
-     * Updates the object, returning true when complete.
+     * Updates the object, returning true when complete
      * @return true when no longer needs updated
      */
     boolean update();

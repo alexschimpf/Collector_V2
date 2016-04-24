@@ -31,7 +31,7 @@ public interface IRoomLoadable {
     String BODIES_LAYER = "bodies";
 
     /**
-     * Returns the room's id. This id should be unique within a world.
+     * Returns the room's id. This id should be unique within a world
      * @return room's id
      */
     String getId();

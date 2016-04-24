@@ -11,14 +11,14 @@ import com.tendersaucer.collector.entity.Entity;
 public interface ICollide {
 
     /**
-     * Fired from CollisionListener when contact begins.
+     * Fired from CollisionListener when contact begins
      * @param contact
      * @param entity
      */
     void onBeginContact(Contact contact, Entity entity);
 
     /**
-     * Fired from CollisionListener when contact ends.
+     * Fired from CollisionListener when contact ends
      * @param contact
      * @param entity
      */

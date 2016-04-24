@@ -1,6 +1,8 @@
 package com.tendersaucer.collector.world;
 
 /**
+ * Loadable world from XML
+ *
  * Created by Alex on 4/23/2016.
  */
 public class XMLWorldLoadable implements IWorldLoadable {

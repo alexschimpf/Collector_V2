@@ -10,7 +10,7 @@ import com.tendersaucer.collector.entity.PlayerInteractionType;
 public interface IInteractive {
 
     /**
-     * Fired when the player interacts with this object.
+     * Fired when the player interacts with this object
      * @param interactionType
      */
     void onInteraction(PlayerInteractionType interactionType);

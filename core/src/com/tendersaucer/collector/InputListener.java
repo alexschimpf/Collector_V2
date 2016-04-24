@@ -24,11 +24,6 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     }
 
     @Override
-    public void onDone() {
-
-    }
-
-    @Override
     public boolean keyUp(InputEvent event, int keyCode) {
         return false;
     }
