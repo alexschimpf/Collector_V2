@@ -14,3 +14,9 @@ Driver.show()
             onRoomLoadEnd()
         onWorldLoadEnd()
 
+TODO:
+    - Decide on scripts
+    - Decide on particle effects (create tool?)
+    - Decide on animations and systems (and those not associated with an entity?)
+    - Figure out caching of resources
+    - Start implementing Player

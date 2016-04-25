@@ -9,7 +9,7 @@ import com.tendersaucer.collector.ICollide;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.world.IRoomLoadable;
+import com.tendersaucer.collector.world.room.IRoomLoadable;
 
 /**
  * Abstract entity

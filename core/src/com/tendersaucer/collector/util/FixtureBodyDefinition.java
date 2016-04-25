@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.util;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;

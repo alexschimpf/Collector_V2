@@ -3,7 +3,7 @@ package com.tendersaucer.collector;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.particle.ParticleEffect;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.world.Room;
+import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.World;
 
 /**

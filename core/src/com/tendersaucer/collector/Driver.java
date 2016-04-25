@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.IWorldLoadable;
-import com.tendersaucer.collector.world.Room;
+import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.World;
 import com.tendersaucer.collector.world.XMLWorldLoadable;
 

@@ -2,7 +2,7 @@ package com.tendersaucer.collector.particle;
 
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.world.IRoomLoadBeginListener;
+import com.tendersaucer.collector.world.room.IRoomLoadBeginListener;
 
 /**
  * Manages game particle effects

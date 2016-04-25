@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.CollisionListener;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.world.room.Room;
+import com.tendersaucer.collector.world.room.TiledMapRoomLoadable;
 
 import java.util.Iterator;
 

@@ -5,6 +5,6 @@ package com.tendersaucer.collector.script;
  *
  * Created by Alex on 4/9/2016.
  */
-public enum MoveScript implements IScript {
+public enum MoveScript {
 
 }
