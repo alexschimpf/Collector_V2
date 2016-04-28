@@ -20,9 +20,12 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
 
     protected boolean isDone;
     protected Body body;
+    protected String type;
     protected Sprite sprite;
 
     public Entity(EntityDefinition def) {
+        this.type = def.getType();
+
         isDone = false;
     }
 
@@ -30,9 +33,11 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         return entity != null && entity.getType().equals(IRoomLoadable.PLAYER_TYPE);
     }
 
-    public abstract String getType();
-
     protected abstract void tick();
+
+    public String getType() {
+        return type;
+    }
 
     @Override
     public void render(SpriteBatch spriteBatch) {

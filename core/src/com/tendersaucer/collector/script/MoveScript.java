@@ -5,6 +5,14 @@ package com.tendersaucer.collector.script;
  *
  * Created by Alex on 4/9/2016.
  */
-public enum MoveScript {
+public class MoveScript extends Script {
 
+    public MoveScript(ScriptDefinition def) {
+        super(def);
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
 }

@@ -10,9 +10,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.IWorldLoadable;
-import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.World;
 import com.tendersaucer.collector.world.XMLWorldLoadable;
+import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Main update and render logic
@@ -42,6 +42,8 @@ public final class Driver implements Screen {
         if (Globals.FULLSCREEN_MODE) {
             // TODO: Display mode hack
         }
+
+        ParticleEffectManager.getInstance().loadAllEffectTypes();
 
         Room room = Room.getInstance();
         room.addRoomLoadBeginListener(Canvas.getInstance());

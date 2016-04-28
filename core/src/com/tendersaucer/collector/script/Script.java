@@ -10,25 +10,25 @@ import com.tendersaucer.collector.IUpdate;
  */
 public abstract class Script implements IUpdate {
 
-    private Array<IScriptDoneListener> scriptDoneListeners = new Array<IScriptDoneListener>();
+    private Array<IScriptDoneListener> scriptDoneListeners;
 
     protected Script(ScriptDefinition def) {
 
     }
 
-    public void clearScriptDoneListeners() {
-        scriptDoneListeners.clear();
-    }
-
-    public void removeScriptDoneListener(IScriptDoneListener listener) {
-        scriptDoneListeners.removeValue(listener, true);
-    }
-
     public void addScriptDoneListener(IScriptDoneListener listener) {
+        if (scriptDoneListeners == null) {
+            scriptDoneListeners = new Array<IScriptDoneListener>();
+        }
+
         scriptDoneListeners.add(listener);
     }
 
     private void notifyScriptDoneListeners() {
+        if (scriptDoneListeners == null) {
+            return;
+        }
+
         for (IScriptDoneListener listener : scriptDoneListeners) {
             listener.onScriptDone();
         }
