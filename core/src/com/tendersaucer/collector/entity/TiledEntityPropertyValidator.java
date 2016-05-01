@@ -12,16 +12,10 @@ import java.util.Iterator;
  */
 public final class TiledEntityPropertyValidator {
 
-    private static final TiledEntityPropertyValidator instance = new TiledEntityPropertyValidator();
-
     private TiledEntityPropertyValidator() {
     }
 
-    public static TiledEntityPropertyValidator getInstance() {
-        return instance;
-    }
-
-    public void validateAndProcess(String type, MapProperties properties) {
+    public static void validateAndProcess(String type, MapProperties properties) {
         EntityConfig.EntityProperties entityProperties = EntityConfig.getInstance().getEntityProperties(type);
 
         // Check that all required properties are set.

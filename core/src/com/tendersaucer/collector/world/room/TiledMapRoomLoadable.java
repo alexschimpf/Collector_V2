@@ -16,17 +16,16 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
-import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
 import com.tendersaucer.collector.util.FileUtils;
+import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 import com.tendersaucer.collector.util.TiledMapLayer;
 import com.tendersaucer.collector.util.TiledUtils;
-import com.tendersaucer.collector.world.room.IRoomLoadable;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -167,7 +166,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
             String type = layer.getStringProperty(object, TYPE_PROP);
 
-            TiledEntityPropertyValidator.getInstance().validateAndProcess(type, object.getProperties());
+            TiledEntityPropertyValidator.validateAndProcess(type, object.getProperties());
 
             // Determine body skeleton.
             MapObject bodySkeleton = object;
@@ -189,7 +188,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
             int layerPos = getLayerPos(layer, object);
             BodyDef bodyDef = getBodyDef(layer, object);
-            EntityDefinition entityDef = new TiledEntityDefinition(object.getName(), layerPos,
+            EntityDefinition entityDef = new TiledEntityDefinition(object.getName(), type, layerPos,
                     bodyDef, bodySkeleton, object.getProperties());
             entityDefinitions.add(entityDef);
         }

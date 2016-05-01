@@ -1,244 +1,230 @@
 package com.tendersaucer.collector.particle;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.util.JsonUtils;
+import com.tendersaucer.collector.util.RandomUtils;
+
+import java.util.Iterator;
 
 /**
- * System of particles
- *
- * Created by Alex on 4/8/2016.
+ * Created by Alex on 4/30/2016.
  */
-public class ParticleEffect implements IUpdate, IRender {
+public class ParticleEffect implements IUpdate, IRender, Disposable {
 
-    protected static final Pool<Particle> PARTICLE_POOL = new Pool<Particle>() {
+    protected static final Pool<Particle> particlePool = new Pool<Particle>() {
         @Override
         protected Particle newObject() {
             return new Particle();
         }
     };
 
-    protected boolean keepProportions;
     protected long lastLoopTime;
     protected Float loopDelay;
-    protected Color startColor;
-    protected Color endColor;
-
     protected final Vector2 position;
     protected final Vector2 sizeRange;
+    protected final Array<Sprite> sprites;
+    protected final Array<Particle> particles;
+    protected final Array<ParticleModifier> modifiers;
+
+    // Ranges
     protected final Vector2 durationRange;
     protected final Vector2 particlesRange;
-    protected final Vector2 minVelocity, maxVelocity;
-    protected final Vector2 scale;
-    protected final Vector2 scaleCenter;
-    protected final Vector2 alphaInterpolation;
+    protected final Vector2 xOffsetRange;
+    protected final Vector2 yOffsetRange;
+    protected final Vector2 vxRange;
+    protected final Vector2 vyRange;
+    protected final Vector2 velocitySplits;
     protected final Vector2 angularVelocityRange;
-    protected final Vector2 minPositionOffsets, maxPositionOffsets;
-    protected final Array<String> textureKeys;
+    protected final Vector2 redRange;
+    protected final Vector2 blueRange;
+    protected final Vector2 greenRange;
+    protected final Vector2 alphaRange;
 
-    protected final Array<Particle> particles;
-
-    public ParticleEffect() {
+    public ParticleEffect(JsonValue json) {
+        position = new Vector2();
+        sizeRange = new Vector2();
+        modifiers = new Array<ParticleModifier>();
         particles = new Array<Particle>();
-
-        textureKeys = new Array<String>();
-
-        keepProportions = false;
+        sprites = new Array<Sprite>();
         lastLoopTime = 0;
 
-        position = new Vector2(0, 0);
-        sizeRange = new Vector2(0, 0);
-        durationRange = new Vector2(0, 0);
-        particlesRange = new Vector2(0, 0);
-        minVelocity = new Vector2(0, 0);
-        maxVelocity = new Vector2(0, 0);
-        scale = new Vector2(1, 1);
-        scaleCenter = new Vector2(0, 0);
-        alphaInterpolation = new Vector2(1, 1);
-        angularVelocityRange = new Vector2(0, 0);
-        minPositionOffsets = new Vector2(0, 0);
-        maxPositionOffsets = new Vector2(0, 0);
+        durationRange = new Vector2();
+        particlesRange = new Vector2();
+        xOffsetRange = new Vector2();
+        yOffsetRange = new Vector2();
+        vxRange = new Vector2();
+        vyRange = new Vector2();
+        velocitySplits = new Vector2();
+        angularVelocityRange = new Vector2();
+        redRange = new Vector2();
+        blueRange = new Vector2();
+        greenRange = new Vector2();
+        alphaRange = new Vector2();
+
+        load(json);
     }
 
-    public ParticleEffect(ParticleEffect other) {
-        textureKeys = other.textureKeys;
-        keepProportions = other.keepPropertions();
-        durationRange = other.getDurationRange();
-        particlesRange = other.getParticlesRange();
-        minVelocity = other.getMinVelocity();
-        maxVelocity = other.getMaxVelocity();
-        scale = other.getScale();
-        scaleCenter = other.getScaleCenter();
-        alphaInterpolation = other.getAlphaInterpolation();
-        angularVelocityRange = other.getAngularVelocityRange();
-        minPositionOffsets = other.getMinPositionOffsets();
-        maxPositionOffsets = other.getMaxPositionOffsets();
-
-        lastLoopTime = 0;
-        position = new Vector2(0, 0);
-        sizeRange = new Vector2(0, 0);
-        particles = new Array<Particle>();
+    @Override
+    public void dispose() {
+        Canvas.getInstance().remove(this);
+        for (Particle particle : particles) {
+            particlePool.free(particle);
+        }
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-
+        for (Particle particle : particles) {
+            particle.render(spriteBatch);
+        }
     }
 
     @Override
     public boolean update() {
-        return false;
-    }
+        Iterator<Particle> particlesIter = particles.iterator();
+        while (particlesIter.hasNext()) {
+            Particle particle = particlesIter.next();
 
-    public void setKeepPropertions(boolean keepProportions) {
-        this.keepProportions = keepProportions;
-    }
-
-    public void setLoopDelay(Float loopDelay) {
-        this.loopDelay = loopDelay;
-    }
-
-    public void setStartColor(float r, float g, float b) {
-        if (startColor == null) {
-            startColor = new Color();
+            if (particle.update()) {
+                particlesIter.remove();
+                particlePool.free(particle);
+            } else {
+                for (ParticleModifier modifier : modifiers) {
+                    modifier.modify(particle);
+                }
+            }
         }
 
-        startColor.set(r, g, b, 1);
-    }
-
-    public void setEndColor(float r, float g, float b) {
-        if (endColor == null) {
-            endColor = new Color();
+        if (loops() && TimeUtils.timeSinceMillis(lastLoopTime) > loopDelay) {
+            lastLoopTime = TimeUtils.millis();
+            createParticles();
         }
 
-        endColor.set(r, g, b, 1);
+        return particles.size <= 0;
     }
 
-    public void setPosition(float x, float y) {
-        position.set(x, y);
-    }
+    public void begin(Vector2 position, Vector2 sizeRange, int layer) {
+        this.position.set(position);
+        this.sizeRange.set(sizeRange);
 
-    public void setMinVelocity(float x, float y) {
-        minVelocity.set(x, y);
-    }
+        createParticles();
 
-    public void setMaxVelocity(float x, float y) {
-        maxVelocity.set(x, y);
-    }
-
-    public void setScale(float x, float y) {
-        scale.set(x, y);
-    }
-
-    public void setScaleCenter(float x, float y) {
-        scaleCenter.set(x, y);
-    }
-
-    public void setMinPositionOffsets(float x, float y) {
-        minPositionOffsets.set(x, y);
-    }
-
-    public void setMaxPositionOffsets(float x, float y) {
-        maxPositionOffsets.set(x, y);
-    }
-
-    public void setSizeRange(float min, float max) {
-        sizeRange.set(min, max);
-    }
-
-    public void setDurationRange(float min, float max) {
-        durationRange.set(min, max);
-    }
-
-    public void setParticlesRange(float min, float max) {
-        particlesRange.set(min, max);
-    }
-
-    public void setAngularVelocityRange(float min, float max) {
-        angularVelocityRange.set(min, max);
-    }
-
-    public void setAlphaInterpolation(float start, float end) {
-        alphaInterpolation.set(start, end);
-    }
-
-    public Array<String> getTextureKeys() {
-        return textureKeys;
-    }
-
-    public boolean keepPropertions() {
-        return keepProportions;
+        Canvas.getInstance().addToLayer(layer, this);
     }
 
     public boolean loops() {
-        return getLoopDelay() != null;
+        return loopDelay != null;
     }
 
-    public long getLastLoopTime() {
-        return lastLoopTime;
+    protected void load(JsonValue json) {
+        if (json.has("loop_delay")) {
+            loopDelay = json.getFloat("loop_delay");
+        }
+        if (json.has("texture_keys")) {
+            loadSprites(json.get("texture_keys").asStringArray());
+        }
+        if (json.has("ranges")) {
+            loadRanges(json.get("ranges"));
+        }
+        if (json.has("modifiers")) {
+            loadModifiers(json.get("modifiers"));
+        }
     }
 
-    public Float getLoopDelay() {
-        return loopDelay;
+    protected void loadSprites(String[] textureKeys) {
+
     }
 
-    public Color getStartColor() {
-        return startColor;
+    protected void loadRanges(JsonValue root) {
+        if (root.has("duration")) {
+            durationRange.set(JsonUtils.toVector2(root.get("duration")));
+        }
+        if (root.has("num_particles")) {
+            particlesRange.set(JsonUtils.toVector2(root.get("num_particles")));
+        }
+        if (root.has("position_offset")) {
+            Vector2 minOffset = JsonUtils.toVector2(root.get("position_offset").get(0));
+            Vector2 maxOffset = JsonUtils.toVector2(root.get("position_offset").get(1));
+            xOffsetRange.set(minOffset.x, maxOffset.x);
+            yOffsetRange.set(minOffset.y, maxOffset.y);
+        }
+        if (root.has("angular_velocity")) {
+            angularVelocityRange.set(JsonUtils.toVector2(root.get("angular_velocity")));
+        }
+        if (root.has("color")) {
+            Color minColor = JsonUtils.toColor(root.get("color").get(0));
+            Color maxColor = JsonUtils.toColor(root.get("color").get(1));
+            redRange.set(minColor.r, maxColor.r);
+            greenRange.set(minColor.g, maxColor.g);
+            blueRange.set(minColor.b, maxColor.b);
+            alphaRange.set(minColor.a, maxColor.a);
+        }
+        if (root.has("velocity")) {
+            JsonValue velocityRoot = root.get("velocity");
+            Vector2 minVelocity = JsonUtils.toVector2(velocityRoot.get("range").get(0));
+            Vector2 maxVelocity = JsonUtils.toVector2(velocityRoot.get("range").get(1));
+            vxRange.set(minVelocity.x, maxVelocity.x);
+            vyRange.set(minVelocity.y, maxVelocity.y);
+            velocitySplits.set(JsonUtils.toVector2(velocityRoot.get("splits")));
+        }
     }
 
-    public Color getEndColor() {
-        return endColor;
+    protected void loadModifiers(JsonValue root) {
+        for (JsonValue modifierRoot : root) {
+            ParticleModifier modifier =
+                    ParticleEffectManager.getInstance().buildParticleModifier(modifierRoot);
+            modifiers.add(modifier);
+        }
     }
 
-    public Vector2 getPosition() {
-        return position;
+    protected void createParticles() {
+        int numParticles = (int)RandomUtils.pickFromRange(particlesRange);
+        for (int i = 0; i < numParticles; i++) {
+            Particle particle = particlePool.obtain();
+            setParticleProperties(particle);
+            particles.add(particle);
+        }
     }
 
-    public Vector2 getSizeRange() {
-        return sizeRange;
-    }
+    protected void setParticleProperties(Particle particle) {
+        Sprite sprite = sprites.get(RandomUtils.pickIndex(sprites));
+        particle.setSprite(sprite);
 
-    public Vector2 getDurationRange() {
-        return durationRange;
-    }
+        float dx = RandomUtils.pickFromRange(xOffsetRange);
+        float dy = RandomUtils.pickFromRange(yOffsetRange);
+        position.add(dx, dy);
+        particle.setPosition(position.x, position.y);
 
-    public Vector2 getParticlesRange() {
-        return particlesRange;
-    }
+        float size = RandomUtils.pickFromRange(sizeRange);
+        particle.setSize(size, size);
 
-    public Vector2 getMinVelocity() {
-        return minVelocity;
-    }
+        float duration = RandomUtils.pickFromRange(durationRange);
+        particle.setDuration(duration);
 
-    public Vector2 getMaxVelocity() {
-        return maxVelocity;
-    }
+        float vx = RandomUtils.pickFromSplitRange(vxRange.x, vxRange.y, velocitySplits.x);
+        float vy = RandomUtils.pickFromSplitRange(vyRange.x, vyRange.y, velocitySplits.y);
+        particle.setVelocity(vx, vy);
 
-    public Vector2 getScale() {
-        return scale;
-    }
+        float angularVelocity = RandomUtils.pickFromRange(angularVelocityRange);
+        particle.setAngularVelocity(angularVelocity);
 
-    public Vector2 getScaleCenter() {
-        return scaleCenter;
-    }
+        float r = RandomUtils.pickFromRange(redRange);
+        float g = RandomUtils.pickFromRange(greenRange);
+        float b = RandomUtils.pickFromRange(blueRange);
+        float a = RandomUtils.pickFromRange(alphaRange);
+        particle.setColor(r, g, b, a);
 
-    public Vector2 getAlphaInterpolation() {
-        return alphaInterpolation;
-    }
-
-    public Vector2 getAngularVelocityRange() {
-        return angularVelocityRange;
-    }
-
-    public Vector2 getMinPositionOffsets() {
-        return minPositionOffsets;
-    }
-
-    public Vector2 getMaxPositionOffsets() {
-        return maxPositionOffsets;
+        particle.setReady();
     }
 }

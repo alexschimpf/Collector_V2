@@ -18,7 +18,7 @@ import java.util.Set;
 public final class EntityConfig {
 
     private static final EntityConfig instance = new EntityConfig();
-    private static final String CONFIG_FILENAME = "entity.conf";
+    private static final String CONFIG_FILENAME = "entity.xml";
 
     private final Map<String, EntityProperties> entityTypePropertiesMap;
     private final Map<String, String> entityTypeClassMap;

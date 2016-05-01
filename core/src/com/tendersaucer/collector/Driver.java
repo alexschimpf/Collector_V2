@@ -43,7 +43,7 @@ public final class Driver implements Screen {
             // TODO: Display mode hack
         }
 
-        ParticleEffectManager.getInstance().loadAllEffectTypes();
+        ParticleEffectManager.getInstance().loadDefinitions();
 
         Room room = Room.getInstance();
         room.addRoomLoadBeginListener(Canvas.getInstance());

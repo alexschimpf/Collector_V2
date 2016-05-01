@@ -1,0 +1,10 @@
+<entities>
+    <entity type="player" class="Player">
+        <required>
+
+        </required>
+        <optional>
+
+        </optional>
+    </entity>
+</entities>
