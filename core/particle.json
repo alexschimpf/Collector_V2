@@ -6,7 +6,7 @@
     "effects": {
         "test_1": {
             "loop_delay": 500,
-            "texture_keys": ["player_jump_particle"],
+            "textures": ["player_jump_particle"],
             "ranges": {
                 "duration": [1000, 5000],
                 "num_particles": [5, 10],
@@ -21,7 +21,7 @@
         },
         "test_2": {
             "loop_delay": 500,
-            "texture_keys": ["player_jump_particle"],
+            "textures": ["player_jump_particle"],
             "ranges": {
                 "duration": [1000, 5000],
                 "num_particles": [5, 10],

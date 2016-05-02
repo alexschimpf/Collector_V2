@@ -1,5 +1,7 @@
 package com.tendersaucer.collector;
 
+import com.tendersaucer.collector.screen.Driver;
+
 /**
  * Game entry point
  *

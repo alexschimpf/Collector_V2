@@ -9,13 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
  */
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
 
-    private static final InputListener instance = new InputListener();
-
-    private InputListener() {
-    }
-
-    public InputListener getInstance() {
-        return instance;
+    public InputListener() {
     }
 
     @Override

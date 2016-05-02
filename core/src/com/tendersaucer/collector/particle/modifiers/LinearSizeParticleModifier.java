@@ -1,7 +1,8 @@
-package com.tendersaucer.collector.particle;
+package com.tendersaucer.collector.particle.modifiers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import com.tendersaucer.collector.particle.Particle;
 import com.tendersaucer.collector.util.JsonUtils;
 import com.tendersaucer.collector.util.MiscUtils;
 

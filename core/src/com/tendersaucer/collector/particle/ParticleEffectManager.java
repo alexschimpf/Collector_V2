@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 import com.tendersaucer.collector.world.room.IRoomLoadBeginListener;
 
 import java.lang.reflect.Constructor;
@@ -77,6 +78,15 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
         for (JsonValue child : root.get("effects")) {
             effectDefinitionMap.put(child.name, child);
         }
+    }
+
+    public Array<String> getParticleEffectTypes() {
+        Array<String> effectTypes = new Array<String>();
+        for (String effectType : effectDefinitionMap.keySet()) {
+            effectTypes.add(effectType);
+        }
+
+        return effectTypes;
     }
 
     public void beginParticleEffect(String type, Vector2 position, Vector2 sizeRange, int layer) {

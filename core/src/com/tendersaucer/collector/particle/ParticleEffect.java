@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 import com.tendersaucer.collector.util.JsonUtils;
 import com.tendersaucer.collector.util.RandomUtils;
 
@@ -111,7 +112,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
             createParticles();
         }
 
-        return particles.size <= 0;
+        return !loops() && particles.size <= 0;
     }
 
     public void begin(Vector2 position, Vector2 sizeRange, int layer) {
@@ -131,8 +132,8 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         if (json.has("loop_delay")) {
             loopDelay = json.getFloat("loop_delay");
         }
-        if (json.has("texture_keys")) {
-            loadSprites(json.get("texture_keys").asStringArray());
+        if (json.has("textures")) {
+            loadSprites(json.get("textures").asStringArray());
         }
         if (json.has("ranges")) {
             loadRanges(json.get("ranges"));

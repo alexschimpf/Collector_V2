@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.Canvas;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.IWorldLoadable;

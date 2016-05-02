@@ -1,6 +1,7 @@
-package com.tendersaucer.collector.particle;
+package com.tendersaucer.collector.particle.modifiers;
 
 import com.badlogic.gdx.utils.JsonValue;
+import com.tendersaucer.collector.particle.Particle;
 
 /**
  * Created by Alex on 4/30/2016.
