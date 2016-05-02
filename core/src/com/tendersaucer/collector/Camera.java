@@ -22,10 +22,6 @@ public final class Camera implements IUpdate {
         return false;
     }
 
-    @Override
-    public void onDone() {
-    }
-
     public com.badlogic.gdx.graphics.Camera getRawCamera() {
         return null;
     }

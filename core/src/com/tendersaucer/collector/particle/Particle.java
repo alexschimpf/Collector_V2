@@ -18,8 +18,8 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
     protected float duration;
     protected long startTime;
     protected float angularVelocity;
+    protected Sprite sprite;
     protected final Vector2 velocity;
-    protected final Sprite sprite;
 
     public Particle() {
         angularVelocity = 0;
@@ -27,8 +27,6 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         velocity = new Vector2(0, 0);
         sprite = new Sprite();
         sprite.setOriginCenter();
-
-        startTime = TimeUtils.millis();
     }
 
     @Override
@@ -36,9 +34,8 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         angularVelocity = 0;
         duration = 0;
         velocity.set(0, 0);
-        sprite.set(sprite);
-
-        startTime = TimeUtils.millis();
+        sprite = new Sprite();
+        sprite.setOriginCenter();
     }
 
     @Override
@@ -49,17 +46,19 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
     @Override
     public boolean update() {
         float delta = Gdx.graphics.getDeltaTime();
-        sprite.setPosition(sprite.getX() + (velocity.x * delta), sprite.getY() + (velocity.y * delta));
+        float dx = velocity.x * delta;
+        float dy = velocity.y * delta;
+        sprite.setPosition(sprite.getX() + dx, sprite.getY() + dy);
         sprite.rotate(angularVelocity * delta);
 
-        return TimeUtils.timeSinceMillis(startTime) > duration;
+        return getAge() > duration;
     }
 
     public void setDuration(float duration) {
         this.duration = duration;
     }
 
-    public void setReady() {
+    public void setStarted() {
         startTime = TimeUtils.millis();
     }
 

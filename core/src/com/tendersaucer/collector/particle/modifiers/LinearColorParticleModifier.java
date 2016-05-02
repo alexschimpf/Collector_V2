@@ -23,9 +23,9 @@ public class LinearColorParticleModifier extends ParticleModifier {
         float ageToLifeRatio = particle.getAgeToLifeRatio();
         float r = MiscUtils.interpolate(startColor.r, endColor.r, ageToLifeRatio);
         float g = MiscUtils.interpolate(startColor.g, endColor.g, ageToLifeRatio);
-        float b = MiscUtils.interpolate(startColor.g, endColor.g, ageToLifeRatio);
+        float b = MiscUtils.interpolate(startColor.b, endColor.b, ageToLifeRatio);
         float a = MiscUtils.interpolate(startColor.a, endColor.a, ageToLifeRatio);
-        particle.getSprite().getColor().set(r, g, b, a);
+        particle.setColor(r, g, b, a);
     }
 
     @Override

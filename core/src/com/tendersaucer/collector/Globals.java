@@ -1,10 +1,8 @@
 package com.tendersaucer.collector;
 
 import com.tendersaucer.collector.entity.Player;
-import com.tendersaucer.collector.particle.ParticleEffect;
-import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.World;
+import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Game global variables
@@ -21,8 +19,8 @@ public final class Globals {
     public static final boolean FULLSCREEN_MODE = true;
     public static final boolean DEBUG_PHYSICS = false;
     public static final boolean PRINT_FPS = false;
-    public static final boolean PACK_TEXTURES = false;
-    public static final short PLAYER_COLLISION_MASK = 0x0002;
+    public static final boolean PACK_TEXTURES = true;
+    public static final boolean SHOW_PARTICLE_EFFECT_VIEWER = true;
     public static State state;
 
     private Globals() {
@@ -56,10 +54,6 @@ public final class Globals {
 //    public static Array<AtlasRegion> getAnimationTextures(String animationKey) {
 //        return getTextureManager().getAnimationTextures(animationKey);
 //    }
-
-    public static ParticleEffect getParticleEffect(String key, float x, float y) {
-        return ParticleEffectManager.getInstance().buildParticleEffect(key, x, y);
-    }
 
     public static boolean isGameRunning() {
         return state == State.RUNNING;

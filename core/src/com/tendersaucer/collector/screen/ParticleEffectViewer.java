@@ -18,27 +18,20 @@ import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.ui.HUD;
 
 /**
  * Created by Alex on 4/30/2016.
  */
 public class ParticleEffectViewer implements Screen {
 
-    private final Skin skin;
-    private final Stage stage;
-    private final SpriteBatch spriteBatch;
+    private Stage stage;
     private String selectedEffectType;
+    private final Skin skin;
+    private final SpriteBatch spriteBatch;
 
     public ParticleEffectViewer() {
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        setStageTouchListener();
-        Gdx.input.setInputProcessor(stage);
-
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
-
-        createDropdown();
     }
 
     @Override
@@ -49,6 +42,8 @@ public class ParticleEffectViewer implements Screen {
 
         ParticleEffectManager.getInstance().loadDefinitions();
 
+        setStage();
+        createDropdown();
     }
 
     @Override
@@ -64,7 +59,6 @@ public class ParticleEffectViewer implements Screen {
     @Override
     public void resize(int width, int height) {
         Camera.getInstance().resizeViewport(width, height);
-        HUD.getInstance().resize(width, height);
         stage.getViewport().update(width, height, false);
     }
 
@@ -90,7 +84,6 @@ public class ParticleEffectViewer implements Screen {
 
     private void update() {
         Camera.getInstance().update();
-        HUD.getInstance().update();
         ParticleEffectManager.getInstance().update();
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -101,14 +94,31 @@ public class ParticleEffectViewer implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();
-
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin(); {
             Canvas.getInstance().render(spriteBatch);
         } spriteBatch.end();
+    }
 
-        HUD.getInstance().render(spriteBatch);
+    private void setStage() {
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (selectedEffectType != null) {
+                    Vector2 position = new Vector2(x, y); // TODO: Unit conversion!!!
+                    Vector2 sizeRange = new Vector2(Gdx.graphics.getWidth() / 60,
+                            Gdx.graphics.getHeight() / 30);
+                    ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType,
+                            position, sizeRange, 5);
+                }
+
+                return true;
+            }
+        });
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     private void createDropdown() {
@@ -119,7 +129,7 @@ public class ParticleEffectViewer implements Screen {
         dropdown.setSize(screenWidth, screenHeight / 8);
 
         float padding = screenWidth / 10;
-        dropdown.setPosition(padding, screenWidth - padding);
+        dropdown.setPosition(padding, screenHeight - dropdown.getHeight() - padding);
 
         dropdown.addListener(new ChangeListener() {
             @Override
@@ -133,22 +143,5 @@ public class ParticleEffectViewer implements Screen {
         dropdown.setItems(effectTypes);
 
         stage.addActor(dropdown);
-    }
-
-    private void setStageTouchListener() {
-        stage.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (selectedEffectType != null) {
-                    float screenWidth = Gdx.graphics.getWidth();
-                    float screenHeight = Gdx.graphics.getHeight();
-                    Vector2 position = new Vector2(screenWidth / 2, screenHeight / 2);
-                    Vector2 sizeRange = new Vector2(screenWidth / 60, screenWidth / 30);
-                    ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType, position, sizeRange, 5);
-                }
-
-                return true;
-            }
-        });
     }
 }

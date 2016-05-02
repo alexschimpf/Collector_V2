@@ -15,6 +15,7 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 import com.tendersaucer.collector.util.JsonUtils;
 import com.tendersaucer.collector.util.RandomUtils;
+import com.tendersaucer.collector.util.Vector2Pool;
 
 import java.util.Iterator;
 
@@ -31,7 +32,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     };
 
     protected long lastLoopTime;
-    protected Float loopDelay;
+    protected Float loopDelay; // loops indefinitely if not null
     protected final Vector2 position;
     protected final Vector2 sizeRange;
     protected final Array<Sprite> sprites;
@@ -53,25 +54,27 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     protected final Vector2 alphaRange;
 
     public ParticleEffect(JsonValue json) {
-        position = new Vector2();
-        sizeRange = new Vector2();
+        lastLoopTime = 0;
+
+        Vector2Pool vector2Pool = Vector2Pool.getInstance();
+        position = vector2Pool.obtain(0, 0);
+        sizeRange = vector2Pool.obtain(0, 0);
+        durationRange = vector2Pool.obtain(0, 0);
+        particlesRange = vector2Pool.obtain(0, 0);
+        xOffsetRange = vector2Pool.obtain(0, 0);
+        yOffsetRange = vector2Pool.obtain(0, 0);
+        vxRange = vector2Pool.obtain(0, 0);
+        vyRange = vector2Pool.obtain(0, 0);
+        velocitySplits = vector2Pool.obtain(0, 0);
+        angularVelocityRange = vector2Pool.obtain(0, 0);
+        redRange = vector2Pool.obtain(0, 0);
+        blueRange = vector2Pool.obtain(0, 0);
+        greenRange = vector2Pool.obtain(0, 0);
+        alphaRange = vector2Pool.obtain(0, 0);
+
         modifiers = new Array<ParticleModifier>();
         particles = new Array<Particle>();
         sprites = new Array<Sprite>();
-        lastLoopTime = 0;
-
-        durationRange = new Vector2();
-        particlesRange = new Vector2();
-        xOffsetRange = new Vector2();
-        yOffsetRange = new Vector2();
-        vxRange = new Vector2();
-        vyRange = new Vector2();
-        velocitySplits = new Vector2();
-        angularVelocityRange = new Vector2();
-        redRange = new Vector2();
-        blueRange = new Vector2();
-        greenRange = new Vector2();
-        alphaRange = new Vector2();
 
         load(json);
     }
@@ -82,6 +85,22 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         for (Particle particle : particles) {
             particlePool.free(particle);
         }
+
+        Vector2Pool vector2Pool = Vector2Pool.getInstance();
+        vector2Pool.free(position);
+        vector2Pool.free(sizeRange);
+        vector2Pool.free(durationRange);
+        vector2Pool.free(particlesRange);
+        vector2Pool.free(xOffsetRange);
+        vector2Pool.free(yOffsetRange);
+        vector2Pool.free(vxRange);
+        vector2Pool.free(vyRange);
+        vector2Pool.free(velocitySplits);
+        vector2Pool.free(angularVelocityRange);
+        vector2Pool.free(redRange);
+        vector2Pool.free(blueRange);
+        vector2Pool.free(greenRange);
+        vector2Pool.free(alphaRange);
     }
 
     @Override
@@ -121,6 +140,10 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
 
         createParticles();
 
+        if (loops()) {
+            lastLoopTime = TimeUtils.millis();
+        }
+
         Canvas.getInstance().addToLayer(layer, this);
     }
 
@@ -144,7 +167,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     }
 
     protected void loadSprites(String[] textureKeys) {
-
+        // TODO
     }
 
     protected void loadRanges(JsonValue root) {
@@ -204,8 +227,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
 
         float dx = RandomUtils.pickFromRange(xOffsetRange);
         float dy = RandomUtils.pickFromRange(yOffsetRange);
-        position.add(dx, dy);
-        particle.setPosition(position.x, position.y);
+        particle.setPosition(position.x + dx, position.y + dy);
 
         float size = RandomUtils.pickFromRange(sizeRange);
         particle.setSize(size, size);
@@ -226,6 +248,6 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         float a = RandomUtils.pickFromRange(alphaRange);
         particle.setColor(r, g, b, a);
 
-        particle.setReady();
+        particle.setStarted();
     }
 }

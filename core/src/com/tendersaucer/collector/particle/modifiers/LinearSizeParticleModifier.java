@@ -22,7 +22,7 @@ public class LinearSizeParticleModifier extends ParticleModifier {
         float ageToLifeRatio = particle.getAgeToLifeRatio();
         float scaleX = MiscUtils.interpolate(1, scale.x, ageToLifeRatio);
         float scaleY = MiscUtils.interpolate(1, scale.y, ageToLifeRatio);
-        particle.getSprite().setScale(scaleX, scaleY);
+        particle.setScale(scaleX, scaleY);
     }
 
     @Override
