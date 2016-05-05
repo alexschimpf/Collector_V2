@@ -29,6 +29,13 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         isDone = false;
     }
 
+    /**
+     * For any necessary post-construction operations (e.g. listening to events)
+     * @param entityDef
+     */
+    public void init(EntityDefinition entityDef) {
+    }
+
     public static boolean isPlayer(Entity entity) {
         return entity != null && entity.getType().equals(IRoomLoadable.PLAYER_TYPE);
     }
@@ -59,9 +66,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     public void dispose() {
         Globals.getPhysicsWorld().destroyBody(body);
         Canvas.getInstance().remove(this);
-    }
-
-    public void onCreate(EntityDefinition entityDef) {
     }
 
     public String getId() {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,10 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
+import com.tendersaucer.collector.util.ConversionUtils;
 
 /**
  * Created by Alex on 4/30/2016.
@@ -25,13 +28,17 @@ import com.tendersaucer.collector.particle.ParticleEffectManager;
 public class ParticleEffectViewer implements Screen {
 
     private Stage stage;
+    private AssetManager assetManager;
     private String selectedEffectType;
     private final Skin skin;
     private final SpriteBatch spriteBatch;
+    private final Vector3 inputCoords;
 
     public ParticleEffectViewer() {
+        assetManager = new AssetManager();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
+        inputCoords = new Vector3();
     }
 
     @Override
@@ -39,6 +46,10 @@ public class ParticleEffectViewer implements Screen {
         if (Globals.FULLSCREEN_MODE) {
             // TODO: Display mode hack
         }
+
+        // TODO: Load things world-by-world
+        assetManager.loadSounds();
+        assetManager.loadTextures();
 
         ParticleEffectManager.getInstance().loadDefinitions();
 
@@ -107,7 +118,7 @@ public class ParticleEffectViewer implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (selectedEffectType != null) {
-                    Vector2 position = new Vector2(x, y); // TODO: Unit conversion!!!
+                    Vector2 position = ConversionUtils.toWorldCoords(x, y);
                     Vector2 sizeRange = new Vector2(Gdx.graphics.getWidth() / 60,
                             Gdx.graphics.getHeight() / 30);
                     ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType,

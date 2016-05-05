@@ -21,7 +21,7 @@ public final class EntityFactory {
             Class<?> c = Class.forName(className);
             Constructor<?> constructor = c.getConstructor(EntityDefinition.class);
             entity = (Entity)constructor.newInstance(entityDef);
-            entity.onCreate(entityDef);
+            entity.init(entityDef);
         } catch (ClassNotFoundException e) {
             // TODO:
         } catch (NoSuchMethodException e) {
