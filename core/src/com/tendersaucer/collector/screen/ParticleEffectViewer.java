@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,17 +27,13 @@ import com.tendersaucer.collector.util.ConversionUtils;
 public class ParticleEffectViewer implements Screen {
 
     private Stage stage;
-    private AssetManager assetManager;
     private String selectedEffectType;
     private final Skin skin;
     private final SpriteBatch spriteBatch;
-    private final Vector3 inputCoords;
 
     public ParticleEffectViewer() {
-        assetManager = new AssetManager();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
-        inputCoords = new Vector3();
     }
 
     @Override
@@ -48,8 +43,10 @@ public class ParticleEffectViewer implements Screen {
         }
 
         // TODO: Load things world-by-world
+        AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
         assetManager.loadTextures();
+        assetManager.loadTextureAtlas("textures");
 
         ParticleEffectManager.getInstance().loadDefinitions();
 

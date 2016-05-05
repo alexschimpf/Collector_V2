@@ -3,12 +3,14 @@ package com.tendersaucer.collector.particle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
@@ -166,8 +168,12 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         }
     }
 
-    protected void loadSprites(String[] textureKeys) {
-        // TODO
+    protected void loadSprites(String[] textureNames) {
+        for (String textureName : textureNames) {
+            TextureRegion textureRegion =
+                    AssetManager.getInstance().getTextureAtlasRegion("textures", textureName);
+            sprites.add(new Sprite(textureRegion));
+        }
     }
 
     protected void loadRanges(JsonValue root) {

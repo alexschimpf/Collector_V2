@@ -26,7 +26,6 @@ import com.tendersaucer.collector.world.XMLWorldLoadable;
  */
 public final class Driver implements Screen {
 
-    private AssetManager assetManager;
     private final Matrix4 debugMatrix;
     private final SpriteBatch spriteBatch;
     private final Box2DDebugRenderer debugRenderer;
@@ -35,7 +34,6 @@ public final class Driver implements Screen {
         debugMatrix = new Matrix4();
         spriteBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
-        assetManager = new AssetManager();
     }
 
     @Override
@@ -45,8 +43,10 @@ public final class Driver implements Screen {
         }
 
         // TODO: Load things world-by-world
+        AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
         assetManager.loadTextures();
+        assetManager.loadTextureAtlas("textures");
 
         ParticleEffectManager.getInstance().loadDefinitions();
 

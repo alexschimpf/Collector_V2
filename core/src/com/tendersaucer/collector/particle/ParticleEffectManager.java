@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 import com.tendersaucer.collector.event.IRoomLoadBeginListener;
+import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -24,12 +24,12 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
     private static final String CONFIG_FILENAME = "particle.json";
 
     private final Array<ParticleEffect> effects;
-    private final Map<String, Class<?>> modifierClassMap;
+    private final Map<String, Class<? extends ParticleModifier>> modifierClassMap;
     private final Map<String, JsonValue> effectDefinitionMap;
 
     private ParticleEffectManager() {
         effects = new Array<ParticleEffect>();
-        modifierClassMap = new ConcurrentHashMap<String, Class<?>>();
+        modifierClassMap = new ConcurrentHashMap<String, Class<? extends ParticleModifier>>();
         effectDefinitionMap = new ConcurrentHashMap<String, JsonValue>();
     }
 
@@ -68,7 +68,8 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
         for (JsonValue child : root.get("modifiers")) {
             String className = child.asString();
             try {
-                 modifierClassMap.put(root.name, Class.forName(className));
+                 modifierClassMap.put(root.name,
+                         (Class<? extends ParticleModifier>)Class.forName(className));
             } catch (ClassNotFoundException e) {
                 // TODO
             }
