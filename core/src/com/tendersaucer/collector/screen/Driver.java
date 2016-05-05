@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.events.EventManager;
-import com.tendersaucer.collector.events.RoomLoadBeginEvent;
+import com.tendersaucer.collector.event.EventManager;
+import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.IWorldLoadable;
@@ -25,6 +26,7 @@ import com.tendersaucer.collector.world.XMLWorldLoadable;
  */
 public final class Driver implements Screen {
 
+    private AssetManager assetManager;
     private final Matrix4 debugMatrix;
     private final SpriteBatch spriteBatch;
     private final Box2DDebugRenderer debugRenderer;
@@ -33,6 +35,7 @@ public final class Driver implements Screen {
         debugMatrix = new Matrix4();
         spriteBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
+        assetManager = new AssetManager();
     }
 
     @Override
@@ -40,6 +43,10 @@ public final class Driver implements Screen {
         if (Globals.FULLSCREEN_MODE) {
             // TODO: Display mode hack
         }
+
+        // TODO: Load things world-by-world
+        assetManager.loadSounds();
+        assetManager.loadTextures();
 
         ParticleEffectManager.getInstance().loadDefinitions();
 

@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.events;
+package com.tendersaucer.collector.event;
 
 /**
  * Created by Alex on 5/5/2016.

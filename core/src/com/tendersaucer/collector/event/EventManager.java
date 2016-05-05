@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.events;
+package com.tendersaucer.collector.event;
 
 import com.badlogic.gdx.Gdx;
 
@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * See: http://stackoverflow.com/questions/937302/simple-java-message-dispatching-system
+ * Manages most game events and their listeners in one consolidated place
+ * However, some are not handled here (e.g ICollide)
  *
  * Created by Alex on 5/5/2016.
  */
@@ -42,7 +43,10 @@ public final class EventManager {
             listeners.remove(listener);
             eventListeners.put(eventClass, listeners);
         }
+    }
 
+    public <L> void clear(Class<? extends Event<L>> eventClass) {
+        eventListeners.remove(eventClass);
     }
 
     public <L> void notify(Event<L> event) {

@@ -9,9 +9,9 @@ import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
-import com.tendersaucer.collector.events.EventManager;
-import com.tendersaucer.collector.events.RoomLoadBeginEvent;
-import com.tendersaucer.collector.events.RoomLoadEndEvent;
+import com.tendersaucer.collector.event.EventManager;
+import com.tendersaucer.collector.event.RoomLoadBeginEvent;
+import com.tendersaucer.collector.event.RoomLoadEndEvent;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 

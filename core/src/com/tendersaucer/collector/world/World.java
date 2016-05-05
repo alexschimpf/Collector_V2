@@ -5,9 +5,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.CollisionListener;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.events.EventManager;
-import com.tendersaucer.collector.events.WorldLoadBeginEvent;
-import com.tendersaucer.collector.events.WorldLoadEndEvent;
+import com.tendersaucer.collector.event.EventManager;
+import com.tendersaucer.collector.event.WorldLoadBeginEvent;
+import com.tendersaucer.collector.event.WorldLoadEndEvent;
 import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.room.TiledMapRoomLoadable;
 

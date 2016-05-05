@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.events;
+package com.tendersaucer.collector.event;
 
 /**
  * Interface for listening to room load end events

@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
-import com.tendersaucer.collector.events.IRoomLoadBeginListener;
+import com.tendersaucer.collector.event.IRoomLoadBeginListener;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

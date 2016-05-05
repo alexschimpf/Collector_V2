@@ -2,7 +2,7 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.events.IRoomLoadBeginListener;
+import com.tendersaucer.collector.event.IRoomLoadBeginListener;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
