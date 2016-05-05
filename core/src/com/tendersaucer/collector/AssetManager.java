@@ -42,4 +42,16 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
             loadSound(soundFile.name());
         }
     }
+
+    public void unloadTextureAtlas(String name) {
+        unload(TEXTURES_DIR + name + TEXTURE_ATLAS_FORMAT);
+    }
+
+    public void unloadTexture(String name) {
+        unload(TEXTURES_DIR + name + TEXTURE_FORMAT);
+    }
+
+    public void unloadSound(String name) {
+        unload(SOUNDS_DIR + name + SOUND_FORMAT);
+    }
 }
