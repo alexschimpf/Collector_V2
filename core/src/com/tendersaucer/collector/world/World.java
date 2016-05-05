@@ -5,6 +5,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.CollisionListener;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.events.EventManager;
+import com.tendersaucer.collector.events.WorldLoadBeginEvent;
+import com.tendersaucer.collector.events.WorldLoadEndEvent;
 import com.tendersaucer.collector.world.room.Room;
 import com.tendersaucer.collector.world.room.TiledMapRoomLoadable;
 
@@ -23,17 +26,12 @@ public final class World implements IUpdate {
     private String id;
     private String entryRoomId;
     private final com.badlogic.gdx.physics.box2d.World physicsWorld;
-    private final Array<IWorldLoadBeginListener> worldLoadBeginListeners;
-    private final Array<IWorldLoadEndListener> worldLoadEndListeners;
 
     private World() {
         physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, DEFAULT_GRAVITY), true);
 
         com.badlogic.gdx.physics.box2d.World.setVelocityThreshold(0.5f);
         physicsWorld.setContactListener(CollisionListener.getInstance());
-
-        worldLoadBeginListeners = new Array<IWorldLoadBeginListener>();
-        worldLoadEndListeners = new Array<IWorldLoadEndListener>();
     }
 
     public static World getInstance() {
@@ -49,7 +47,7 @@ public final class World implements IUpdate {
     }
 
     public void load(IWorldLoadable loadable) {
-        notifyWorldLoadBeginListeners();
+        EventManager.getInstance().notify(WorldLoadBeginEvent.class);
 
         id = loadable.getId();
         entryRoomId = loadable.getEntryRoomId();
@@ -57,7 +55,7 @@ public final class World implements IUpdate {
         clearPhysicsWorld();
         Room.getInstance().load(new TiledMapRoomLoadable(id, entryRoomId));
 
-        notifyWorldLoadEndListeners();
+        EventManager.getInstance().notify(WorldLoadEndEvent.class);
     }
 
     public com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
@@ -79,30 +77,6 @@ public final class World implements IUpdate {
         return entryRoomId;
     }
 
-    public void clearWorldLoadBeginListeners() {
-        worldLoadBeginListeners.clear();
-    }
-
-    public void addWorldLoadBeginListener(IWorldLoadBeginListener listener) {
-        worldLoadBeginListeners.add(listener);
-    }
-
-    public void removeWorldLoadBeginListener(IWorldLoadBeginListener listener) {
-        worldLoadBeginListeners.removeValue(listener, true);
-    }
-
-    public void clearWorldLoadEndListeners() {
-        worldLoadEndListeners.clear();
-    }
-
-    public void addWorldLoadEndListener(IWorldLoadEndListener listener) {
-        worldLoadEndListeners.add(listener);
-    }
-
-    public void removeWorldLoadEndListener(IWorldLoadEndListener listener) {
-        worldLoadEndListeners.removeValue(listener, true);
-    }
-
     private void clearPhysicsWorld() {
         Iterator<Body> bodiesIter = getBodies().iterator();
         while (bodiesIter.hasNext()) {
@@ -110,18 +84,6 @@ public final class World implements IUpdate {
             physicsWorld.destroyBody(body);
 
             bodiesIter.remove();
-        }
-    }
-
-    private void notifyWorldLoadBeginListeners() {
-        for (IWorldLoadBeginListener listener : worldLoadBeginListeners) {
-            listener.onWorldLoadBegin();
-        }
-    }
-
-    private void notifyWorldLoadEndListeners() {
-        for (IWorldLoadEndListener listener : worldLoadEndListeners) {
-            listener.onWorldLoadEnd();
         }
     }
 }

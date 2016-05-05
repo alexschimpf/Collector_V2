@@ -11,7 +11,7 @@ import com.tendersaucer.collector.world.room.Room;
  */
 public final class Globals {
 
-    public enum State {
+    public enum GameState {
         RUNNING, PAUSED, LOADING
     }
 
@@ -21,10 +21,11 @@ public final class Globals {
     public static final boolean PRINT_FPS = false;
     public static final boolean PACK_TEXTURES = true;
     public static final boolean SHOW_PARTICLE_EFFECT_VIEWER = true;
-    public static State state;
+
+    private static GameState gameState;
 
     private Globals() {
-        state = State.RUNNING;
+        gameState = GameState.RUNNING;
     }
 
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
@@ -35,35 +36,19 @@ public final class Globals {
         return Room.getInstance().getPlayer();
     }
 
-    public static float getTileSize() {
-        return Camera.getInstance().getViewportWidth() / Camera.SCREEN_NUM_TILES_WIDE;
+    public static GameState getGameState() {
+        return gameState;
     }
 
-//    public static Sprite getSprite(String textureKey) {
-//        return getTextureManager().getSprite(textureKey);
-//    }
-//
-//    public static TextureRegion getImageTexture(String textureKey) {
-//        return getTextureManager().getImageTexture(textureKey);
-//    }
-//
-//    public static TextureRegion getImageTexture(String textureKey, int index) {
-//        return getTextureManager().getImageTexture(textureKey, index);
-//    }
-//
-//    public static Array<AtlasRegion> getAnimationTextures(String animationKey) {
-//        return getTextureManager().getAnimationTextures(animationKey);
-//    }
-
     public static boolean isGameRunning() {
-        return state == State.RUNNING;
+        return gameState == GameState.RUNNING;
     }
 
     public static boolean isGamePaused() {
-        return state == State.PAUSED;
+        return gameState == GameState.PAUSED;
     }
 
     public static boolean isGameLoading() {
-        return state == State.LOADING;
+        return gameState == GameState.LOADING;
     }
 }

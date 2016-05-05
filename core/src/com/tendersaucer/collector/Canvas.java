@@ -2,7 +2,7 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.world.room.IRoomLoadBeginListener;
+import com.tendersaucer.collector.events.IRoomLoadBeginListener;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -86,7 +86,7 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
     }
 
     private void checkLayer(int layer) {
-        if (layer < 0 || layer >= NUM_LAYERS) {
+        if (layer < 0 || layer > NUM_LAYERS - 1) {
             throw new IndexOutOfBoundsException("Layer " + layer + " is out of bounds");
         }
     }

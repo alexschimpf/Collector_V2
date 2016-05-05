@@ -1,9 +1,7 @@
 package com.tendersaucer.collector.world.room;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Canvas;
-import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
@@ -11,6 +9,10 @@ import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
+import com.tendersaucer.collector.events.EventManager;
+import com.tendersaucer.collector.events.RoomLoadBeginEvent;
+import com.tendersaucer.collector.events.RoomLoadEndEvent;
+import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
 import java.util.Map;
@@ -28,13 +30,9 @@ public final class Room implements IUpdate {
     private String id;
     private Player player;
     private final Map<String, Entity> entityMap;
-    private final Array<IRoomLoadBeginListener> roomLoadBeginListeners;
-    private final Array<IRoomLoadEndListener> roomLoadEndListeners;
 
     private Room() {
         entityMap = new ConcurrentHashMap<String, Entity>();
-        roomLoadBeginListeners = new Array<IRoomLoadBeginListener>();
-        roomLoadEndListeners = new Array<IRoomLoadEndListener>();
     }
 
     public static Room getInstance() {
@@ -47,7 +45,7 @@ public final class Room implements IUpdate {
     }
 
     public void load(IRoomLoadable roomLoadable) {
-        notifyRoomLoadBeginListeners();
+        EventManager.getInstance().notify(RoomLoadBeginEvent.class);
 
         id = roomLoadable.getId();
 
@@ -88,35 +86,11 @@ public final class Room implements IUpdate {
             fixtureBodyDef.fixtureDef.shape.dispose();
         }
 
-        notifyRoomLoadEndListeners();
+        EventManager.getInstance().notify(RoomLoadEndEvent.class);
     }
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void clearRoomLoadBeginListeners() {
-        roomLoadBeginListeners.clear();
-    }
-
-    public void addRoomLoadBeginListener(IRoomLoadBeginListener listener) {
-        roomLoadBeginListeners.add(listener);
-    }
-
-    public void removeRoomLoadBeginListener(IRoomLoadBeginListener listener) {
-        roomLoadBeginListeners.removeValue(listener, true);
-    }
-
-    public void clearRoomLoadEndListeners() {
-        roomLoadEndListeners.clear();
-    }
-
-    public void addRoomLoadEndListener(IRoomLoadEndListener listener) {
-        roomLoadEndListeners.add(listener);
-    }
-
-    public void removeRoomLoadEndListener(IRoomLoadEndListener listener) {
-        roomLoadEndListeners.removeValue(listener, true);
     }
 
     public String getId() {
@@ -125,17 +99,5 @@ public final class Room implements IUpdate {
 
     private void setPlayer(Player player) {
         this.player = player;
-    }
-
-    private void notifyRoomLoadBeginListeners() {
-        for (IRoomLoadBeginListener listener : roomLoadBeginListeners) {
-            listener.onRoomLoadBegin();
-        }
-    }
-
-    private void notifyRoomLoadEndListeners() {
-        for (IRoomLoadEndListener listener : roomLoadEndListeners) {
-            listener.onRoomLoadEnd();
-        }
     }
 }

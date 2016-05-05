@@ -1,5 +1,7 @@
 package com.tendersaucer.collector;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
 /**
  * Main game camera
  *
@@ -8,9 +10,16 @@ package com.tendersaucer.collector;
 public final class Camera implements IUpdate {
 
     private static final Camera instance = new Camera();
-    public static final int SCREEN_NUM_TILES_WIDE = 18;
+    private static final int TILE_SIZE_PIXELS = 64;
+    private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2 to handle
+    private static final int BASE_VIEWPORT_HEIGHT = 50;
+    public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
+
+    private final OrthographicCamera rawCamera;
 
     private Camera() {
+        rawCamera = new OrthographicCamera();
+        rawCamera.setToOrtho(false, BASE_VIEWPORT_WIDTH, BASE_VIEWPORT_HEIGHT);
     }
 
     public static Camera getInstance() {
@@ -19,26 +28,33 @@ public final class Camera implements IUpdate {
 
     @Override
     public boolean update() {
+        // TODO: Center camera on player!
+        rawCamera.update();
+
         return false;
     }
 
     public com.badlogic.gdx.graphics.Camera getRawCamera() {
-        return null;
+        return rawCamera;
     }
 
-    public void resizeViewport(int width, int height) {
+    public void resizeViewport(float width, float height) {
+        rawCamera.viewportHeight = (rawCamera.viewportWidth / width) * height;
+        rawCamera.position.y = rawCamera.viewportHeight / 2; // TODO: Remove this!
+        rawCamera.update();
     }
 
     public float getViewportWidth() {
-        return 0;
+        return rawCamera.viewportWidth;
     }
 
     public float getViewportHeight() {
-        return 0;
+        return rawCamera.viewportHeight;
     }
 
     public float getTileMapScale() {
-        return 0;
+        float viewportTileSize = getViewportWidth() / NUM_TILES_PER_SCREEN_WIDTH;
+        return viewportTileSize / TILE_SIZE_PIXELS;
     }
 }
 

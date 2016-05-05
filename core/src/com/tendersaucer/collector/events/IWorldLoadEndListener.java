@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.world;
+package com.tendersaucer.collector.events;
 
 /**
  * Interface for listening to world load end events

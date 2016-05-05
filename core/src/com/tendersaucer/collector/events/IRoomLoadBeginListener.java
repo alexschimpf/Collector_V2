@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.world.room;
+package com.tendersaucer.collector.events;
 
 /**
  * Interface for listening to room load beginning events

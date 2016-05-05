@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
-import com.tendersaucer.collector.world.room.IRoomLoadBeginListener;
+import com.tendersaucer.collector.events.IRoomLoadBeginListener;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by Alex on 4/30/2016.
+ * Created by Alex on 4/30/2016.xA
  */
 public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
 

@@ -10,12 +10,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.events.EventManager;
+import com.tendersaucer.collector.events.RoomLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;
 import com.tendersaucer.collector.world.XMLWorldLoadable;
-import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Main update and render logic
@@ -42,9 +43,9 @@ public final class Driver implements Screen {
 
         ParticleEffectManager.getInstance().loadDefinitions();
 
-        Room room = Room.getInstance();
-        room.addRoomLoadBeginListener(Canvas.getInstance());
-        room.addRoomLoadBeginListener(ParticleEffectManager.getInstance());
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
+        eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
         IWorldLoadable worldLoadable = new XMLWorldLoadable("0");
         World.getInstance().load(worldLoadable);

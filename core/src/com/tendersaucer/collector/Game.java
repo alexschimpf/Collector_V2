@@ -11,7 +11,7 @@ import com.tendersaucer.collector.screen.ParticleEffectViewer;
 public final class Game extends com.badlogic.gdx.Game {
 
 	@Override
-	public void create () {
+	public void create() {
 		if (Globals.SHOW_PARTICLE_EFFECT_VIEWER) {
 			setScreen(new ParticleEffectViewer());
 		} else {
