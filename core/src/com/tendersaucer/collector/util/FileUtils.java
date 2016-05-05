@@ -32,4 +32,16 @@ public final class FileUtils {
 
         return path.toString();
     }
+
+    public static String buildFilePathWithExtension(String extension, String... parts) {
+        StringBuilder path = new StringBuilder();
+        for (int i = 0; i < parts.length; i++) {
+            path.append(parts[i]);
+            if (i < parts.length - 1) {
+                path.append("/");
+            }
+        }
+
+        return path.append(".").append(extension).toString();
+    }
 }

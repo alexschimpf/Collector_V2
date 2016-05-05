@@ -9,9 +9,9 @@ import com.tendersaucer.collector.Globals;
 
 public class DesktopLauncher {
 
-	private static final String TEXTURE_PACK_NAME = "game";
-	private static final String TEXTURES_DIR =  "/Users/schimpf1/Desktop/libgdx/Collector/assets/textures";
-	private static final String DESTINATION_DIR = "/Users/schimpf1/Desktop/libgdx/Collector/android/assets";
+	private static final String TEXTURE_PACK_NAME = "textures";
+	private static final String TEXTURES_DIR =  "/Users/Alex/Desktop/libgdx/Collector/assets/textures";
+	private static final String DESTINATION_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/textures";
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -22,7 +22,7 @@ public class DesktopLauncher {
 		if(Globals.PACK_TEXTURES) {
 			TexturePacker.Settings settings = new Settings();
 			settings.duplicatePadding = true;
-			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, "game");
+			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, TEXTURE_PACK_NAME);
 		} else {
 			new LwjglApplication(new Game(), config);
 		}

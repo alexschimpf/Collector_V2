@@ -22,6 +22,7 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
     private static final String CONFIG_FILENAME = "particle.json";
+    private static final String MODIFIERS_CLASS_PATH = "com.tendersaucer.collector.particle.modifiers.";
 
     private final Array<ParticleEffect> effects;
     private final Map<String, Class<? extends ParticleModifier>> modifierClassMap;
@@ -66,12 +67,12 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
 
         // Load modifier definitions.
         for (JsonValue child : root.get("modifiers")) {
-            String className = child.asString();
+            String className = MODIFIERS_CLASS_PATH + child.asString();
             try {
-                 modifierClassMap.put(root.name,
+                 modifierClassMap.put(child.name,
                          (Class<? extends ParticleModifier>)Class.forName(className));
             } catch (ClassNotFoundException e) {
-                // TODO
+                Gdx.app.log("particle", e.toString());
             }
         }
 
