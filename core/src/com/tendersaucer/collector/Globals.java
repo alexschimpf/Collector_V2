@@ -16,7 +16,7 @@ public final class Globals {
     }
 
     public static final boolean ENABLE_MUSIC = true;
-    public static final boolean FULLSCREEN_MODE = true;
+    public static final boolean FULLSCREEN_MODE = false;
     public static final boolean DEBUG_PHYSICS = false;
     public static final boolean PRINT_FPS = false;
     public static final boolean PACK_TEXTURES = false;

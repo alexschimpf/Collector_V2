@@ -12,18 +12,36 @@ public final class ConversionUtils {
     private ConversionUtils() {
     }
 
+    public static Vector2 toWorldCoords(float x, float y, float width, float height) {
+        return toWorldCoords(x + (width / 2), y + (height / 2));
+    }
+
+    public static Vector2 toScreenCoords(float x, float y, float width, float height) {
+        return toScreenCoords(x + (width / 2), y + (height / 2));
+    }
+
+    public static Vector2 toWorldCoords(float x, float y, float size) {
+        return toWorldCoords(x, y, size, size);
+    }
+
+    public static Vector2 toScreenCoords(float x, float y, float size) {
+        return toScreenCoords(x, y, size, size);
+    }
+
     public static Vector2 toWorldCoords(float x, float y) {
-        Vector3 screenCoords = Vector3Pool.getInstance().obtain(x, y, 0);
-        Vector3 worldCoords = Camera.getInstance().getRawCamera().unproject(screenCoords);
-        Vector3Pool.getInstance().free(screenCoords);
-        return new Vector2(worldCoords.x, worldCoords.y);
+        Camera camera = Camera.getInstance();
+        Vector3 coords = Vector3Pool.getInstance().obtain(x, y, 0);
+        camera.getRawCamera().unproject(coords);
+        Vector3Pool.getInstance().free(coords);
+        return new Vector2(coords.x, camera.getViewportHeight() - coords.y);
     }
 
     public static Vector2 toScreenCoords(float x, float y) {
-        Vector3 worldCoords = Vector3Pool.getInstance().obtain(x, y, 0);
-        Vector3 screenCoords = Camera.getInstance().getRawCamera().project(worldCoords);
-        Vector3Pool.getInstance().free(worldCoords);
-        return new Vector2(screenCoords.x, screenCoords.y);
+        Camera camera = Camera.getInstance();
+        Vector3 coords = Vector3Pool.getInstance().obtain(x, y, 0);
+        camera.getRawCamera().project(coords);
+        Vector3Pool.getInstance().free(coords);
+        return new Vector2(coords.x, camera.getViewportHeight() - coords.y);
     }
 
     public static Vector2 toWorldCoords(Vector2 screenCoords) {

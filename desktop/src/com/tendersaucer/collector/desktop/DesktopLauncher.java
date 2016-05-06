@@ -16,8 +16,14 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.vSyncEnabled = true;
+		//config.fullscreen = Globals.FULLSCREEN_MODE;
 		config.resizable = false;
 		config.title = "Collector";
+
+		if (!config.fullscreen) {
+			config.width = 1280;
+			config.height = 1280;
+		}
 
 		if(Globals.PACK_TEXTURES) {
 			TexturePacker.Settings settings = new Settings();

@@ -19,7 +19,7 @@ public final class Camera implements IUpdate {
 
     private Camera() {
         rawCamera = new OrthographicCamera();
-        rawCamera.setToOrtho(false, BASE_VIEWPORT_WIDTH, BASE_VIEWPORT_HEIGHT);
+        rawCamera.setToOrtho(true, BASE_VIEWPORT_WIDTH, BASE_VIEWPORT_HEIGHT);
     }
 
     public static Camera getInstance() {

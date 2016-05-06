@@ -54,6 +54,10 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
 
     @Override
     public void onRoomLoadBegin() {
+        clearLiveEffects();
+    }
+
+    public void clearLiveEffects() {
         for (ParticleEffect effect : effects) {
             effect.dispose();
         }

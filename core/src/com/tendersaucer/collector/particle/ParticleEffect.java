@@ -172,7 +172,8 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         for (String textureName : textureNames) {
             TextureRegion textureRegion =
                     AssetManager.getInstance().getTextureAtlasRegion("textures", textureName);
-            sprites.add(new Sprite(textureRegion));
+            Sprite sprite = new Sprite(textureRegion);
+            sprites.add(sprite);
         }
     }
 

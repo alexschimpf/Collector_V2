@@ -1,10 +1,14 @@
 package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,6 +24,7 @@ import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
+import com.tendersaucer.collector.util.Vector2Pool;
 
 /**
  * Created by Alex on 4/30/2016.
@@ -28,19 +33,24 @@ public class ParticleEffectViewer implements Screen {
 
     private Stage stage;
     private String selectedEffectType;
+    private BitmapFont font;
+    private float sizeScale;
     private final Skin skin;
     private final SpriteBatch spriteBatch;
 
     public ParticleEffectViewer() {
+        if (Globals.FULLSCREEN_MODE) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
+
+        sizeScale = 1;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void show() {
-        if (Globals.FULLSCREEN_MODE) {
-            // TODO: Display mode hack
-        }
+        loadFont();
 
         // TODO: Load things world-by-world.
         // TODO: Do loading asynchronously.
@@ -95,7 +105,6 @@ public class ParticleEffectViewer implements Screen {
     private void update() {
         Camera.getInstance().update();
         ParticleEffectManager.getInstance().update();
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
     }
 
@@ -103,12 +112,16 @@ public class ParticleEffectViewer implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        Gdx.graphics.setTitle("ParticleEffectViewer (x" + sizeScale + ")");
+
         OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin(); {
             Canvas.getInstance().render(spriteBatch);
         } spriteBatch.end();
+
+        stage.draw();
     }
 
     private void setStage() {
@@ -117,11 +130,39 @@ public class ParticleEffectViewer implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (selectedEffectType != null) {
+                    if (y > .8 * Gdx.graphics.getHeight()) {
+                        return true;
+                    }
+
                     Vector2 position = ConversionUtils.toWorldCoords(x, y);
-                    Vector2 sizeRange = new Vector2(Gdx.graphics.getWidth() / 60,
-                            Gdx.graphics.getHeight() / 30);
+                    Camera camera = Camera.getInstance();
+
+                    float minSize = (camera.getViewportWidth() / 30) * sizeScale;
+                    float maxSize = (camera.getViewportHeight() / 20) * sizeScale;
+                    Vector2 sizeRange = Vector2Pool.getInstance().obtain(minSize, maxSize);
                     ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType,
                             position, sizeRange, 5);
+                    Vector2Pool.getInstance().free(sizeRange);
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean keyDown(InputEvent event, int keyCode) {
+                switch(keyCode) {
+                    case Keys.ESCAPE:
+                        Gdx.app.exit();
+                        break;
+                    case Keys.Z:
+                        sizeScale = Math.max(0.1f, sizeScale - 0.1f);
+                        break;
+                    case Keys.X:
+                        sizeScale += 0.1f;
+                        break;
+                    case Keys.C:
+                        ParticleEffectManager.getInstance().clearLiveEffects();
+                        break;
                 }
 
                 return true;
@@ -136,10 +177,8 @@ public class ParticleEffectViewer implements Screen {
         final float screenHeight = Gdx.graphics.getHeight();
 
         final SelectBox<String> dropdown = new SelectBox<String>(skin);
-        dropdown.setSize(screenWidth, screenHeight / 8);
-
-        float padding = screenWidth / 10;
-        dropdown.setPosition(padding, screenHeight - dropdown.getHeight() - padding);
+        dropdown.setSize(screenWidth, screenHeight / 10);
+        dropdown.setPosition(0, screenHeight - dropdown.getHeight());
 
         dropdown.addListener(new ChangeListener() {
             @Override
@@ -151,7 +190,19 @@ public class ParticleEffectViewer implements Screen {
         // Load dropdown.
         Array<String> effectTypes = ParticleEffectManager.getInstance().getParticleEffectTypes();
         dropdown.setItems(effectTypes);
+        dropdown.getStyle().font = font;
 
         stage.addActor(dropdown);
+    }
+
+    private  void loadFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+                Gdx.files.internal("fonts/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter param =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
+        param.size = Gdx.graphics.getHeight() / 16;
+        param.color = Color.WHITE;
+        font = generator.generateFont(param);
+        generator.dispose();
     }
 }

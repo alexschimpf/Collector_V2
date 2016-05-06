@@ -26,7 +26,6 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         duration = 0;
         velocity = new Vector2(0, 0);
         sprite = new Sprite();
-        sprite.setOriginCenter();
     }
 
     @Override
@@ -35,7 +34,6 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         duration = 0;
         velocity.set(0, 0);
         sprite = new Sprite();
-        sprite.setOriginCenter();
     }
 
     @Override
@@ -68,6 +66,7 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
 
     public void setSprite(Sprite sprite) {
         this.sprite.set(sprite);
+        resetOrigin();
     }
 
     public void setPosition(float x, float y) {
@@ -76,10 +75,12 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
 
     public void setSize(float width, float height) {
         sprite.setSize(width, height);
+        resetOrigin();
     }
 
     public void setScale(float scaleX, float scaleY) {
         sprite.setScale(scaleX, scaleY);
+        resetOrigin();
     }
 
     public void setVelocity(float vx, float vy) {
@@ -172,5 +173,9 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
 
     public Color getColor() {
         return sprite.getColor();
+    }
+
+    private void resetOrigin() {
+        setOrigin(sprite.getWidth() / 2 , sprite.getHeight() / 2);
     }
 }
