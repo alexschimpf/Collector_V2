@@ -15,8 +15,9 @@ import com.tendersaucer.collector.animation.Animation;
 public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
 
     private static final AssetManager instance = new AssetManager();
-    private static final String TEXTURES_DIR = "textures";
-    private static final String SOUNDS_DIR = "sounds";
+    private static final String TEXTURE_DIR = "textures";
+    private static final String TEXTURE_ATLAS_DIR = "texture_atlases";
+    private static final String SOUND_DIR = "sounds";
     private static final String TEXTURE_EXTENSION = "png";
     private static final String TEXTURE_ATLAS_EXTENSION = "atlas";
     private static final String SOUND_EXTENSION = "mp3";
@@ -30,21 +31,21 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
 
     public void loadTextureAtlas(String name) {
         load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURES_DIR, name), TextureAtlas.class);
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name), TextureAtlas.class);
     }
 
     public void loadTexture(String name) {
         load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_EXTENSION, TEXTURES_DIR, name), Texture.class);
+                TEXTURE_EXTENSION, TEXTURE_DIR, name), Texture.class);
     }
 
     public void loadSound(String name) {
         load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUNDS_DIR, name), Sound.class);
+                SOUND_EXTENSION, SOUND_DIR, name), Sound.class);
     }
 
     public void loadTextures() {
-        FileHandle dir = Gdx.files.internal(TEXTURES_DIR);
+        FileHandle dir = Gdx.files.internal(TEXTURE_DIR);
         for (FileHandle textureFile : dir.list()) {
             if (textureFile.extension().equals(TEXTURE_EXTENSION)) {
                 loadTexture(textureFile.nameWithoutExtension());
@@ -53,7 +54,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
     }
 
     public void loadSounds() {
-        FileHandle dir = Gdx.files.internal(SOUNDS_DIR);
+        FileHandle dir = Gdx.files.internal(SOUND_DIR);
         for (FileHandle soundFile : dir.list()) {
             loadSound(soundFile.nameWithoutExtension());
         }
@@ -61,22 +62,22 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
 
     public void unloadTextureAtlas(String name) {
         unload(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURES_DIR, name));
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_DIR, name));
     }
 
     public void unloadTexture(String name) {
         unload(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_EXTENSION, TEXTURES_DIR, name));
+                TEXTURE_EXTENSION, TEXTURE_DIR, name));
     }
 
     public void unloadSound(String name) {
         unload(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUNDS_DIR, name));
+                SOUND_EXTENSION, SOUND_DIR, name));
     }
 
     public TextureAtlas getTextureAtlas(String name) {
         return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURES_DIR, name), TextureAtlas.class);
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name), TextureAtlas.class);
     }
 
     public TextureRegion getTextureAtlasRegion(String atlasName, String regionName) {
@@ -93,11 +94,11 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
 
     public TextureRegion getTextureRegion(String name) {
         return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_EXTENSION, TEXTURES_DIR, name), TextureRegion.class);
+                TEXTURE_EXTENSION, TEXTURE_DIR, name), TextureRegion.class);
     }
 
     public Sound getSound(String name) {
         return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUNDS_DIR, name), Sound.class);
+                SOUND_EXTENSION, SOUND_DIR, name), Sound.class);
     }
 }

@@ -12,18 +12,20 @@ public class Path {
     private float totalDistance;
 
     // Each vector represents a "leg" (i.e. (dx, dy)) of the path.
-    private final Array<Vector2> points;
+    private final Array<Vector2> legs;
 
     public Path() {
-        points = new Array<Vector2>();
+        legs = new Array<Vector2>();
     }
 
-    public Path(Array<Vector2> points) {
-        this.points = points;
-        setPath(points);
+    public Path(Array<Vector2> legs) {
+        this();
+
+        setPath(legs);
     }
 
     public Vector2 getVelocity(float duration, float age) {
+        // Keep time in seconds.
         duration /= 1000;
         age /= 1000;
 
@@ -31,13 +33,10 @@ public class Path {
         float distanceCovered = speed * age;
 
         Vector2 velocity = new Vector2();
-        for (int i = 1; i < points.size; i++) {
-            Vector2 lastPoint = points.get(i - 1);
-            Vector2 currPoint = points.get(i);
-
-            distanceCovered -= MiscUtils.dist(lastPoint, currPoint);
+        for (Vector2 leg : legs) {
+            distanceCovered -= leg.len();
             if (distanceCovered < 0) {
-                float theta = currPoint.angleRad(lastPoint);
+                float theta = leg.angleRad();
                 velocity.set(MathUtils.cos(theta), MathUtils.sin(theta)).scl(speed);
                 break;
             }
@@ -46,19 +45,19 @@ public class Path {
         return velocity;
     }
 
-    public void setPath(Array<Vector2> points) {
-        this.points.clear();
-        this.points.add(new Vector2(0, 0));
-        this.points.addAll(points);
+    public void setPath(Array<Vector2> legs) {
+        this.legs.clear();
+        this.legs.add(new Vector2(0, 0));
+        this.legs.addAll(legs);
 
         totalDistance = 0;
-        for (int i = 1; i < this.points.size; i++) {
-            totalDistance += MiscUtils.dist(this.points.get(i-1), this.points.get(i));
+        for (int i = 0; i < this.legs.size; i++) {
+            totalDistance += this.legs.get(i).len();
         }
     }
 
-    public Array<Vector2> getPoints() {
-        return points;
+    public Array<Vector2> getLegs() {
+        return legs;
     }
 
     public float getTotalDistance() {

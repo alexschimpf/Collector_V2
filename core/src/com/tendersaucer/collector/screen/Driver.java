@@ -39,10 +39,6 @@ public final class Driver implements Screen {
 
     @Override
     public void show() {
-        if (Globals.FULLSCREEN_MODE) {
-            // TODO: Display mode hack
-        }
-
         // TODO: Load things world-by-world.
         // TODO: Do loading asynchronously.
         AssetManager assetManager = AssetManager.getInstance();

@@ -26,12 +26,11 @@ public class LinearPathParticleModifier extends ParticleModifier {
 
     @Override
     protected void load(JsonValue json) {
-        path = new Path();
-        Array<Vector2> points = new Array<Vector2>();
-        for (JsonValue pointVal : json.get("points")) {
-            points.add(JsonUtils.toVector2(pointVal));
+        Array<Vector2> legs = new Array<Vector2>();
+        for (JsonValue leg : json.get("legs")) {
+            legs.add(JsonUtils.toVector2(leg));
         }
 
-        path.setPath(points);
+        path = new Path(legs);
     }
 }

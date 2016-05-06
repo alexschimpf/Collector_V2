@@ -56,8 +56,8 @@ public class ParticleEffectViewer implements Screen {
         // TODO: Load things world-by-world.
         // TODO: Do loading asynchronously.
         AssetManager assetManager = AssetManager.getInstance();
-        // assetManager.loadSounds();
-        // assetManager.loadTextures();
+        assetManager.loadSounds();
+        assetManager.loadTextures();
         assetManager.loadTextureAtlas("textures");
         assetManager.finishLoading();
 
