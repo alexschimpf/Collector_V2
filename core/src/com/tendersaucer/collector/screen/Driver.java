@@ -101,7 +101,7 @@ public final class Driver implements Screen {
     }
 
     private void render(){
-        Gdx.gl.glClearColor((240 / 255.0f), (250 / 255.0f), (250 / 255.0f), 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();

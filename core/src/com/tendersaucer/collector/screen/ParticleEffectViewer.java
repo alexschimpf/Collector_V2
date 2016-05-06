@@ -53,8 +53,6 @@ public class ParticleEffectViewer implements Screen {
     public void show() {
         loadFont();
 
-        // TODO: Load things world-by-world.
-        // TODO: Do loading asynchronously.
         AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
         assetManager.loadTextures();
