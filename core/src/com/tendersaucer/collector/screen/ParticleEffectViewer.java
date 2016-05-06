@@ -24,6 +24,7 @@ import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
+import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.util.Vector2Pool;
 
 /**
@@ -68,10 +69,6 @@ public class ParticleEffectViewer implements Screen {
 
     @Override
     public void render(float delta) {
-        if(Globals.PRINT_FPS) {
-            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
-        }
-
         update();
         render();
     }
@@ -109,6 +106,10 @@ public class ParticleEffectViewer implements Screen {
     }
 
     private void render() {
+        if(Globals.PRINT_DEBUG_INFO) {
+            Debug.printDebugInfo();
+        }
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

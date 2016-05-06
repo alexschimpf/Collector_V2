@@ -15,6 +15,7 @@ import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.ui.HUD;
+import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;
 import com.tendersaucer.collector.world.XMLWorldLoadable;
@@ -62,8 +63,8 @@ public final class Driver implements Screen {
 
     @Override
     public void render(float delta) {
-        if(Globals.PRINT_FPS) {
-            Gdx.app.log("FPS", "" + Gdx.graphics.getFramesPerSecond());
+        if(Globals.PRINT_DEBUG_INFO) {
+            Debug.printDebugInfo();
         }
 
         update();

@@ -123,6 +123,10 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
                 particlePool.free(particle);
             } else {
                 for (ParticleModifier modifier : modifiers) {
+                    if (modifier == null) {
+                        continue;
+                    }
+
                     modifier.modify(particle);
                 }
             }

@@ -121,13 +121,13 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
             Constructor<?> constructor = c.getConstructor(JsonValue.class);
             modifier = (ParticleModifier)constructor.newInstance(json);
         } catch (NoSuchMethodException e) {
-            // TODO:
+            Gdx.app.log("particle", e.toString());
         } catch (InstantiationException e) {
-            // TODO:
+            Gdx.app.log("particle", e.toString());
         } catch (IllegalAccessException e) {
-            // TODO:
+            Gdx.app.log("particle", e.toString());
         } catch (InvocationTargetException e) {
-            // TODO:
+            Gdx.app.log("particle", e.toString());
         }
 
         return modifier;
