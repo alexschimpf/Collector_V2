@@ -34,7 +34,7 @@ public final class Camera implements IUpdate {
         return false;
     }
 
-    public com.badlogic.gdx.graphics.Camera getRawCamera() {
+    public OrthographicCamera getRawCamera() {
         return rawCamera;
     }
 

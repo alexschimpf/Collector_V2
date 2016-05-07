@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.tendersaucer.collector.screen.IRender;
 
 /**
@@ -15,14 +17,21 @@ import com.tendersaucer.collector.screen.IRender;
 public final class TiledMapLayer implements IRender {
 
     private final MapLayer rawLayer;
+    private final OrthogonalTiledMapRenderer renderer;
 
-    public TiledMapLayer(MapLayer rawLayer) {
-        this.rawLayer = rawLayer;
+    public TiledMapLayer(OrthogonalTiledMapRenderer renderer, MapLayer rawLayer) {
+        this.renderer = renderer;
+
+        if (rawLayer instanceof TiledMapTileLayer) {
+            this.rawLayer = flipLayer((TiledMapTileLayer)rawLayer);
+        } else {
+            this.rawLayer = rawLayer;
+        }
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        // Need to render with OrthogonalTiledMapRenderer?
+        renderer.renderTileLayer((TiledMapTileLayer)rawLayer);
     }
 
     public MapLayer getRawLayer() {
@@ -106,5 +115,18 @@ public final class TiledMapLayer implements IRender {
 
     public float getFloatProperty(MapObject object, String key) {
         return Float.parseFloat(getStringProperty(object, key));
+    }
+
+    private MapLayer flipLayer(TiledMapTileLayer rawLayer) {
+        for (int x = 0; x < rawLayer.getWidth(); x++) {
+            for (int y = 0; y < rawLayer.getHeight(); y++) {
+                TiledMapTileLayer.Cell cell = rawLayer.getCell(x, y);
+                if (cell != null) {
+                    cell.setFlipVertically(true);
+                }
+            }
+        }
+
+        return rawLayer;
     }
 }

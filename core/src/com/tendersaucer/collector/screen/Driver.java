@@ -25,14 +25,20 @@ import com.tendersaucer.collector.world.XMLWorldLoadable;
  */
 public final class Driver implements Screen {
 
+    public static Driver instance = new Driver();
+
     private final Matrix4 debugMatrix;
     private final SpriteBatch spriteBatch;
     private final Box2DDebugRenderer debugRenderer;
 
-    public Driver() {
+    private Driver() {
         debugMatrix = new Matrix4();
         spriteBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
+    }
+
+    public static Driver getInstance() {
+        return instance;
     }
 
     @Override
@@ -89,6 +95,10 @@ public final class Driver implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return spriteBatch;
     }
 
     private void update() {

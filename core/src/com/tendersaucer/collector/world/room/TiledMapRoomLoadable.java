@@ -10,17 +10,19 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
-import com.tendersaucer.collector.screen.Canvas;
-import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
+import com.tendersaucer.collector.screen.Canvas;
+import com.tendersaucer.collector.screen.Driver;
+import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.FileUtils;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
@@ -105,9 +107,13 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void processLayers() {
+        final OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(tiledMap,
+                Camera.getInstance().getTileMapScale(), Driver.getInstance().getSpriteBatch());
+        renderer.setView(Camera.getInstance().getRawCamera());
+
         Array<TiledMapLayer> layersToProcess = new Array<TiledMapLayer>();
         for(MapLayer layer : tiledMap.getLayers()) {
-            TiledMapLayer layerWrapper = new TiledMapLayer(layer);
+            TiledMapLayer layerWrapper = new TiledMapLayer(renderer, layer);
 
             // Bodies must exist before entity objects.
             if (layerWrapper.getName().equals(BODIES_LAYER)) {

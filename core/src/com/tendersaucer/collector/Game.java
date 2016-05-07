@@ -15,7 +15,7 @@ public final class Game extends com.badlogic.gdx.Game {
 		if (Globals.SHOW_PARTICLE_EFFECT_VIEWER) {
 			setScreen(new ParticleEffectViewer());
 		} else {
-			setScreen(new Driver());
+			setScreen(Driver.getInstance());
 		}
 	}
 }
