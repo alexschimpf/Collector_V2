@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -37,6 +36,23 @@ import java.util.Map;
  * Created by Alex on 4/8/2016.
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
+
+    private static final String TYPE_PROP = "type";
+    private static final String LAYER_POS_PROP = "layer_pos";
+    private static final String X_PROP = "x";
+    private static final String Y_PROP = "y";
+    private static final String WIDTH_PROP = "width";
+    private static final String HEIGHT_PROP = "height";
+    private static final String BODY_WIDTH_PROP = "body_width";
+    private static final String BODY_TYPE_PROP = "body_type";
+    private static final String KINEMATIC_BODY_TYPE = "kinematic";
+    private static final String DYNAMIC_BODY_TYPE = "dynamic";
+    private static final String STATIC_BODY_TYPE = "static";
+    private static final String BODY_HEIGHT_PROP = "body_height";
+    private static final String BODY_SKELETON_ID_PROP = "body_skeleton_id";
+    private static final String BODY_SKELETON_TYPE = "body_skeleton";
+    private static final String PLAYER_TYPE = "player";
+    private static final String BODIES_LAYER = "bodies";
 
     private final String id;
     private final String filename;
@@ -92,22 +108,19 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     private void processLayers() {
         Array<TiledMapLayer> layersToProcess = new Array<TiledMapLayer>();
         for(MapLayer layer : tiledMap.getLayers()) {
-            if((layer instanceof TiledMapTileLayer)) {
-                TiledMapTileLayer tileLayer = (TiledMapTileLayer)layer;
-                TiledMapLayer layerWrapper = new TiledMapLayer(tileLayer);
+            TiledMapLayer layerWrapper = new TiledMapLayer(layer);
 
-                // Bodies must exist before entity objects.
-                if (layerWrapper.getName().equals(BODIES_LAYER)) {
-                    processLayer(layerWrapper);
-                } else {
-                    int layerPos = layerWrapper.getIntProperty(LAYER_POS_PROP);
-                    if (!isLayerPosValid(layerPos)) {
-                        throw new InvalidConfigException(filename, LAYER_POS_PROP, layerPos);
-                    }
-
-                    layersToProcess.add(layerWrapper);
-                    canvasMap.put(layerWrapper, layerPos);
+            // Bodies must exist before entity objects.
+            if (layerWrapper.getName().equals(BODIES_LAYER)) {
+                processLayer(layerWrapper);
+            } else {
+                int layerPos = layerWrapper.getIntProperty(LAYER_POS_PROP);
+                if (!isLayerPosValid(layerPos)) {
+                    throw new InvalidConfigException(filename, LAYER_POS_PROP, layerPos);
                 }
+
+                layersToProcess.add(layerWrapper);
+                canvasMap.put(layerWrapper, layerPos);
             }
         }
 
@@ -124,13 +137,15 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             if (object instanceof TextureMapObject) {
                 entities.add((TextureMapObject)object);
             } else {
-                String type = layer.getStringProperty(object, TYPE_PROP);
-                if (isFreeBody(type)) {
+                if (!layer.propertyExists(object, TYPE_PROP)) {
                     freeBodies.add(object);
-                } else if (isBodySkeleton(type)) {
-                    bodySkeletonMap.put(object.getName(), object);
                 } else {
-                    throw new InvalidConfigException(filename, TYPE_PROP, type);
+                    String type = layer.getStringProperty(object, TYPE_PROP);
+                    if (isBodySkeleton(type)) {
+                        bodySkeletonMap.put(object.getName(), object);
+                    } else {
+                        throw new InvalidConfigException(filename, TYPE_PROP, type);
+                    }
                 }
             }
         }
@@ -244,10 +259,6 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private boolean isLayerPosValid(int layerPos) {
         return layerPos > -1 && layerPos < Canvas.NUM_LAYERS;
-    }
-
-    private boolean isFreeBody(String type) {
-        return type == null;
     }
 
     private boolean isBodySkeleton(String type) {

@@ -13,8 +13,4 @@ public final class MiscUtils {
     public static float interpolate(float start, float end, float ratio) {
         return start + ((end - start) * ratio);
     }
-
-    public static float bound(float val, float lower, float upper) {
-        return val < lower ? lower : (val > upper ? upper : val);
-    }
 }

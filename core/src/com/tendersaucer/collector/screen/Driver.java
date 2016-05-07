@@ -39,8 +39,8 @@ public final class Driver implements Screen {
 
     @Override
     public void show() {
-        // TODO: Load things world-by-world.
-        // TODO: Do loading asynchronously.
+        // TODO: Load world-by-world.
+        // TODO: Load asynchronously.
         AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
         assetManager.loadTextures();
@@ -95,13 +95,13 @@ public final class Driver implements Screen {
 
     private void update() {
         Camera.getInstance().update();
-        World.getInstance().update();
         HUD.getInstance().update();
+        World.getInstance().update();
         ParticleEffectManager.getInstance().update();
     }
 
     private void render(){
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();

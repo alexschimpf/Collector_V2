@@ -13,6 +13,8 @@ import java.io.IOException;
  */
 public class XMLWorldLoadable implements IWorldLoadable {
 
+    protected static final String ENTRY_ROOM_ID_PROP = "entry_room_id";
+
     protected String id;
     protected String entryRoomId;
 

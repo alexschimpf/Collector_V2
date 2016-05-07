@@ -10,9 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -33,10 +31,9 @@ import com.tendersaucer.collector.util.Vector2Pool;
 public class ParticleEffectViewer implements Screen {
 
     private Stage stage;
-    private String selectedEffectType;
     private BitmapFont font;
-    private float sizeScale;
     private final Skin skin;
+    private final InputListener inputListener;
     private final SpriteBatch spriteBatch;
 
     public ParticleEffectViewer() {
@@ -44,9 +41,9 @@ public class ParticleEffectViewer implements Screen {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
 
-        sizeScale = 1;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
+        inputListener = new InputListener();
     }
 
     @Override
@@ -111,7 +108,7 @@ public class ParticleEffectViewer implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Gdx.graphics.setTitle("ParticleEffectViewer (x" + sizeScale + ")");
+        Gdx.graphics.setTitle("ParticleEffectViewer (x" + inputListener.getSizeScale() + ")");
 
         OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -125,49 +122,7 @@ public class ParticleEffectViewer implements Screen {
 
     private void setStage() {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        stage.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (selectedEffectType != null) {
-                    if (y > .8 * Gdx.graphics.getHeight()) {
-                        return true;
-                    }
-
-                    Vector2 position = ConversionUtils.toWorldCoords(x, y);
-                    Camera camera = Camera.getInstance();
-
-                    float minSize = (camera.getViewportWidth() / 30) * sizeScale;
-                    float maxSize = (camera.getViewportHeight() / 20) * sizeScale;
-                    Vector2 sizeRange = Vector2Pool.getInstance().obtain(minSize, maxSize);
-                    ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType,
-                            position, sizeRange, 5);
-                    Vector2Pool.getInstance().free(sizeRange);
-                }
-
-                return true;
-            }
-
-            @Override
-            public boolean keyDown(InputEvent event, int keyCode) {
-                switch(keyCode) {
-                    case Keys.ESCAPE:
-                        Gdx.app.exit();
-                        break;
-                    case Keys.Z:
-                        sizeScale = Math.max(0.1f, sizeScale - 0.1f);
-                        break;
-                    case Keys.X:
-                        sizeScale += 0.1f;
-                        break;
-                    case Keys.C:
-                        ParticleEffectManager.getInstance().clearLiveEffects();
-                        break;
-                }
-
-                return true;
-            }
-        });
-
+        stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -182,7 +137,7 @@ public class ParticleEffectViewer implements Screen {
         dropdown.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedEffectType = dropdown.getSelected();
+                inputListener.setSelectedEffectType(dropdown.getSelected());
             }
         });
 
@@ -203,5 +158,66 @@ public class ParticleEffectViewer implements Screen {
         param.color = Color.WHITE;
         font = generator.generateFont(param);
         generator.dispose();
+    }
+
+    private static final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener {
+
+        private float sizeScale = 1;
+        private String selectedEffectType;
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            if (selectedEffectType != null) {
+                if (y > .8 * Gdx.graphics.getHeight()) {
+                    return true;
+                }
+
+                Vector2 position = ConversionUtils.toWorldCoords(x, y);
+                Camera camera = Camera.getInstance();
+
+                float minSize = (camera.getViewportWidth() / 30) * sizeScale;
+                float maxSize = (camera.getViewportHeight() / 20) * sizeScale;
+                Vector2 sizeRange = Vector2Pool.getInstance().obtain(minSize, maxSize);
+                ParticleEffectManager.getInstance().beginParticleEffect(selectedEffectType,
+                        position, sizeRange, 5);
+                Vector2Pool.getInstance().free(sizeRange);
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean keyDown(InputEvent event, int keyCode) {
+            switch(keyCode) {
+                case Keys.ESCAPE:
+                    Gdx.app.exit();
+                    break;
+                case Keys.Z:
+                    sizeScale = Math.max(0.1f, sizeScale - 0.1f);
+                    break;
+                case Keys.X:
+                    sizeScale += 0.1f;
+                    break;
+                case Keys.C:
+                    ParticleEffectManager.getInstance().clearLiveEffects();
+                    break;
+                case Keys.M:
+                    Globals.ENABLE_MUSIC = !Globals.ENABLE_MUSIC;
+                    break;
+                case Keys.D:
+                    Globals.PRINT_DEBUG_INFO = !Globals.PRINT_DEBUG_INFO;
+                    break;
+            }
+
+            return true;
+        }
+
+        public float getSizeScale() {
+            return sizeScale;
+        }
+
+        public void setSelectedEffectType(String selectedEffectType) {
+            this.selectedEffectType = selectedEffectType;
+        }
     }
 }

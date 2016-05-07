@@ -1,10 +1,10 @@
 package com.tendersaucer.collector.util;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.tendersaucer.collector.IRender;
 
 /**
@@ -14,9 +14,9 @@ import com.tendersaucer.collector.IRender;
  */
 public final class TiledMapLayer implements IRender {
 
-    private final TiledMapTileLayer rawLayer;
+    private final MapLayer rawLayer;
 
-    public TiledMapLayer(TiledMapTileLayer rawLayer) {
+    public TiledMapLayer(MapLayer rawLayer) {
         this.rawLayer = rawLayer;
     }
 
@@ -25,7 +25,7 @@ public final class TiledMapLayer implements IRender {
         // Need to render with OrthogonalTiledMapRenderer?
     }
 
-    public TiledMapTileLayer getRawLayer() {
+    public MapLayer getRawLayer() {
         return rawLayer;
     }
 

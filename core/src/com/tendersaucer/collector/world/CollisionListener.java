@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.world;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;

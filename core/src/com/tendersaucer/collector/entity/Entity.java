@@ -5,11 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.ICollide;
+import com.tendersaucer.collector.world.ICollide;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.world.room.IRoomLoadable;
 
 /**
  * Abstract entity
@@ -17,6 +16,8 @@ import com.tendersaucer.collector.world.room.IRoomLoadable;
  * Created by Alex on 4/8/2016.
  */
 public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable {
+
+    public static final String PLAYER_TYPE = "player";
 
     protected boolean isDone;
     protected Body body;
@@ -37,7 +38,7 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     }
 
     public static boolean isPlayer(Entity entity) {
-        return entity != null && entity.getType().equals(IRoomLoadable.PLAYER_TYPE);
+        return entity != null && entity.getType().equals(PLAYER_TYPE);
     }
 
     protected abstract void tick();

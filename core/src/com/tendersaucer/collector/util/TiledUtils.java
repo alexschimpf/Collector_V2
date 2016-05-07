@@ -109,7 +109,6 @@ public final class TiledUtils {
         fixtureDef.restitution = 0;
 
         Shape shape = null;
-        float unitScale = Camera.getInstance().getTileMapScale();
         if(object instanceof TextureMapObject) {
             shape = getTextureMapShape(object, scale);
         } else if(object instanceof RectangleMapObject) {

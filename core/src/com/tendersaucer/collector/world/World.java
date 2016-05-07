@@ -3,7 +3,6 @@ package com.tendersaucer.collector.world;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.CollisionListener;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.WorldLoadBeginEvent;
