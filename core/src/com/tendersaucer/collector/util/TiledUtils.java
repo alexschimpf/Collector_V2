@@ -1,6 +1,7 @@
 package com.tendersaucer.collector.util;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -130,6 +131,74 @@ public final class TiledUtils {
         }
 
         return bodyType;
+    }
+
+    public static boolean propertyExists(MapLayerWrapper layer, String key) {
+        MapProperties properties = layer.getProperties();
+        return properties.containsKey(key);
+    }
+
+    public static boolean isPropertyEmpty(MapLayerWrapper layer, String key) {
+        MapProperties properties = layer.getProperties();
+        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+    }
+
+    public static Object getProperty(MapLayerWrapper layer, String key) {
+        return layer.getProperties().get(key);
+    }
+
+    public static String getStringProperty(MapLayerWrapper layer, String key) {
+        if (!layer.getProperties().containsKey(key)) {
+            return null;
+        }
+
+        return getProperty(layer, key).toString();
+    }
+
+    public static boolean getBooleanProperty(MapLayerWrapper layer, String key) {
+        return Boolean.parseBoolean(getStringProperty(layer,key));
+    }
+
+    public static int getIntProperty(MapLayerWrapper layer, String key) {
+        return Integer.parseInt(getStringProperty(layer, key));
+    }
+
+    public static float getFloatProperty(MapLayerWrapper layer, String key) {
+        return Float.parseFloat(getStringProperty(layer, key));
+    }
+
+    public static boolean propertyExists(MapObject object, String key) {
+        MapProperties properties = object.getProperties();
+        return properties.containsKey(key);
+    }
+
+    public static boolean isPropertyEmpty(MapObject object, String key) {
+        MapProperties properties = object.getProperties();
+        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+    }
+
+    public static Object getProperty(MapObject object, String key) {
+        return object.getProperties().get(key);
+    }
+
+    public static String getStringProperty(MapObject object, String key) {
+        if (!object.getProperties().containsKey(key)) {
+            return null;
+        }
+
+        return getProperty(object, key).toString();
+    }
+
+    public static boolean getBooleanProperty(MapObject object, String key) {
+        return Boolean.parseBoolean(getStringProperty(object,key));
+    }
+
+    public static int getIntProperty(MapObject object, String key) {
+        return Integer.parseInt(getStringProperty(object, key));
+    }
+
+    public static float getFloatProperty(MapObject object, String key) {
+        return Float.parseFloat(getStringProperty(object, key));
     }
 
     private static Shape getTextureMapShape(MapObject object) {

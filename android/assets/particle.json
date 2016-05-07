@@ -1,0 +1,59 @@
+{
+  "modifiers": {
+    "size_linear": "LinearSizeParticleModifier",
+    "color_linear": "LinearColorParticleModifier",
+    "sine_velocity": "SineVelocityParticleModifier",
+    "path_linear": "LinearPathParticleModifier"
+  },
+  "effects": {
+    "rainbow": {
+      "textures": ["blank_white"],
+      "ranges": {
+        "duration": [1000, 3000],
+        "num_particles": [5, 10],
+        "position_offset": [[0, 0], [0, 0]],
+        "angular_velocity": [0, 180],
+        "color": [[1, 1, 1, 1], [0.5, 0.5, 0.5, 0]]
+      },
+      "modifiers": {
+        "sine_velocity": {
+          "spread": 2,
+          "x": {
+            "amplitude": 6,
+            "h_shift": 10,
+            "v_shift": 5,
+            "num_cycles": 0.01
+          },
+          "y": {
+            "amplitude": 6,
+            "h_shift": 0,
+            "v_shift": 0,
+            "num_cycles": 0.01
+          }
+        },
+        "size_linear": {
+          "scale": [0.5, 2]
+        }
+      }
+    },
+    "looped_with_modifiers": {
+      "textures": ["blank_white"],
+      "loop_delay": 2000,
+      "ranges": {
+        "duration": [1000, 1000],
+        "num_particles": [1, 1]
+      },
+      "modifiers": {
+        "color_linear": {
+          "start": [1, 0, 0, 1],
+          "end": [0, 1, 0, 1]
+        },
+        "path_linear": {
+          "legs": [
+            [10, 0], [0, 10], [-10, -10], [0, 20]
+          ]
+        }
+      }
+    }
+  }
+}

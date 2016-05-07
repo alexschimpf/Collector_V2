@@ -12,6 +12,11 @@ public final class ConversionUtils {
     private ConversionUtils() {
     }
 
+    public static Vector2 getVector2(String str) {
+        String[] pieces = str.split(", ");
+        return new Vector2(Float.parseFloat(pieces[0]), Float.parseFloat(pieces[1]));
+    }
+
     public static Vector2 toWorldCoords(float x, float y, float width, float height) {
         return toWorldCoords(x + (width / 2), y + (height / 2));
     }
