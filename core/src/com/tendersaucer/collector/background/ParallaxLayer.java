@@ -1,6 +1,6 @@
 package com.tendersaucer.collector.background;
 
-import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Layer in ParallaxBackground

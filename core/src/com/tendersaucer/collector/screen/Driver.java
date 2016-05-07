@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Camera;
-import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;

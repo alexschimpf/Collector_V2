@@ -7,18 +7,18 @@ import com.badlogic.gdx.utils.Array;
 /**
  * Created by Alex on 5/5/2016.
  */
-public class Path {
+public class PathHelper {
 
     private float totalDistance;
 
     // Each vector represents a "leg" (i.e. (dx, dy)) of the path.
     private final Array<Vector2> legs;
 
-    public Path() {
+    public PathHelper() {
         legs = new Array<Vector2>();
     }
 
-    public Path(Array<Vector2> legs) {
+    public PathHelper(Array<Vector2> legs) {
         this();
 
         setPath(legs);

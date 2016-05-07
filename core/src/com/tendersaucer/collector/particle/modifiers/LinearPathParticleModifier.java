@@ -5,14 +5,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.particle.Particle;
 import com.tendersaucer.collector.util.JsonUtils;
-import com.tendersaucer.collector.util.Path;
+import com.tendersaucer.collector.util.PathHelper;
 
 /**
  * Created by Alex on 5/5/2016.
  */
 public class LinearPathParticleModifier extends ParticleModifier {
 
-    private Path path;
+    private PathHelper pathHelper;
 
     public LinearPathParticleModifier(JsonValue json) {
         super(json);
@@ -20,7 +20,7 @@ public class LinearPathParticleModifier extends ParticleModifier {
 
     @Override
     public void modify(Particle particle) {
-        Vector2 velocity = path.getVelocity(particle.getDuration(), particle.getAge());
+        Vector2 velocity = pathHelper.getVelocity(particle.getDuration(), particle.getAge());
         particle.setVelocity(velocity.x, velocity.y);
     }
 
@@ -31,6 +31,6 @@ public class LinearPathParticleModifier extends ParticleModifier {
             legs.add(JsonUtils.toVector2(leg));
         }
 
-        path = new Path(legs);
+        pathHelper = new PathHelper(legs);
     }
 }

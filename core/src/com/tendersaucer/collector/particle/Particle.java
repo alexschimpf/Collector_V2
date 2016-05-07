@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.IUpdate;
 
 /**

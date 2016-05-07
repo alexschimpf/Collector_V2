@@ -1,4 +1,4 @@
-package com.tendersaucer.collector;
+package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

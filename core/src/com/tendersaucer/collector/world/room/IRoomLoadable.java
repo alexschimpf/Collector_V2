@@ -2,7 +2,7 @@ package com.tendersaucer.collector.world.room;
 
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
-import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
 

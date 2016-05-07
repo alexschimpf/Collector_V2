@@ -1,7 +1,7 @@
 package com.tendersaucer.collector.background;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.tendersaucer.collector.IRender;
+import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Simple parallax background

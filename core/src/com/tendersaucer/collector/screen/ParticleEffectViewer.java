@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Camera;
-import com.tendersaucer.collector.Canvas;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
