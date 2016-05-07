@@ -17,10 +17,10 @@ public final class Globals {
 
     public static boolean ENABLE_MUSIC = false;
     public static boolean FULLSCREEN_MODE = false;
-    public static boolean DEBUG_PHYSICS = false;
+    public static boolean DEBUG_PHYSICS = true;
     public static boolean PRINT_DEBUG_INFO = false;
     public static boolean PACK_TEXTURES = false;
-    public static boolean SHOW_PARTICLE_EFFECT_VIEWER = true;
+    public static boolean SHOW_PARTICLE_EFFECT_VIEWER = false;
 
     private static GameState gameState;
 

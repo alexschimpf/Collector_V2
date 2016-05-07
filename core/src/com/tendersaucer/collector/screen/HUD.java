@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.ui;
+package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tendersaucer.collector.IRender;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.screen.InputListener;
 
 /**
  * Game heads up display

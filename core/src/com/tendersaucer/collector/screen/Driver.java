@@ -14,7 +14,6 @@ import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.ui.HUD;
 import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;

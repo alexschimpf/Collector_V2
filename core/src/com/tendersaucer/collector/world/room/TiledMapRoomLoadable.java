@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.Camera;
 import com.tendersaucer.collector.Canvas;
@@ -44,10 +45,6 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     private static final String WIDTH_PROP = "width";
     private static final String HEIGHT_PROP = "height";
     private static final String BODY_WIDTH_PROP = "body_width";
-    private static final String BODY_TYPE_PROP = "body_type";
-    private static final String KINEMATIC_BODY_TYPE = "kinematic";
-    private static final String DYNAMIC_BODY_TYPE = "dynamic";
-    private static final String STATIC_BODY_TYPE = "static";
     private static final String BODY_HEIGHT_PROP = "body_height";
     private static final String BODY_SKELETON_ID_PROP = "body_skeleton_id";
     private static final String BODY_SKELETON_TYPE = "body_skeleton";
@@ -72,7 +69,9 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         bodySkeletonMap = new HashMap<String, MapObject>();
 
         filename = FileUtils.getRoomConfigURI(worldId, roomId);
-        tiledMap = new TmxMapLoader().load(filename);
+        TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
+        params.flipY = false;
+        tiledMap = new TmxMapLoader().load(filename, params);
 
         processLayers();
 
@@ -158,13 +157,13 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         for (MapObject object : bodies) {
             FixtureBodyDefinition fixtureBodyDefinition;
             if (object instanceof RectangleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((RectangleMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createRectangleFixtureBodyDef((RectangleMapObject)object);
             } else if (object instanceof CircleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((CircleMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createCircleFixtureBodyDef((CircleMapObject)object);
             } else if (object instanceof EllipseMapObject) {
-                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef((EllipseMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createEllipseFixtureBodyDef((EllipseMapObject)object);
             } else if (object instanceof PolylineMapObject || object instanceof PolygonMapObject) {
-                fixtureBodyDefinition = TiledUtils.createFixtureBodyDef(object);
+                fixtureBodyDefinition = TiledUtils.createPolyFixtureBodyDef(object);
             } else {
                 throw new InvalidConfigException(filename, "Unknown MapObject type");
             }
@@ -186,7 +185,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             // Determine body skeleton.
             MapObject bodySkeleton = object;
             if (layer.propertyExists(object, BODY_SKELETON_ID_PROP)) {
-                String bodySkeletonId = layer.getStringProperty(BODY_SKELETON_ID_PROP);
+                String bodySkeletonId = layer.getStringProperty(object, BODY_SKELETON_ID_PROP);
                 if (!bodySkeletonMap.containsKey(bodySkeletonId)) {
                   throw new InvalidConfigException(filename, BODY_SKELETON_ID_PROP, bodySkeletonId);
                 }
@@ -224,22 +223,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private BodyDef getBodyDef(TiledMapLayer layer, MapObject object) {
-        if(!layer.propertyExists(BODY_TYPE_PROP)) {
-            throw new InvalidConfigException(filename, BODY_TYPE_PROP, "null");
-        }
-
-        BodyDef.BodyType bodyType;
-        String bodyTypeStr = layer.getStringProperty(BODY_TYPE_PROP);
-        if(bodyTypeStr.equals(STATIC_BODY_TYPE)) {
-            bodyType = BodyDef.BodyType.StaticBody;
-        } else if(bodyTypeStr.equals(KINEMATIC_BODY_TYPE)) {
-            bodyType = BodyDef.BodyType.KinematicBody;
-        } else if(bodyTypeStr.equals(DYNAMIC_BODY_TYPE)) {
-            bodyType = BodyDef.BodyType.DynamicBody;
-        } else {
-            throw new InvalidConfigException(filename, BODY_TYPE_PROP, bodyTypeStr);
-        }
-
+        BodyType bodyType = TiledUtils.getBodyType(object);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = bodyType;
         bodyDef.position.set(getObjectPos(layer, object));

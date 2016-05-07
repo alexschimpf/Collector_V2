@@ -52,6 +52,10 @@ public final class TiledMapLayer implements IRender {
     }
 
     public String getStringProperty(String key) {
+        if (!rawLayer.getProperties().containsKey(key)) {
+            return null;
+        }
+
         return getProperty(key).toString();
     }
 
@@ -77,10 +81,18 @@ public final class TiledMapLayer implements IRender {
     }
 
     public Object getProperty(MapObject object, String key) {
+        if (!propertyExists(object, key)) {
+            return null;
+        }
+
         return object.getProperties().get(key);
     }
 
     public String getStringProperty(MapObject object, String key) {
+        if (!propertyExists(object, key)) {
+            return null;
+        }
+
         return getProperty(object, key).toString();
     }
 
