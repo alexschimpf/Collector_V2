@@ -5,9 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.animation.Animation;
 
 /**
  * Created by Alex on 5/5/2016.
@@ -85,11 +85,9 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
         return textureAtlas.findRegion(regionName);
     }
 
-    public Animation getTextureAtlasAnimation(String atlasName, String animationName) {
+    public Array<AtlasRegion> getTextureAtlasRegions(String atlasName, String regionName) {
         TextureAtlas textureAtlas = getTextureAtlas(atlasName);
-        Array<TextureAtlas.AtlasRegion> textureRegions = textureAtlas.findRegions(animationName);
-        // TODO: Need to finish Animation class
-        return new Animation();
+        return textureAtlas.findRegions(regionName);
     }
 
     public TextureRegion getTextureRegion(String name) {

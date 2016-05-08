@@ -11,7 +11,7 @@ public final class MainCamera implements IUpdate {
 
     private static final MainCamera instance = new MainCamera();
     private static final int TILE_SIZE_PIXELS = 64;
-    private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2 to handle
+    private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2D to handle
     private static final int BASE_VIEWPORT_HEIGHT = 50;
     public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
 
