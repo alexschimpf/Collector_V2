@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
@@ -108,8 +108,8 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private void processLayers() {
         final OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(tiledMap,
-                Camera.getInstance().getTileMapScale(), Driver.getInstance().getSpriteBatch());
-        renderer.setView(Camera.getInstance().getRawCamera());
+                MainCamera.getInstance().getTileMapScale(), Driver.getInstance().getSpriteBatch());
+        renderer.setView(MainCamera.getInstance().getRawCamera());
 
         Array<MapLayerWrapper> layersToProcess = new Array<MapLayerWrapper>();
         for(MapLayer layer : tiledMap.getLayers()) {
@@ -238,7 +238,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private Vector2 getObjectPosition( MapObject object) {
-        float unitScale = Camera.getInstance().getTileMapScale();
+        float unitScale = MainCamera.getInstance().getTileMapScale();
         float width = TiledUtils.getFloatProperty(object, WIDTH_PROP) * unitScale;
         float height = TiledUtils.getFloatProperty(object, HEIGHT_PROP) * unitScale;
         float x = (TiledUtils.getFloatProperty(object, X_PROP) * unitScale) + (width / 2);

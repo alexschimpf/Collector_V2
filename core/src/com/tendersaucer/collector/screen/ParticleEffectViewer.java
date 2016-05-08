@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
@@ -69,7 +69,7 @@ public class ParticleEffectViewer implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        Camera.getInstance().resizeViewport(width, height);
+        MainCamera.getInstance().resizeViewport(width, height);
         stage.getViewport().update(width, height, false);
     }
 
@@ -94,7 +94,7 @@ public class ParticleEffectViewer implements Screen {
     }
 
     private void update() {
-        Camera.getInstance().update();
+        MainCamera.getInstance().update();
         ParticleEffectManager.getInstance().update();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
     }
@@ -109,7 +109,7 @@ public class ParticleEffectViewer implements Screen {
 
         Gdx.graphics.setTitle("ParticleEffectViewer (x" + inputListener.getSizeScale() + ")");
 
-        OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();
+        OrthographicCamera camera = (OrthographicCamera) MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin(); {
@@ -172,7 +172,7 @@ public class ParticleEffectViewer implements Screen {
                 }
 
                 Vector2 position = ConversionUtils.toWorldCoords(x, y);
-                Camera camera = Camera.getInstance();
+                MainCamera camera = MainCamera.getInstance();
 
                 float minSize = (camera.getViewportWidth() / 30) * sizeScale;
                 float maxSize = (camera.getViewportHeight() / 20) * sizeScale;

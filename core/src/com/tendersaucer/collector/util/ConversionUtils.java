@@ -2,7 +2,7 @@ package com.tendersaucer.collector.util;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 
 /**
  * Created by Alex on 5/5/2016.
@@ -34,7 +34,7 @@ public final class ConversionUtils {
     }
 
     public static Vector2 toWorldCoords(float x, float y) {
-        Camera camera = Camera.getInstance();
+        MainCamera camera = MainCamera.getInstance();
         Vector3 coords = Vector3Pool.getInstance().obtain(x, y, 0);
         camera.getRawCamera().unproject(coords);
         Vector3Pool.getInstance().free(coords);
@@ -42,7 +42,7 @@ public final class ConversionUtils {
     }
 
     public static Vector2 toScreenCoords(float x, float y) {
-        Camera camera = Camera.getInstance();
+        MainCamera camera = MainCamera.getInstance();
         Vector3 coords = Vector3Pool.getInstance().obtain(x, y, 0);
         camera.getRawCamera().project(coords);
         Vector3Pool.getInstance().free(coords);

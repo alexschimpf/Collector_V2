@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class Camera implements IUpdate {
+public final class MainCamera implements IUpdate {
 
-    private static final Camera instance = new Camera();
+    private static final MainCamera instance = new MainCamera();
     private static final int TILE_SIZE_PIXELS = 64;
     private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2 to handle
     private static final int BASE_VIEWPORT_HEIGHT = 50;
@@ -17,12 +17,12 @@ public final class Camera implements IUpdate {
 
     private final OrthographicCamera rawCamera;
 
-    private Camera() {
+    private MainCamera() {
         rawCamera = new OrthographicCamera();
         rawCamera.setToOrtho(true, BASE_VIEWPORT_WIDTH, BASE_VIEWPORT_HEIGHT);
     }
 
-    public static Camera getInstance() {
+    public static MainCamera getInstance() {
         return instance;
     }
 

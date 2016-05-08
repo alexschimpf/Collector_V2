@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
@@ -73,7 +73,7 @@ public final class Driver implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        Camera.getInstance().resizeViewport(width, height);
+        MainCamera.getInstance().resizeViewport(width, height);
         HUD.getInstance().resize(width, height);
     }
 
@@ -102,7 +102,7 @@ public final class Driver implements Screen {
     }
 
     private void update() {
-        Camera.getInstance().update();
+        MainCamera.getInstance().update();
         HUD.getInstance().update();
         World.getInstance().update();
         ParticleEffectManager.getInstance().update();
@@ -112,7 +112,7 @@ public final class Driver implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        OrthographicCamera camera = (OrthographicCamera)Camera.getInstance().getRawCamera();
+        OrthographicCamera camera = (OrthographicCamera) MainCamera.getInstance().getRawCamera();
 
         spriteBatch.setProjectionMatrix(camera.combined);
 

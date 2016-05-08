@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 
 /**
  * Abstract entity definition
@@ -48,7 +48,7 @@ public abstract class EntityDefinition {
     }
 
     public Vector2 getSize() {
-        float unitScale = Camera.getInstance().getTileMapScale();
+        float unitScale = MainCamera.getInstance().getTileMapScale();
         float width = getFloatProperty(WIDTH_PROP) * unitScale;
         float height = getFloatProperty(HEIGHT_PROP) * unitScale;
 

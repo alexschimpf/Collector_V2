@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.tendersaucer.collector.Camera;
+import com.tendersaucer.collector.MainCamera;
 
 /**
  * Tiled utility functions
@@ -42,7 +42,7 @@ public final class TiledUtils {
         Rectangle rectangle = object.getRectangle();
         bodyDef.position.x = rectangle.x + (rectangle.width / 2);
         bodyDef.position.y = rectangle.y + (rectangle.height / 2);
-        bodyDef.position.scl(Camera.getInstance().getTileMapScale());
+        bodyDef.position.scl(MainCamera.getInstance().getTileMapScale());
         bodyDef.type = getBodyType(object);
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
@@ -55,7 +55,7 @@ public final class TiledUtils {
         Circle circle = object.getCircle();
         bodyDef.position.x = circle.x;
         bodyDef.position.y = circle.y;
-        bodyDef.position.scl(Camera.getInstance().getTileMapScale());
+        bodyDef.position.scl(MainCamera.getInstance().getTileMapScale());
         bodyDef.type = getBodyType(object);
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
@@ -68,7 +68,7 @@ public final class TiledUtils {
         Ellipse ellipse = object.getEllipse();
         bodyDef.position.x = ellipse.x + (ellipse.width / 2);
         bodyDef.position.y = ellipse.y + (ellipse.height / 2);
-        bodyDef.position.scl(Camera.getInstance().getTileMapScale());
+        bodyDef.position.scl(MainCamera.getInstance().getTileMapScale());
         bodyDef.type = getBodyType(object);
 
         FixtureDef fixtureDef = getFixtureDefFromBodySkeleton(object);
@@ -207,7 +207,7 @@ public final class TiledUtils {
         float height = (Float)textureMapObject.getProperties().get("height");
 
         PolygonShape shape = new PolygonShape();
-        float scale = Camera.getInstance().getTileMapScale();
+        float scale = MainCamera.getInstance().getTileMapScale();
         shape.setAsBox((width / 2) * scale, (height / 2) * scale);
 
         return shape;
@@ -216,7 +216,7 @@ public final class TiledUtils {
     private static Shape getRectangleShape(MapObject object) {
         Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
         PolygonShape shape = new PolygonShape();
-        float scale = Camera.getInstance().getTileMapScale();
+        float scale = MainCamera.getInstance().getTileMapScale();
         shape.setAsBox((rectangle.width / 2) * scale, (rectangle.height / 2) * scale);
 
         return shape;
@@ -225,7 +225,7 @@ public final class TiledUtils {
     private static Shape getCircleShape(MapObject object) {
         Circle circle = ((CircleMapObject)object).getCircle();
         CircleShape shape = new CircleShape();
-        shape.setRadius(circle.radius * Camera.getInstance().getTileMapScale());
+        shape.setRadius(circle.radius * MainCamera.getInstance().getTileMapScale());
 
         return shape;
     }
@@ -234,7 +234,7 @@ public final class TiledUtils {
     private static Shape getEllipseShape(MapObject object) {
         Ellipse circle = ((EllipseMapObject)object).getEllipse();
         CircleShape shape = new CircleShape();
-        shape.setRadius(circle.width / 2 * Camera.getInstance().getTileMapScale());
+        shape.setRadius(circle.width / 2 * MainCamera.getInstance().getTileMapScale());
 
         return shape;
     }
@@ -243,7 +243,7 @@ public final class TiledUtils {
         Polygon polygon = ((PolygonMapObject)object).getPolygon();
         float[] vertices = polygon.getTransformedVertices();
         for(int i = 0; i < vertices.length; i++) {
-            vertices[i] *= Camera.getInstance().getTileMapScale();
+            vertices[i] *= MainCamera.getInstance().getTileMapScale();
         }
 
         PolygonShape shape = new PolygonShape();
@@ -256,7 +256,7 @@ public final class TiledUtils {
         Polyline polyline = ((PolylineMapObject)object).getPolyline();
         float[] vertices = polyline.getTransformedVertices();
         for(int i = 0; i < vertices.length; i++) {
-            vertices[i] *= Camera.getInstance().getTileMapScale();
+            vertices[i] *= MainCamera.getInstance().getTileMapScale();
         }
 
         ChainShape shape = new ChainShape();
