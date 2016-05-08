@@ -1,6 +1,5 @@
 package com.tendersaucer.collector.entity;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -16,13 +15,13 @@ public abstract class EntityDefinition {
     protected static final String WIDTH_PROP = "width";
     protected static final String HEIGHT_PROP = "height";
 
-    protected final String name;
+    protected final String id;
     protected final String type;
     protected final BodyDef bodyDef;
     protected final Vector2 size;
 
-    public EntityDefinition(String name, String type, BodyDef bodyDef) {
-        this.name = validateName(name);
+    public EntityDefinition(String id, String type, BodyDef bodyDef) {
+        this.id = id;
         this.type = type;
         this.bodyDef = bodyDef;
 
@@ -35,8 +34,8 @@ public abstract class EntityDefinition {
 
     public abstract int getLayer();
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
     public String getType() {
@@ -159,13 +158,5 @@ public abstract class EntityDefinition {
         }
 
         return full.split(delim);
-    }
-
-    private String validateName(String name) {
-        if (name != null && !name.isEmpty()) {
-            return name;
-        }
-
-        return String.valueOf(MathUtils.random(0, Integer.MAX_VALUE));
     }
 }

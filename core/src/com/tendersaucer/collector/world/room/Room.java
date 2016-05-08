@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.world.room;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.Globals;
@@ -94,6 +95,15 @@ public final class Room implements IUpdate {
     }
 
     public String getId() {
+        return id;
+    }
+
+    public String getAvailableEntityId() {
+        String id;
+        do {
+            id = String.valueOf(MathUtils.random(0, Integer.MAX_VALUE));
+        } while (entityMap.containsKey(id));
+
         return id;
     }
 

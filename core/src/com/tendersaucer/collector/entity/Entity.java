@@ -3,12 +3,13 @@ package com.tendersaucer.collector.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.world.ICollide;
 import com.tendersaucer.collector.IDisposable;
-import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.screen.Canvas;
+import com.tendersaucer.collector.screen.IRender;
+import com.tendersaucer.collector.world.ICollide;
+import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Abstract entity
@@ -17,17 +18,27 @@ import com.tendersaucer.collector.IUpdate;
  */
 public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable {
 
-    public static final String PLAYER_TYPE = "player";
+    public enum State {
+        ACTIVE, INACTIVE, DONE
+    }
 
-    protected boolean isDone;
     protected Body body;
     protected String type;
     protected Sprite sprite;
+    protected State state;
+    protected final String id;
 
     public Entity(EntityDefinition def) {
         this.type = def.getType();
 
-        isDone = false;
+        String defId = def.getId();
+        if (defId == null || defId.isEmpty()) {
+            id = Room.getInstance().getAvailableEntityId();
+        } else {
+            id = defId;
+        }
+
+        state = State.ACTIVE;
     }
 
     /**
@@ -38,14 +49,10 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     }
 
     public static boolean isPlayer(Entity entity) {
-        return entity != null && entity.getType().equals(PLAYER_TYPE);
+        return entity != null && entity.getType().equals(Player.TYPE);
     }
 
     protected abstract void tick();
-
-    public String getType() {
-        return type;
-    }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
@@ -54,13 +61,13 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
 
     @Override
     public boolean update() {
-        if (isDone) {
+        if (isDone()) {
             dispose();
         } else {
             tick();
         }
 
-        return isDone;
+        return isDone();
     }
 
     @Override
@@ -69,11 +76,43 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         Canvas.getInstance().remove(this);
     }
 
-    public String getId() {
-        return null;
+    public State getState() {
+        return state;
+    }
+
+    public boolean isActive() {
+        return state == State.ACTIVE;
+    }
+
+    public boolean isInactive() {
+        return state == State.INACTIVE;
+    }
+
+    public boolean isDone() {
+        return state == State.DONE;
     }
 
     public void setDone() {
-        isDone = true;
+        state = State.DONE;
+    }
+
+    public void setActive(boolean active) {
+        state = active ? State.ACTIVE : State.INACTIVE;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }
