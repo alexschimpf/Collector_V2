@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class Player extends Entity {
+public final class Player extends VisibleEntity {
 
     public static final String TYPE = "player";
     public static final short COLLISION_MASK = 0x0002;

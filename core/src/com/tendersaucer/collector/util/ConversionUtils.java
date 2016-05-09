@@ -12,7 +12,7 @@ public final class ConversionUtils {
     private ConversionUtils() {
     }
 
-    public static Vector2 getVector2(String str) {
+    public static Vector2 toVector2(String str) {
         String[] pieces = str.split(", ");
         return new Vector2(Float.parseFloat(pieces[0]), Float.parseFloat(pieces[1]));
     }

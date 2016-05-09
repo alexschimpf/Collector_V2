@@ -2,17 +2,19 @@ package com.tendersaucer.collector.world.room;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
+import com.tendersaucer.collector.entity.VisibleEntity;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.event.RoomLoadEndEvent;
+import com.tendersaucer.collector.screen.Canvas;
+import com.tendersaucer.collector.screen.IRender;
+import com.tendersaucer.collector.util.EntityUtils;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -71,12 +73,13 @@ public final class Room implements IUpdate {
             }
 
             entityMap.put(id, entity);
-            if (Entity.isPlayer(entity)) {
+            if (EntityUtils.isPlayer(entity)) {
                 setPlayer((Player)entity);
             }
 
-            // Add entity to canvas.
-            Canvas.getInstance().addToLayer(entityDefinition.getLayer(), entity);
+            if (entity instanceof VisibleEntity) {
+                entity.addToCanvas();
+            }
         }
 
         // Add free bodies.
