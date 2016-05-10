@@ -1,0 +1,20 @@
+- Make entities rectangle-based to simply collision detection and movement
+- DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
+- Figure out what to do about friction
+    - Keep everything frictionless or not?
+- Make sure everything (that needs it) is disposed of
+- Figure out what to do about background
+- Figure out how script system will work
+    - ScriptTrigger entity?
+
+
+- What to do about entities with no sprites?
+    - Should entity be more bare?
+    - Then subclass an entity with a sprite...?
+    - Should they always have physics bodies?
+
+- Entity, VisibleEntity
+- Always have physics bodies
+    - So they can always handle collisions the same way
+        - Bodies can just be sensors, if need be
+-
