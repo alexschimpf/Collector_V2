@@ -1,6 +1,5 @@
 # Collector
 
----
 
 #### About
 * Collector is a 2D Android/IOS/Desktop game I'm developing in my free time
