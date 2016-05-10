@@ -1,24 +1,21 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Gives access to configured entity properties
- *
- * Created by Alex on 4/14/2016.
+ * Created by Alex on 5/9/2016.
  */
 public final class EntityConfig {
 
     private static final EntityConfig instance = new EntityConfig();
-    private static final String CONFIG_FILENAME = "entity.xml";
+    private static final String CONFIG_FILENAME = "entity.json";
 
     private final Map<String, EntityProperties> entityTypePropertiesMap;
     private final Map<String, String> entityTypeClassMap;
@@ -27,13 +24,8 @@ public final class EntityConfig {
         entityTypePropertiesMap = new HashMap<String, EntityProperties>();
         entityTypeClassMap = new HashMap<String, String>();
 
-        try {
-            XmlReader reader = new XmlReader();
-            XmlReader.Element root = reader.parse(Gdx.files.internal(CONFIG_FILENAME));
-            parseConfig(root);
-        } catch (IOException e) {
-            // TODO:
-        }
+        JsonReader jsonReader = new JsonReader();
+        parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
     }
 
     public static EntityConfig getInstance() {
@@ -48,10 +40,9 @@ public final class EntityConfig {
         return entityTypePropertiesMap.get(entityType);
     }
 
-    private void parseConfig(XmlReader.Element root) {
-        XmlReader.Element entitiesRoot = root.getChildByName("entities");
-        for (XmlReader.Element entityRoot : entitiesRoot.getChildrenByName("entity")) {
-            String entityType = entityRoot.getAttribute("type");
+    private void parseConfig(JsonValue root) {
+        for (JsonValue entityRoot : root.get("entities")) {
+            String entityType = entityRoot.name;
             if (entityType.isEmpty()) {
                 throw new InvalidConfigException(CONFIG_FILENAME, "type", "null");
             }
@@ -60,75 +51,76 @@ public final class EntityConfig {
                 throw new InvalidConfigException(CONFIG_FILENAME, "type", entityType);
             }
 
+            // Map entity types to their corresponding classes.
             EntityProperties entityProperties = new EntityProperties();
             entityTypePropertiesMap.put(entityType, entityProperties);
 
-            XmlReader.Element globalPropertiesRoot = root.getChildByName("global_properties");
+            // First add all global properties.
+            // Then add all set properties (locally).
+            // Local properties override globals.
+            JsonValue globalPropertiesRoot = root.get("global_properties");
             addGlobalProperties(globalPropertiesRoot, entityProperties);
             addLocalProperties(entityRoot, entityProperties);
         }
     }
 
-    private void addGlobalProperties(XmlReader.Element globalPropertiesRoot, EntityProperties entityProperties) {
-        // Add global required properties.
-        Array<XmlReader.Element> requiredElements =
-                globalPropertiesRoot.getChildByName("required").getChildrenByName("property");
-        for (XmlReader.Element element : requiredElements) {
-            String name = element.getAttribute("name");
-            if (name.isEmpty()) {
-                throw new InvalidConfigException(CONFIG_FILENAME, "name", "null");
-            }
-
-            entityProperties.addRequiredProperty(name);
+    // Add a set of defined default global properties (and default values).
+    private void addGlobalProperties(JsonValue globalPropertiesRoot,
+                                     EntityProperties entityProperties) {
+        // Required
+        for (JsonValue requiredName : globalPropertiesRoot.get("required")) {
+            entityProperties.addRequiredProperty(requiredName.asString());
         }
 
-
-        // Add global optional properties.
-        Array<XmlReader.Element> optionalElements =
-                globalPropertiesRoot.getChildByName("optional").getChildrenByName("property");
-        for (XmlReader.Element element : optionalElements) {
-            String name = element.getAttribute("name");
-            if (name.isEmpty()) {
-                throw new InvalidConfigException(CONFIG_FILENAME, "name", "null");
-            }
-
-            String defaultVal = element.getAttribute("default");
+        // Optional
+        for (JsonValue optionalProperty : globalPropertiesRoot.get("optional")) {
+            String name = optionalProperty.name;
+            String defaultVal = optionalProperty.getString("default");
             entityProperties.addOptionalProperty(name, defaultVal);
         }
     }
 
-    private void addLocalProperties(XmlReader.Element entityRoot, EntityProperties entityProperties) {
-        String type = entityRoot.getAttribute("type");
-        String className = entityRoot.getAttribute("class");
+    // Add custom properties set locally per entity (which may override global properties).
+    private void addLocalProperties(JsonValue entityRoot, EntityProperties entityProperties) {
+        String type = entityRoot.getString("type");
+        String className = entityRoot.getString("class");
         if (className.isEmpty()) {
             throw new InvalidConfigException(CONFIG_FILENAME, "class", "null");
         }
 
         entityTypeClassMap.put(type, className);
 
-        XmlReader.Element requiredRoot = entityRoot.getChildByName("required");
-        for (XmlReader.Element property : requiredRoot.getChildrenByName("property")) {
-            String name = property.getAttribute("name");
-
-            // If it was an optional global property, but is now required, remove it as optional.
-            if (entityProperties.propertyExists(name) && !entityProperties.isPropertyRequired(name)) {
-                entityProperties.removeOptionalProperty(name);
-            }
-
-            entityProperties.addRequiredProperty(name);
+        // Entity type may not even have custom properties.
+        if (!entityRoot.hasChild("properties")) {
+            return;
         }
 
-        XmlReader.Element optionalRoot = entityRoot.getChildByName("optional");
-        for (XmlReader.Element property : optionalRoot.getChildrenByName("property")) {
-            String name = property.getAttribute("name");
-            String defaultVal = property.getAttribute("default");
+        // Required
+        if (entityRoot.get("properties").hasChild("required")){
+            for (JsonValue requiredProperty : entityRoot.get("properties").get("required")) {
+                String name = requiredProperty.asString();
 
-            // If it was a required global property, but is now optional, remove it as required.
-            if (entityProperties.propertyExists(name) && entityProperties.isPropertyRequired(name)) {
-                entityProperties.removeRequiredProperty(name);
+                // If it was an optional global property, but is now required, remove it as optional.
+                if (entityProperties.propertyExists(name) && !entityProperties.isPropertyRequired(name)) {
+                    entityProperties.removeOptionalProperty(name);
+                }
+
+                entityProperties.addRequiredProperty(name);
             }
+        }
 
-            entityProperties.addOptionalProperty(name, defaultVal);
+        // Optional
+        if (entityRoot.get("properties").hasChild("optional")){
+            for (JsonValue optionalProperty : entityRoot.get("properties").get("optional")) {
+                String name = optionalProperty.asString();
+
+                // If it was a required global property, but is now optional, remove it as required.
+                if (entityProperties.propertyExists(name) && !entityProperties.isPropertyRequired(name)) {
+                    entityProperties.removeRequiredProperty(name);
+                }
+
+                entityProperties.addOptionalProperty(name, optionalProperty.getString("defaultVal"));
+            }
         }
     }
 

@@ -39,15 +39,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         this.definition = definition;
         this.type = definition.getType();
 
-        String defId = definition.getId();
-        if (defId == null || defId.isEmpty()) {
-            id = Room.getInstance().getAvailableEntityId();
-        } else {
-            id = defId;
-        }
-
-        state = State.ACTIVE;
-
         float centerX = definition.getPosition().x;
         float centerY = definition.getPosition().y;
         float width = definition.getSize().x;
@@ -56,6 +47,12 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
                 MiscUtils.getBottom(centerY, height), width, height);
         leftTop = Vector2Pool.getInstance().obtain(MiscUtils.getLeft(centerX, width),
                 MiscUtils.getTop(centerY, height));
+
+        id = getId(definition);
+        state = State.ACTIVE;
+
+        String textureName = definition.getStringProperty("texture");
+        // texture, fixed rotation, rotation
     }
 
     /**
@@ -91,6 +88,7 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     @Override
     public void dispose() {
         Globals.getPhysicsWorld().destroyBody(body);
+        Vector2Pool.getInstance().free(leftTop);
     }
 
     public void addToCanvas() {
@@ -208,5 +206,15 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         float top = MiscUtils.getTop(centerY, getHeight());
         bounds.setPosition(left, top + getHeight());
         leftTop.set(left, top);
+    }
+
+    private String getId(EntityDefinition definition) {
+        String id = definition.getId();
+        if (id == null || id.isEmpty()) {
+            return Room.getInstance().getAvailableEntityId();
+        }
+
+        return id;
+
     }
 }

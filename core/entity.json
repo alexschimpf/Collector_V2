@@ -1,0 +1,26 @@
+{
+    "global_properties": {
+        "required": [
+            "id", "x", "y", "width", "height"
+        ],
+        "optional": [
+            { "name": "body_type", "default": "static" },
+            { "name": "body_width", "default": "" },
+            { "name": "body_height", "default": "" },
+            { "name": "fixed_rotation", "default": "true" },
+            { "name": "rotation", "default": "0" },
+            { "name": "is_visible", "default": "true" },
+            { "name": "layer", "default": "5" }
+        ]
+    },
+    "entities": {
+        "player": {
+            "class": "Player",
+            "properties": {
+                "optional": [
+                    { "name": "body_type", "default": "dynamic" }
+                ]
+            }
+        }
+    }
+}
