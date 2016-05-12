@@ -1,7 +1,7 @@
 {
     "global_properties": {
         "required": [
-            "id", "x", "y", "width", "height"
+            "id", "x", "y", "width", "height", "layer"
         ],
         "optional": [
             { "name": "body_type", "default": "static" },
@@ -9,8 +9,7 @@
             { "name": "body_height", "default": "" },
             { "name": "fixed_rotation", "default": "true" },
             { "name": "rotation", "default": "0" },
-            { "name": "is_visible", "default": "true" },
-            { "name": "layer", "default": "5" }
+            { "name": "is_visible", "default": "true" }
         ]
     },
     "entities": {

@@ -8,6 +8,7 @@ import com.tendersaucer.collector.util.InvalidConfigException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Alex on 5/9/2016.
@@ -21,8 +22,8 @@ public final class EntityConfig {
     private final Map<String, String> entityTypeClassMap;
 
     private EntityConfig() {
-        entityTypePropertiesMap = new HashMap<String, EntityProperties>();
-        entityTypeClassMap = new HashMap<String, String>();
+        entityTypePropertiesMap = new ConcurrentHashMap<String, EntityProperties>();
+        entityTypeClassMap = new ConcurrentHashMap<String, String>();
 
         JsonReader jsonReader = new JsonReader();
         parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
@@ -47,20 +48,10 @@ public final class EntityConfig {
                 throw new InvalidConfigException(CONFIG_FILENAME, "type", "null");
             }
 
-            if (entityTypePropertiesMap.containsKey(entityType)) {
-                throw new InvalidConfigException(CONFIG_FILENAME, "type", entityType);
-            }
-
-            // Map entity types to their corresponding classes.
             EntityProperties entityProperties = new EntityProperties();
+            addGlobalProperties(root.get("global_properties"), entityProperties);
+            addCustomProperties(entityRoot, entityProperties);
             entityTypePropertiesMap.put(entityType, entityProperties);
-
-            // First add all global properties.
-            // Then add all set properties (locally).
-            // Local properties override globals.
-            JsonValue globalPropertiesRoot = root.get("global_properties");
-            addGlobalProperties(globalPropertiesRoot, entityProperties);
-            addLocalProperties(entityRoot, entityProperties);
         }
     }
 
@@ -74,15 +65,15 @@ public final class EntityConfig {
 
         // Optional
         for (JsonValue optionalProperty : globalPropertiesRoot.get("optional")) {
-            String name = optionalProperty.name;
+            String name = optionalProperty.getString("name");
             String defaultVal = optionalProperty.getString("default");
             entityProperties.addOptionalProperty(name, defaultVal);
         }
     }
 
-    // Add custom properties set locally per entity (which may override global properties).
-    private void addLocalProperties(JsonValue entityRoot, EntityProperties entityProperties) {
-        String type = entityRoot.getString("type");
+    // Add custom properties set per entity (which may override global properties).
+    private void addCustomProperties(JsonValue entityRoot, EntityProperties entityProperties) {
+        String type = entityRoot.name;
         String className = entityRoot.getString("class");
         if (className.isEmpty()) {
             throw new InvalidConfigException(CONFIG_FILENAME, "class", "null");
@@ -98,9 +89,8 @@ public final class EntityConfig {
         // Required
         if (entityRoot.get("properties").hasChild("required")){
             for (JsonValue requiredProperty : entityRoot.get("properties").get("required")) {
+                // If it was an optional global property but is now required, remove it as optional.
                 String name = requiredProperty.asString();
-
-                // If it was an optional global property, but is now required, remove it as optional.
                 if (entityProperties.propertyExists(name) && !entityProperties.isPropertyRequired(name)) {
                     entityProperties.removeOptionalProperty(name);
                 }
@@ -112,14 +102,13 @@ public final class EntityConfig {
         // Optional
         if (entityRoot.get("properties").hasChild("optional")){
             for (JsonValue optionalProperty : entityRoot.get("properties").get("optional")) {
+                // If it was a required global property but is now optional, remove it as required.
                 String name = optionalProperty.asString();
-
-                // If it was a required global property, but is now optional, remove it as required.
-                if (entityProperties.propertyExists(name) && !entityProperties.isPropertyRequired(name)) {
+                if (entityProperties.propertyExists(name) && entityProperties.isPropertyRequired(name)) {
                     entityProperties.removeRequiredProperty(name);
                 }
 
-                entityProperties.addOptionalProperty(name, optionalProperty.getString("defaultVal"));
+                entityProperties.addOptionalProperty(name, optionalProperty.getString("default"));
             }
         }
     }

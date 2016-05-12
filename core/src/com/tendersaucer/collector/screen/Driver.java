@@ -8,15 +8,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.world.IWorldLoadable;
+import com.tendersaucer.collector.world.JSONWorldLoadable;
 import com.tendersaucer.collector.world.World;
-import com.tendersaucer.collector.world.XMLWorldLoadable;
 
 /**
  * Main update and render logic
@@ -57,7 +57,7 @@ public final class Driver implements Screen {
         eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
-        IWorldLoadable worldLoadable = new XMLWorldLoadable("0");
+        IWorldLoadable worldLoadable = new JSONWorldLoadable("0");
         World.getInstance().load(worldLoadable);
     }
 

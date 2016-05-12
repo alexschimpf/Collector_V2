@@ -98,7 +98,6 @@ public abstract class EntityDefinition {
 
     public boolean[] getBooleanArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-
         if(full.isEmpty()) {
             return new boolean[0];
         }
@@ -116,7 +115,6 @@ public abstract class EntityDefinition {
 
     public int[] getIntArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-
         if(full.isEmpty()) {
             return new int[0];
         }
@@ -134,7 +132,6 @@ public abstract class EntityDefinition {
 
     public float[] getFloatArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-
         if(full.isEmpty()) {
             return new float[0];
         }
@@ -152,7 +149,6 @@ public abstract class EntityDefinition {
 
     public String[] getStringArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-
         if(full.isEmpty()) {
             return new String[0];
         }
