@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
+import com.tendersaucer.collector.event.WorldLoadBeginEvent;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.world.IWorldLoadable;
@@ -40,6 +42,7 @@ public final class Driver implements Screen {
         return instance;
     }
 
+    // TODO: Should this all go in the constructor?
     @Override
     public void show() {
         ParticleEffectManager.getInstance().loadDefinitions();
@@ -47,6 +50,7 @@ public final class Driver implements Screen {
         EventManager eventManager = EventManager.getInstance();
         eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
+        eventManager.listen(WorldLoadBeginEvent.class, AssetManager.getInstance());
 
         IWorldLoadable worldLoadable = new JSONWorldLoadable("0");
         World.getInstance().load(worldLoadable);

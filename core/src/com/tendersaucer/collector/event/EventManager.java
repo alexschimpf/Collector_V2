@@ -32,7 +32,9 @@ public final class EventManager {
             listeners = new ArrayList();
         }
 
-        listeners.add(listener);
+        if (!listeners.contains(listener)) {
+            listeners.add(listener);
+        }
 
         eventListeners.put(eventClass, listeners);
     }

@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.background;
 
+import com.badlogic.gdx.math.Vector2;
 import com.tendersaucer.collector.screen.IRender;
 
 /**
@@ -9,7 +10,23 @@ import com.tendersaucer.collector.screen.IRender;
  */
 public abstract class ParallaxLayer implements IRender {
 
-    public ParallaxLayer() {
+    protected final float parallaxRatio;
+    protected final Vector2 topLeft;
 
+    public ParallaxLayer(float parallaxRatio) {
+        this.parallaxRatio = parallaxRatio;
+        topLeft = new Vector2();
+    }
+
+    public abstract float getWidth();
+
+    public abstract float getHeight();
+
+    public void setTopLeft(float left, float top) {
+        topLeft.set(left, top);
+    }
+
+    public float getParallaxRatio() {
+        return parallaxRatio;
     }
 }

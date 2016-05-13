@@ -56,5 +56,29 @@ public final class MainCamera implements IUpdate {
         float viewportTileSize = getViewportWidth() / NUM_TILES_PER_SCREEN_WIDTH;
         return viewportTileSize / TILE_SIZE_PIXELS;
     }
+
+    public float getCenterX() {
+        return rawCamera.position.x;
+    }
+
+    public float getCenterY() {
+        return rawCamera.position.y;
+    }
+
+    public float getLeft() {
+        return getCenterX() - (getViewportWidth() / 2);
+    }
+
+    public float getTop() {
+        return getCenterY() - (getViewportHeight() / 2);
+    }
+
+    public float getRight() {
+        return getCenterX() + (getViewportWidth() / 2);
+    }
+
+    public float getBottom() {
+        return getCenterY() + (getViewportHeight() / 2);
+    }
 }
 
