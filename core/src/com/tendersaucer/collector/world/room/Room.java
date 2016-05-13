@@ -47,50 +47,25 @@ public final class Room implements IUpdate {
         return false;
     }
 
-    public void load(IRoomLoadable roomLoadable) {
-        EventManager.getInstance().notify(RoomLoadBeginEvent.class);
+    public void load(IRoomLoadable loadable) {
+        EventManager.getInstance().notify(new RoomLoadBeginEvent(loadable));
 
-        id = roomLoadable.getId();
+        id = loadable.getId();
 
         // TODO: roomLoadable.getBackground();
 
         // Add non-entity/background canvas objects.
-        Map<IRender, Integer> canvasMap = roomLoadable.getCanvasMap();
+        Map<IRender, Integer> canvasMap = loadable.getCanvasMap();
         for (IRender object : canvasMap.keySet()) {
             int layer = canvasMap.get(object);
             Canvas.getInstance().addToLayer(layer, object);
         }
 
         entityMap.clear();
+        loadEntities(loadable);
+        loadFreeBodies(loadable);
 
-        // Add new entities.
-        for (EntityDefinition entityDefinition : roomLoadable.getEntityDefinitions()) {
-            Entity entity = EntityFactory.buildEntity(entityDefinition);
-
-            String id = entity.getId();
-            if (entityMap.containsKey(id)) {
-                throw new InvalidConfigException("Duplicate entity id: " + id);
-            }
-
-            entityMap.put(id, entity);
-            if (EntityUtils.isPlayer(entity)) {
-                setPlayer((Player)entity);
-            }
-
-            if (entity instanceof VisibleEntity) {
-                entity.addToCanvas();
-            }
-        }
-
-        // Add free bodies.
-        for (FixtureBodyDefinition fixtureBodyDef : roomLoadable.getFreeBodyDefinitions()) {
-            Body body = Globals.getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
-            body.createFixture(fixtureBodyDef.fixtureDef);
-
-            fixtureBodyDef.fixtureDef.shape.dispose();
-        }
-
-        EventManager.getInstance().notify(RoomLoadEndEvent.class);
+        EventManager.getInstance().notify(new RoomLoadEndEvent());
     }
 
     public Player getPlayer() {
@@ -108,6 +83,35 @@ public final class Room implements IUpdate {
         } while (entityMap.containsKey(id));
 
         return id;
+    }
+
+    private void loadEntities(IRoomLoadable loadable) {
+        for (EntityDefinition entityDefinition : loadable.getEntityDefinitions()) {
+            Entity entity = EntityFactory.buildEntity(entityDefinition);
+
+            String id = entity.getId();
+            if (entityMap.containsKey(id)) {
+                throw new InvalidConfigException("Duplicate entity id: " + id);
+            }
+
+            entityMap.put(id, entity);
+            if (EntityUtils.isPlayer(entity)) {
+                setPlayer((Player)entity);
+            }
+
+            if (entity instanceof VisibleEntity) {
+                entity.addToCanvas();
+            }
+        }
+    }
+
+    private void loadFreeBodies(IRoomLoadable loadable) {
+        for (FixtureBodyDefinition fixtureBodyDef : loadable.getFreeBodyDefinitions()) {
+            Body body = Globals.getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
+            body.createFixture(fixtureBodyDef.fixtureDef);
+
+            fixtureBodyDef.fixtureDef.shape.dispose();
+        }
     }
 
     private void setPlayer(Player player) {

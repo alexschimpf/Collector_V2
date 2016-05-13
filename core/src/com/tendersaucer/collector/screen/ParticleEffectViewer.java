@@ -10,15 +10,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
 import com.tendersaucer.collector.util.Debug;
@@ -48,11 +49,6 @@ public class ParticleEffectViewer implements Screen {
     @Override
     public void show() {
         loadFont();
-
-        AssetManager assetManager = AssetManager.getInstance();
-        assetManager.loadSounds();
-        assetManager.loadTextureAtlas("textures");
-        assetManager.finishLoading();
 
         ParticleEffectManager.getInstance().loadDefinitions();
 

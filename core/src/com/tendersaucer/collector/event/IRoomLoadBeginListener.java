@@ -1,5 +1,7 @@
 package com.tendersaucer.collector.event;
 
+import com.tendersaucer.collector.world.room.IRoomLoadable;
+
 /**
  * Interface for listening to room load beginning events
  *
@@ -10,5 +12,5 @@ public interface IRoomLoadBeginListener {
     /**
      * Fired by Room before any loading occurs
      */
-    void onRoomLoadBegin();
+    void onRoomLoadBegin(IRoomLoadable loadable);
 }

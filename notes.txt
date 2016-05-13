@@ -5,9 +5,3 @@
 - Figure out what to do about background
 - Figure out how script system will work
     - ScriptTrigger entity?
-
-   AnimatedSprite
-   AnimatedSpriteSystem
-
-
-

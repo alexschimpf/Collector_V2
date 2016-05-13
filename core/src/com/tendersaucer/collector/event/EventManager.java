@@ -58,35 +58,11 @@ public final class EventManager {
         }
     }
 
-    public <L> void notify(Class<? extends Event<L>> eventClass) {
-        try {
-            Event<L> event = eventClass.newInstance();
-            if (eventListeners.containsKey(eventClass)) {
-                for (L listener : (ArrayList<L>)eventListeners.get(eventClass)) {
-                    event.notify(listener);
-                }
-            }
-        } catch(InstantiationException e) {
-            // TODO:
-        } catch (IllegalAccessException e) {
-            // TODO:
-        }
-    }
-
     public <L> void postNotify(final Event<L> event) {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
                 EventManager.this.notify(event);
-            }
-        });
-    }
-
-    public <L> void postNotify(final Class<? extends Event<L>> eventClass) {
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                EventManager.this.notify(eventClass);
             }
         });
     }

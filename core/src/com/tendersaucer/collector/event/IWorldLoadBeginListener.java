@@ -1,5 +1,7 @@
 package com.tendersaucer.collector.event;
 
+import com.tendersaucer.collector.world.IWorldLoadable;
+
 /**
  * Interface for listening to world load begin events
  *
@@ -10,5 +12,5 @@ public interface IWorldLoadBeginListener {
     /**
      * Fired by World before any loading occurs
      */
-    void onWorldLoadBegin();
+    void onWorldLoadBegin(IWorldLoadable loadable);
 }

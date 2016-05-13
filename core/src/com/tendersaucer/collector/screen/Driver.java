@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
@@ -43,13 +42,6 @@ public final class Driver implements Screen {
 
     @Override
     public void show() {
-        // TODO: Load world-by-world.
-        // TODO: Load asynchronously.
-        AssetManager assetManager = AssetManager.getInstance();
-        assetManager.loadSounds();
-        assetManager.loadTextureAtlas("textures");
-        assetManager.finishLoading();
-
         ParticleEffectManager.getInstance().loadDefinitions();
 
         EventManager eventManager = EventManager.getInstance();

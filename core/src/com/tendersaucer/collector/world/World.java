@@ -46,7 +46,7 @@ public final class World implements IUpdate {
     }
 
     public void load(IWorldLoadable loadable) {
-        EventManager.getInstance().notify(WorldLoadBeginEvent.class);
+        EventManager.getInstance().notify(new WorldLoadBeginEvent(loadable));
 
         id = loadable.getId();
         entryRoomId = loadable.getEntryRoomId();
@@ -54,7 +54,7 @@ public final class World implements IUpdate {
         clearPhysicsWorld();
         Room.getInstance().load(new TiledMapRoomLoadable(id, entryRoomId));
 
-        EventManager.getInstance().notify(WorldLoadEndEvent.class);
+        EventManager.getInstance().notify(new WorldLoadEndEvent());
     }
 
     public com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
