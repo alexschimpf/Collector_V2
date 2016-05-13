@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.background.ParallaxBackground;
+import com.tendersaucer.collector.background.TextureParallaxLayer;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
@@ -40,6 +41,7 @@ import java.util.Map;
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
 
+    private static final String BACKGROUND_PROP = "background";
     private static final String TYPE_PROP = "type";
     private static final String LAYER_POS_PROP = "layer_pos";
     private static final String X_PROP = "x";
@@ -215,7 +217,13 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void setBackground() {
-        // TODO: Get texture file(s) from some map property
+        // Format: "texture1, 0.8, texture2, 0.3, ..."
+        String[] backgroundInfo = tiledMap.getProperties().get("background").toString().split(", ");
+        for (int i = 0; i < backgroundInfo.length; i += 2) {
+            String textureName = backgroundInfo[i];
+            float parallaxRatio = Float.parseFloat(backgroundInfo[i+1]);
+            background.addLayer(new TextureParallaxLayer(parallaxRatio, textureName));
+        }
     }
 
     private int getLayerPos(MapLayerWrapper layer, TextureMapObject object) {

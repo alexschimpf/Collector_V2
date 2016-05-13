@@ -3,6 +3,7 @@ package com.tendersaucer.collector.screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.event.IRoomLoadBeginListener;
+import com.tendersaucer.collector.world.room.IRoomLoadable;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -45,7 +46,7 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
     }
 
     @Override
-    public void onRoomLoadBegin() {
+    public void onRoomLoadBegin(IRoomLoadable roomLoadable) {
         clearLayers();
     }
 

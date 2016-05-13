@@ -52,7 +52,7 @@ public final class Room implements IUpdate {
 
         id = loadable.getId();
 
-        // TODO: roomLoadable.getBackground();
+        Canvas.getInstance().addToLayer(0, loadable.getBackground());
 
         // Add non-entity/background canvas objects.
         Map<IRender, Integer> canvasMap = loadable.getCanvasMap();
