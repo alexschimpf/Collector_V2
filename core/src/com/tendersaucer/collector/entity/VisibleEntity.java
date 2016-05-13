@@ -2,7 +2,9 @@ package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.screen.Canvas;
 
 /**
@@ -14,6 +16,11 @@ public abstract class VisibleEntity extends Entity {
 
     public VisibleEntity(EntityDefinition definition) {
         super(definition);
+
+        String textureName = definition.getStringProperty("texture");
+        TextureRegion textureRegion =
+                AssetManager.getInstance().getTextureRegion(textureName);
+        sprite = new Sprite(textureRegion);
     }
 
     @Override

@@ -51,7 +51,6 @@ public class ParticleEffectViewer implements Screen {
 
         AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
-        assetManager.loadTextures();
         assetManager.loadTextureAtlas("textures");
         assetManager.finishLoading();
 
@@ -150,7 +149,7 @@ public class ParticleEffectViewer implements Screen {
 
     private  void loadFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-                Gdx.files.internal("fonts/font.ttf"));
+                Gdx.files.internal("font/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param =
                 new FreeTypeFontGenerator.FreeTypeFontParameter();
         param.size = Gdx.graphics.getHeight() / 16;

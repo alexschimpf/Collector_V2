@@ -47,7 +47,6 @@ public final class Driver implements Screen {
         // TODO: Load asynchronously.
         AssetManager assetManager = AssetManager.getInstance();
         assetManager.loadSounds();
-        assetManager.loadTextures();
         assetManager.loadTextureAtlas("textures");
         assetManager.finishLoading();
 

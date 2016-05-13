@@ -12,6 +12,14 @@ public final class ConversionUtils {
     private ConversionUtils() {
     }
 
+    public static float ms2s(float ms) {
+        return ms / 1000;
+    }
+
+    public static float s2ms(float s) {
+        return s * 1000;
+    }
+
     public static Vector2 toVector2(String str) {
         String[] pieces = str.split(", ");
         return new Vector2(Float.parseFloat(pieces[0]), Float.parseFloat(pieces[1]));

@@ -1,4 +1,3 @@
-- Make entities rectangle-based to simply collision detection and movement
 - DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
 - Figure out what to do about friction
     - Keep everything frictionless or not?
@@ -6,3 +5,9 @@
 - Figure out what to do about background
 - Figure out how script system will work
     - ScriptTrigger entity?
+
+   AnimatedSprite
+   AnimatedSpriteSystem
+
+
+

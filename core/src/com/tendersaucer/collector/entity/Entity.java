@@ -51,8 +51,8 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         id = getId(definition);
         state = State.ACTIVE;
 
-        String textureName = definition.getStringProperty("texture");
-        // texture, fixed rotation, rotation
+        body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
+        setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation_angle"));
     }
 
     /**

@@ -10,13 +10,14 @@ import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.screen.IRender;
+import com.tendersaucer.collector.util.ConversionUtils;
 
 /**
  * An animated sprite
  *
  * Created by Alex on 4/8/2016.
  */
-public class Animation extends Sprite implements IUpdate, IRender {
+public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
     protected enum State {
         PLAYING, PAUSED, STOPPED, FINISHED
@@ -25,14 +26,14 @@ public class Animation extends Sprite implements IUpdate, IRender {
     protected float stateTime;
     protected int currNumLoops;
     protected State state;
+    protected  Integer numLoops;
     protected com.badlogic.gdx.graphics.g2d.Animation rawAnimation;
-    protected final Integer numLoops;
 
-    public Animation(String key, float totalDuration, Integer numLoops, State state) {
+    public AnimatedSprite(String key, float totalDuration, Integer numLoops, State state) {
         super();
 
-        Array<AtlasRegion> frames = AssetManager.getInstance().getTextureAtlasRegions("textures", key);
-        float frameDuration = totalDuration / frames.size;
+        Array<AtlasRegion> frames = AssetManager.getInstance().getTextureRegions(key);
+        float frameDuration = ConversionUtils.ms2s(totalDuration / frames.size);
         rawAnimation = new com.badlogic.gdx.graphics.g2d.Animation(frameDuration, frames);
 
         this.numLoops = numLoops;
@@ -43,19 +44,23 @@ public class Animation extends Sprite implements IUpdate, IRender {
         this.state = state;
     }
 
-    public Animation(String key, float totalDuration, Integer numLoops) {
+    public AnimatedSprite(String key, float totalDuration, Integer numLoops) {
         this(key, totalDuration, numLoops, State.STOPPED);
     }
 
-    public Animation(String key, float totalDuration, State state) {
+    public AnimatedSprite(String key, float totalDuration, State state) {
         this(key, totalDuration, 1, state);
     }
 
-    public Animation(String key, float totalDuration) {
+    public AnimatedSprite(String key, float totalDuration) {
         this(key, totalDuration, 1);
     }
 
-    protected Animation() {
+    public AnimatedSprite(String key) {
+        this(key, 0);
+    }
+
+    protected AnimatedSprite() {
         super();
 
         numLoops = 1;
@@ -176,6 +181,23 @@ public class Animation extends Sprite implements IUpdate, IRender {
 
     public float getCenterY() {
         return getOriginY();
+    }
+
+    public int getNumFrames() {
+        return rawAnimation.getKeyFrames().length;
+    }
+
+    public void setTotalDuration(float totalDuration) {
+        float totalDurationSeconds = ConversionUtils.ms2s(totalDuration);
+        rawAnimation.setFrameDuration(totalDurationSeconds / getNumFrames());
+    }
+
+    /**
+     * Sets the number of times this animation will loop
+     * @param numLoops - if null, will loop indefinitely
+     */
+    public void setNumLoops(Integer numLoops) {
+        this.numLoops = numLoops;
     }
 
     public boolean loops() {

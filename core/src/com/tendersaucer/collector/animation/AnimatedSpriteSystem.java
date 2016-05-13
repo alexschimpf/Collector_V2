@@ -11,17 +11,17 @@ import java.util.Map;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class AnimationSystem extends Animation {
+public final class AnimatedSpriteSystem extends AnimatedSprite {
 
     private boolean usingDefault;
     private final TextureRegion defaultTexture;
-    private final Map<String, Animation> animationMap;
+    private final Map<String, AnimatedSprite> animationMap;
 
-    public AnimationSystem(String defaultTextureKey) {
+    public AnimatedSpriteSystem(String defaultTextureKey) {
         super();
 
         defaultTexture = AssetManager.getInstance().getTextureRegion(defaultTextureKey);
-        animationMap = new HashMap<String, Animation>();
+        animationMap = new HashMap<String, AnimatedSprite>();
 
         usingDefault = true;
         setRegion(defaultTexture);
@@ -58,7 +58,7 @@ public final class AnimationSystem extends Animation {
        switchTo(null);
     }
 
-    public void add(String key, Animation animation) {
+    public void add(String key, AnimatedSprite animation) {
         animationMap.put(key, animation);
     }
 
