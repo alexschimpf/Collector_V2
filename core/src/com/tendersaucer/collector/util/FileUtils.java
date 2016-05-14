@@ -9,7 +9,7 @@ public final class FileUtils {
 
     private static final String ROOMS_DIR = "rooms";
     private static final String WORLDS_DIR = "worlds";
-    private static final String WORLD_CONFIG_NAME = "world.xml";
+    private static final String WORLD_CONFIG_NAME = "world.json";
 
     private FileUtils() {
     }

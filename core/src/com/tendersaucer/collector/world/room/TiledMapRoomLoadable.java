@@ -217,6 +217,10 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void setBackground() {
+        if (!tiledMap.getProperties().containsKey("background")) {
+            return;
+        }
+
         // Format: "texture1, 0.8, texture2, 0.3, ..."
         String[] backgroundInfo = tiledMap.getProperties().get("background").toString().split(", ");
         for (int i = 0; i < backgroundInfo.length; i += 2) {
