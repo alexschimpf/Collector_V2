@@ -207,9 +207,10 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                     TiledUtils.propertyExists(object,BODY_HEIGHT_PROP)) {
                 float bodyWidth = TiledUtils.getFloatProperty(object, BODY_WIDTH_PROP);
                 float bodyHeight = TiledUtils.getFloatProperty(object,BODY_HEIGHT_PROP);
-
                 bodySkeleton = new RectangleMapObject();
-                ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
+                if  (bodyWidth !=0 && bodyHeight != 0) {
+                    ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
+                }
             }
 
             int layerPos = getLayerPos(layer, object);

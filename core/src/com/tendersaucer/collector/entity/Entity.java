@@ -55,7 +55,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         state = State.ACTIVE;
 
         createBody();
-
         body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
         setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation_angle"));
     }
@@ -218,8 +217,8 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
 
         body = Globals.getPhysicsWorld().createBody(bodyDef);
         FixtureDef fixtureDef = definition.getFixtureDef();
-//        body.createFixture(fixtureDef);
-//        fixtureDef.shape.dispose();
+        body.createFixture(fixtureDef);
+        fixtureDef.shape.dispose();
     }
 
     private String getOrCreateId() {
