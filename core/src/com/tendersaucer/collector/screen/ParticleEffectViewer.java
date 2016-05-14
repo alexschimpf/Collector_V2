@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
@@ -50,6 +51,7 @@ public class ParticleEffectViewer implements Screen {
     public void show() {
         loadFont();
 
+        AssetManager.getInstance().load("0");
         ParticleEffectManager.getInstance().loadDefinitions();
 
         setStage();

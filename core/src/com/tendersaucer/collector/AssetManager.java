@@ -19,8 +19,9 @@ import com.tendersaucer.collector.world.World;
 public final class AssetManager extends com.badlogic.gdx.assets.AssetManager implements IWorldLoadBeginListener {
 
     private static final AssetManager instance = new AssetManager();
-    private static final String TEXTURE_ATLAS_DIR = "texture_atlases";
-    private static final String SOUND_DIR = "sounds";
+    private static final String DEFAULT_WORLD_ID = "0";
+    private static final String TEXTURE_ATLAS_DIR = "texture_atlas";
+    private static final String SOUND_DIR = "sound";
     private static final String TEXTURE_ATLAS_EXTENSION = "atlas";
     private static final String SOUND_EXTENSION = "mp3";
 
@@ -33,8 +34,12 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
 
     @Override
     public void onWorldLoadBegin(IWorldLoadable loadable) {
+        load(loadable.getId());
+    }
+
+    public void load(String worldId) {
         unloadWorldAssets();
-        loadWorldAssets(loadable.getId());
+        loadWorldAssets(worldId);
         finishLoading();
     }
 
@@ -44,7 +49,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
      * @return
      */
     public TextureRegion getTextureRegion(String regionName) {
-        return getTextureAtlasRegion(World.getInstance().getId(), regionName);
+        return getTextureAtlasRegion(getWorldId(), regionName);
     }
 
     /**
@@ -53,7 +58,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
      * @return
      */
     public Array<AtlasRegion> getTextureRegions(String regionName) {
-        return getTextureAtlasRegions(World.getInstance().getId(), regionName);
+        return getTextureAtlasRegions(getWorldId(), regionName);
     }
 
     public Sprite getSprite(String regionName) {
@@ -78,7 +83,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private void unloadWorldAssets() {
-        unloadTextureAtlas(World.getInstance().getId());
+        unloadTextureAtlas(getWorldId());
         unloadSounds();
     }
 
@@ -93,8 +98,11 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private void unloadTextureAtlas(String name) {
-        unload(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name));
+        String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name);
+        if (isLoaded(fileName)) {
+            unload(fileName);
+        }
     }
 
     private void loadSound(String name) {
@@ -103,8 +111,11 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private void unloadSound(String name) {
-        unload(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, name));
+        String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
+                SOUND_EXTENSION, SOUND_DIR, name);
+        if (isLoaded(fileName)) {
+            unload(fileName);
+        }
     }
 
     private void loadSounds() {
@@ -136,4 +147,13 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
         return textureAtlas.findRegions(regionName);
     }
 
+    private String getWorldId() {
+        String worldId = World.getInstance().getId();
+        if (worldId == null) {
+            // e.g. when no world exists for ParticleEffectViewer
+            worldId = DEFAULT_WORLD_ID;
+        }
+        
+        return worldId;
+    }
 }

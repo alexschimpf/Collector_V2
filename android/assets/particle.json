@@ -7,7 +7,7 @@
   },
   "effects": {
     "rainbow": {
-      "textures": ["blank_white"],
+      "textures": ["default"],
       "ranges": {
         "duration": [1000, 3000],
         "num_particles": [5, 10],
@@ -37,7 +37,7 @@
       }
     },
     "looped_with_modifiers": {
-      "textures": ["blank_white"],
+      "textures": ["default"],
       "loop_delay": 2000,
       "ranges": {
         "duration": [1000, 1000],

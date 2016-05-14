@@ -8,17 +8,18 @@ package com.tendersaucer.collector.util;
 public final class FileUtils {
 
     private static final String ROOMS_DIR = "rooms";
+    private static final String WORLDS_DIR = "worlds";
     private static final String WORLD_CONFIG_NAME = "world.xml";
 
     private FileUtils() {
     }
 
     public static String getWorldConfigURI(String worldId) {
-        return buildFilePath("world_" + worldId, WORLD_CONFIG_NAME);
+        return buildFilePath(WORLDS_DIR, worldId, WORLD_CONFIG_NAME);
     }
 
     public static String getRoomConfigURI(String worldId, String roomId) {
-        return buildFilePath("world_" + worldId, ROOMS_DIR, "room_" + roomId + ".tmx");
+        return buildFilePath(WORLDS_DIR, worldId, ROOMS_DIR, roomId + ".tmx");
     }
 
     public static String buildFilePath(String... parts) {

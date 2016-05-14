@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.event.IRoomLoadBeginListener;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
+import com.tendersaucer.collector.world.room.IRoomLoadable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +54,7 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
     }
 
     @Override
-    public void onRoomLoadBegin() {
+    public void onRoomLoadBegin(IRoomLoadable loadable) {
         clearLiveEffects();
     }
 

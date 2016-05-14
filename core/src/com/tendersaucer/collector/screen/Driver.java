@@ -41,19 +41,18 @@ public final class Driver implements Screen {
     public static Driver getInstance() {
         return instance;
     }
-
-    // TODO: Should this all go in the constructor?
+    
     @Override
     public void show() {
-        ParticleEffectManager.getInstance().loadDefinitions();
-
         EventManager eventManager = EventManager.getInstance();
+        eventManager.listen(WorldLoadBeginEvent.class, AssetManager.getInstance());
         eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
-        eventManager.listen(WorldLoadBeginEvent.class, AssetManager.getInstance());
 
         IWorldLoadable worldLoadable = new JSONWorldLoadable("0");
         World.getInstance().load(worldLoadable);
+
+        ParticleEffectManager.getInstance().loadDefinitions();
     }
 
     @Override
@@ -107,8 +106,7 @@ public final class Driver implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        OrthographicCamera camera = (OrthographicCamera) MainCamera.getInstance().getRawCamera();
-
+        OrthographicCamera camera = MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin(); {

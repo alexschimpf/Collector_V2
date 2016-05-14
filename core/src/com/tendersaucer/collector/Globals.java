@@ -20,7 +20,7 @@ public final class Globals {
     public static boolean DEBUG_PHYSICS = true;
     public static boolean PRINT_DEBUG_INFO = false;
     public static boolean PACK_TEXTURES = false;
-    public static boolean SHOW_PARTICLE_EFFECT_VIEWER = false;
+    public static boolean SHOW_PARTICLE_EFFECT_VIEWER = true;
 
     private static GameState gameState;
 

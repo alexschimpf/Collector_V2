@@ -9,9 +9,9 @@ import com.tendersaucer.collector.Globals;
 
 public class DesktopLauncher {
 
-	private static final String TEXTURE_PACK_NAME = "textures";
-	private static final String TEXTURES_DIR =  "/Users/Alex/Desktop/libgdx/Collector/assets/textures";
-	private static final String DESTINATION_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/textures";
+	private static final String TEXTURE_PACK_NAME = "0";
+	private static final String TEXTURES_DIR =  "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas/textures";
+	private static final String DESTINATION_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas";
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
