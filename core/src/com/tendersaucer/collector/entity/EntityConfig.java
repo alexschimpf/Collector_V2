@@ -25,8 +25,12 @@ public final class EntityConfig {
         entityTypePropertiesMap = new ConcurrentHashMap<String, EntityProperties>();
         entityTypeClassMap = new ConcurrentHashMap<String, String>();
 
-        JsonReader jsonReader = new JsonReader();
-        parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
+//        try {
+            JsonReader jsonReader = new JsonReader();
+            parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
+//        } catch (Exception e) {
+//            System.out.println("THE FUCKKKKK: " + e.toString());
+//        }
     }
 
     public static EntityConfig getInstance() {
@@ -103,7 +107,7 @@ public final class EntityConfig {
         if (entityRoot.get("properties").hasChild("optional")){
             for (JsonValue optionalProperty : entityRoot.get("properties").get("optional")) {
                 // If it was a required global property but is now optional, remove it as required.
-                String name = optionalProperty.asString();
+                String name = optionalProperty.getString("name");
                 if (entityProperties.propertyExists(name) && entityProperties.isPropertyRequired(name)) {
                     entityProperties.removeRequiredProperty(name);
                 }
@@ -115,10 +119,12 @@ public final class EntityConfig {
 
     public final class EntityProperties {
 
-        private final Map<String, Boolean> requiredProperties = new HashMap<String, Boolean>();
-        private final Map<String, String> propertyDefaultValMap = new HashMap<String, String>();
+        private final Map<String, Boolean> requiredProperties;
+        private final Map<String, String> propertyDefaultValMap;
 
         public EntityProperties() {
+            requiredProperties = new HashMap<String, Boolean>();
+            propertyDefaultValMap = new HashMap<String, String>();
         }
 
         public boolean propertyExists(String name) {

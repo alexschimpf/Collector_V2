@@ -2,7 +2,7 @@ package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.maps.MapProperties;
 import com.tendersaucer.collector.util.InvalidConfigException;
-
+import com.tendersaucer.collector.entity.EntityConfig.*;
 import java.util.Iterator;
 
 /**
@@ -16,7 +16,10 @@ public final class TiledEntityPropertyValidator {
     }
 
     public static void validateAndProcess(String type, MapProperties properties) {
-        EntityConfig.EntityProperties entityProperties = EntityConfig.getInstance().getEntityProperties(type);
+        EntityProperties entityProperties = EntityConfig.getInstance().getEntityProperties(type);
+        if (entityProperties == null) {
+            throw new InvalidConfigException(type + ": EntityProperties not set for type");
+        }
 
         // Check that all required properties are set.
         for (String requiredProperty : entityProperties.getRequiredProperties()) {
@@ -29,8 +32,12 @@ public final class TiledEntityPropertyValidator {
         Iterator<String> propertiesIter = properties.getKeys();
         while (propertiesIter.hasNext()) {
             String property = propertiesIter.next();
+            if (property.equals("gid")) {
+                continue;
+            }
+
             if (!entityProperties.propertyExists(property)) {
-                throw new InvalidConfigException(type + ": Entity property + '" + property + "' is not valid");
+                throw new InvalidConfigException(type + ": Entity property '" + property + "' is not valid");
             }
         }
 

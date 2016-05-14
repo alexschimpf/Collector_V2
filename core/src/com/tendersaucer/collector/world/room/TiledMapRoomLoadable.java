@@ -43,7 +43,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private static final String BACKGROUND_PROP = "background";
     private static final String TYPE_PROP = "type";
-    private static final String LAYER_POS_PROP = "layer_pos";
+    private static final String LAYER_POS_PROP = "layer";
     private static final String X_PROP = "x";
     private static final String Y_PROP = "y";
     private static final String WIDTH_PROP = "width";
@@ -77,10 +77,10 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         params.flipY = false;
         tiledMap = new TmxMapLoader().load(filename, params);
 
-        processLayers();
-
         background = new ParallaxBackground();
         setBackground();
+
+        processLayers();
     }
 
     @Override
@@ -121,6 +121,10 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             if (layerWrapper.getName().equals(BODIES_LAYER)) {
                 processLayer(layerWrapper);
             } else {
+                if (!TiledUtils.propertyExists(layerWrapper, LAYER_POS_PROP)) {
+                    throw new InvalidConfigException(filename, LAYER_POS_PROP, "null");
+                }
+
                 int layerPos = TiledUtils.getIntProperty(layerWrapper, LAYER_POS_PROP);
                 if (!isLayerPosValid(layerPos)) {
                     throw new InvalidConfigException(filename, LAYER_POS_PROP, layerPos);
@@ -182,7 +186,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private void processEntities(MapLayerWrapper layer, Array<TextureMapObject> entities) {
         for (TextureMapObject object : entities) {
-            if (TiledUtils.propertyExists(object,TYPE_PROP)) {
+            if (!TiledUtils.propertyExists(object,TYPE_PROP)) {
                 throw new InvalidConfigException(filename, TYPE_PROP, "null");
             }
 
@@ -217,12 +221,12 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void setBackground() {
-        if (!tiledMap.getProperties().containsKey("background")) {
+        if (!tiledMap.getProperties().containsKey(BACKGROUND_PROP)) {
             return;
         }
 
         // Format: "texture1, 0.8, texture2, 0.3, ..."
-        String[] backgroundInfo = tiledMap.getProperties().get("background").toString().split(", ");
+        String[] backgroundInfo = tiledMap.getProperties().get(BACKGROUND_PROP).toString().split(", ");
         for (int i = 0; i < backgroundInfo.length; i += 2) {
             String textureName = backgroundInfo[i];
             float parallaxRatio = Float.parseFloat(backgroundInfo[i+1]);

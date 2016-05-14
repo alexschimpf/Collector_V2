@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="22">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="24">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64" spacing="2" margin="1" tilecount="4" columns="2">
   <image source="tiles.png" width="132" height="132"/>
  </tileset>
  <layer name="background" width="100" height="100">
   <properties>
-   <property name="layer_pos" type="int" value="0"/>
+   <property name="layer" type="int" value="0"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -111,24 +111,15 @@
 </data>
  </layer>
  <objectgroup name="bodies">
+  <properties>
+   <property name="layer" value="5"/>
+  </properties>
   <object id="1" x="64" y="704" width="1536" height="192"/>
-  <object id="10" x="192" y="128" width="192" height="192">
-   <properties>
-    <property name="body_type" value="dynamic"/>
-   </properties>
-   <ellipse/>
-  </object>
   <object id="12" x="64" y="704">
    <polyline points="0,0 0,-448 64,-448 64,0"/>
   </object>
   <object id="13" x="1536" y="704">
    <polyline points="0,0 0,-448 64,-448 64,0"/>
-  </object>
-  <object id="14" x="448" y="128" width="192" height="192">
-   <properties>
-    <property name="body_type" value="dynamic"/>
-   </properties>
-   <ellipse/>
   </object>
   <object id="15" x="832" y="0" width="192" height="192">
    <properties>
@@ -142,5 +133,6 @@
    </properties>
    <ellipse/>
   </object>
+  <object id="23" name="player" type="player" gid="4" x="256" y="704" width="128" height="192"/>
  </objectgroup>
 </map>

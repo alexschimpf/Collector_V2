@@ -44,6 +44,11 @@ public final class Room implements IUpdate {
 
     @Override
     public boolean update() {
+        for (String id : entityMap.keySet()) {
+            Entity entity = entityMap.get(id);
+            entity.update();
+        }
+
         return false;
     }
 

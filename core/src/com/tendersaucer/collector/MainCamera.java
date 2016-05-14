@@ -1,6 +1,8 @@
 package com.tendersaucer.collector;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.tendersaucer.collector.entity.Player;
+import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Main game camera
@@ -28,7 +30,11 @@ public final class MainCamera implements IUpdate {
 
     @Override
     public boolean update() {
-        // TODO: Center camera on player!
+        Player player = Room.getInstance().getPlayer();
+        if (player != null) {
+            rawCamera.position.set(player.getCenterX(), player.getCenterY(), 0);
+        }
+
         rawCamera.update();
 
         return false;
@@ -40,7 +46,6 @@ public final class MainCamera implements IUpdate {
 
     public void resizeViewport(float width, float height) {
         rawCamera.viewportHeight = (rawCamera.viewportWidth / width) * height;
-        rawCamera.position.y = rawCamera.viewportHeight / 2; // TODO: Remove this!
         rawCamera.update();
     }
 

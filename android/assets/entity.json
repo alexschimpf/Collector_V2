@@ -1,12 +1,12 @@
 {
     "global_properties": {
         "required": [
-            "id", "x", "y", "width", "height", "layer"
+            "id", "x", "y", "width", "height", "type"
         ],
         "optional": [
             { "name": "body_type", "default": "static" },
-            { "name": "body_width", "default": "" },
-            { "name": "body_height", "default": "" },
+            { "name": "body_width", "default": "0" },
+            { "name": "body_height", "default": "0" },
             { "name": "fixed_rotation", "default": "true" },
             { "name": "rotation_angle", "default": "0" },
             { "name": "is_visible", "default": "true" }
@@ -17,7 +17,8 @@
             "class": "Player",
             "properties": {
                 "optional": [
-                    { "name": "body_type", "default": "dynamic" }
+                    { "name": "body_type", "default": "dynamic" },
+                    { "name": "texture", "default": "default" }
                 ]
             }
         }

@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
@@ -14,7 +16,8 @@ import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.MiscUtils;
 import com.tendersaucer.collector.util.Vector2Pool;
 import com.tendersaucer.collector.world.ICollide;
-import com.tendersaucer.collector.world.room.Room;
+
+import java.util.UUID;
 
 /**
  * Abstract entity
@@ -29,11 +32,11 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
 
     protected State state;
     protected Body body;
-    protected final String type;
-    protected final String id;
-    protected final Vector2 leftTop;
-    protected final Rectangle bounds;
-    protected final EntityDefinition definition; // in case it needs to be cloned
+    protected  String type;
+    protected  String id;
+    protected  Vector2 leftTop;
+    protected  Rectangle bounds;
+    protected  EntityDefinition definition; // in case it needs to be cloned
 
     public Entity(EntityDefinition definition) {
         this.definition = definition;
@@ -48,8 +51,10 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         leftTop = Vector2Pool.getInstance().obtain(MiscUtils.getLeft(centerX, width),
                 MiscUtils.getTop(centerY, height));
 
-        id = getId(definition);
+        id = getOrCreateId();
         state = State.ACTIVE;
+
+        createBody();
 
         body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
         setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation_angle"));
@@ -57,9 +62,8 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
 
     /**
      * For any necessary post-construction operations (e.g. listening to events)
-     * @param entityDef
      */
-    public void init(EntityDefinition entityDef) {
+    public void init() {
     }
 
     @Override
@@ -208,13 +212,22 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         leftTop.set(left, top);
     }
 
-    private String getId(EntityDefinition definition) {
+    protected void createBody() {
+        BodyDef bodyDef = definition.getBodyDef();
+        bodyDef.position.set(definition.getPosition());
+
+        body = Globals.getPhysicsWorld().createBody(bodyDef);
+        FixtureDef fixtureDef = definition.getFixtureDef();
+//        body.createFixture(fixtureDef);
+//        fixtureDef.shape.dispose();
+    }
+
+    private String getOrCreateId() {
         String id = definition.getId();
         if (id == null || id.isEmpty()) {
-            return Room.getInstance().getAvailableEntityId();
+            id = UUID.randomUUID().toString();
         }
 
         return id;
-
     }
 }

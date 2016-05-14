@@ -1,7 +1,6 @@
 package com.tendersaucer.collector.entity;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Factory that builds entities from type and definition
@@ -10,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public final class EntityFactory {
 
+    private static final String ENTITIES_CLASS_PATH = "com.tendersaucer.collector.entity.";
+
     private EntityFactory() {
     }
 
@@ -17,21 +18,15 @@ public final class EntityFactory {
         Entity entity = null;
         try {
             String entityType = entityDef.getType();
-            String className = EntityConfig.getInstance().getClassName(entityType);
+            String className = ENTITIES_CLASS_PATH + EntityConfig.getInstance().getClassName(entityType);
             Class<?> c = Class.forName(className);
             Constructor<?> constructor = c.getConstructor(EntityDefinition.class);
             entity = (Entity)constructor.newInstance(entityDef);
-            entity.init(entityDef);
-        } catch (ClassNotFoundException e) {
-            // TODO:
-        } catch (NoSuchMethodException e) {
-            // TODO:
-        } catch (InstantiationException e) {
-            // TODO:
-        } catch (IllegalAccessException e) {
-            // TODO:
-        } catch (InvocationTargetException e) {
-            // TODO:
+            entity.init();
+        } catch (Exception e) {
+            String entityInfo = "type=" + entityDef.getType() + ", id=" + entityDef.getId();
+            System.out.println("Error building entity (" + entityInfo + ")");
+            System.out.println(e.toString());
         }
 
         return entity;
