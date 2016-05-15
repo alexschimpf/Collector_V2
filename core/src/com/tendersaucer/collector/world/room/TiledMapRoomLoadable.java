@@ -191,7 +191,6 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             }
 
             String type = TiledUtils.getStringProperty(object, TYPE_PROP);
-
             TiledEntityPropertyValidator.validateAndProcess(type, object.getProperties());
 
             // Determine body skeleton.
@@ -207,17 +206,18 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                     TiledUtils.propertyExists(object,BODY_HEIGHT_PROP)) {
                 float bodyWidth = TiledUtils.getFloatProperty(object, BODY_WIDTH_PROP);
                 float bodyHeight = TiledUtils.getFloatProperty(object,BODY_HEIGHT_PROP);
-                bodySkeleton = new RectangleMapObject();
-                if  (bodyWidth !=0 && bodyHeight != 0) {
+                bodySkeleton = object;
+                if  (bodyWidth != 0 && bodyHeight != 0) {
+                    bodySkeleton = new RectangleMapObject();
                     ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
                 }
             }
 
             int layerPos = getLayerPos(layer, object);
             BodyDef bodyDef = getBodyDef(layer, object);
-            EntityDefinition entityDef = new TiledEntityDefinition(object.getName(), type, layerPos,
-                    bodyDef, bodySkeleton, object.getProperties());
-            entityDefinitions.add(entityDef);
+            EntityDefinition entityDefinition = new TiledEntityDefinition(object.getName(), type,
+                    layerPos, bodyDef, bodySkeleton, object.getProperties());
+            entityDefinitions.add(entityDefinition);
         }
     }
 

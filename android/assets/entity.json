@@ -8,7 +8,7 @@
             { "name": "body_width", "default": "0" },
             { "name": "body_height", "default": "0" },
             { "name": "fixed_rotation", "default": "true" },
-            { "name": "rotation_angle", "default": "0" },
+            { "name": "rotation", "default": "0" },
             { "name": "is_visible", "default": "true" }
         ]
     },

@@ -21,6 +21,7 @@ public abstract class VisibleEntity extends Entity {
         TextureRegion textureRegion =
                 AssetManager.getInstance().getTextureRegion(textureName);
         sprite = new Sprite(textureRegion);
+        sprite.setSize(getWidth(), getHeight());
     }
 
     @Override

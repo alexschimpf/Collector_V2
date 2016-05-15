@@ -18,6 +18,7 @@ import com.tendersaucer.collector.util.EntityUtils;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,9 +45,13 @@ public final class Room implements IUpdate {
 
     @Override
     public boolean update() {
-        for (String id : entityMap.keySet()) {
-            Entity entity = entityMap.get(id);
-            entity.update();
+        Iterator<String> entityIdIter = entityMap.keySet().iterator();
+        while (entityIdIter.hasNext()) {
+            Entity entity = entityMap.get(entityIdIter.next());
+            if (entity.update()) {
+                entity.dispose();
+                entityIdIter.remove();
+            }
         }
 
         return false;

@@ -25,17 +25,11 @@ public final class Player extends VisibleEntity {
     @Override
     public void render(SpriteBatch spriteBatch) {
         super.render(spriteBatch);
-
-        System.out.println("Rendering player...");
-        System.out.println("Position: " + getLeft() + ", " + getTop());
-        System.out.println("Size: " + getWidth() + " x " + getHeight());
     }
 
     @Override
     protected void tick() {
         super.tick();
-
-        System.out.println("Updating player....");
     }
 
     @Override

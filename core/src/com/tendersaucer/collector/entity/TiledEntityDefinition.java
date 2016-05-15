@@ -15,7 +15,7 @@ public final class TiledEntityDefinition extends EntityDefinition {
 
     private final int layer;
     private final MapProperties properties;
-    private final MapObject bodySkeleton;
+    private final FixtureDef fixtureDef;
 
     public TiledEntityDefinition(String name, String type, int layer, BodyDef bodyDef,
                                  MapObject bodySkeleton, MapProperties properties) {
@@ -23,7 +23,7 @@ public final class TiledEntityDefinition extends EntityDefinition {
 
         this.layer = layer;
         this.properties = properties;
-        this.bodySkeleton = bodySkeleton;
+        this.fixtureDef = TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
     }
 
     @Override
@@ -33,7 +33,7 @@ public final class TiledEntityDefinition extends EntityDefinition {
 
     @Override
     public FixtureDef getFixtureDef() {
-        return TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
+        return fixtureDef;
     }
 
     @Override
