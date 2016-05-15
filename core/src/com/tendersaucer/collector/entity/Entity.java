@@ -42,14 +42,15 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         this.definition = definition;
         this.type = definition.getType();
 
-        float centerX = definition.getPosition().x;
-        float centerY = definition.getPosition().y;
+        float centerX = definition.getCenter().x;
+        float centerY = definition.getCenter().y;
         float width = definition.getSize().x;
         float height = definition.getSize().y;
-        bounds = new Rectangle(MiscUtils.getLeft(centerX, width),
-                MiscUtils.getBottom(centerY, height), width, height);
-        leftTop = Vector2Pool.getInstance().obtain(MiscUtils.getLeft(centerX, width),
-                MiscUtils.getTop(centerY, height));
+        float left = centerX - (width / 2);
+        float bottom = centerY + (height / 2);
+        float top = centerY - (height / 2);
+        bounds = new Rectangle(left, bottom, width, height);
+        leftTop = Vector2Pool.getInstance().obtain(left, top);
 
         id = getOrCreateId();
         state = State.ACTIVE;
@@ -166,11 +167,11 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     }
 
     public float getRight() {
-        return MiscUtils.getRight(bounds.getX(), bounds.getWidth());
+        return bounds.getX() + bounds.getWidth();
     }
 
     public float getTop() {
-        return MiscUtils.getTop(bounds.getY(), bounds.getHeight());
+        return bounds.getY() - bounds.getHeight();
     }
 
     public float getBottom() {
@@ -182,7 +183,7 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     }
 
     public float getCenterY() {
-        return MiscUtils.getCenterY(bounds.getY(), bounds.getHeight());
+        return bounds.getY() + (bounds.getHeight() / 2);
     }
 
     public Vector2 getLeftTop() {
@@ -200,15 +201,15 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     protected void tick() {
         float centerX = body.getPosition().x;
         float centerY = body.getPosition().y;
-        float left = MiscUtils.getLeft(centerX, getWidth());
-        float top = MiscUtils.getTop(centerY, getHeight());
+        float left = centerX - (getWidth() / 2);
+        float top = centerY - (getHeight() / 2);
         bounds.setPosition(left, top + getHeight());
         leftTop.set(left, top);
     }
 
     protected void createBody() {
         BodyDef bodyDef = definition.getBodyDef();
-        bodyDef.position.set(definition.getPosition());
+        bodyDef.position.set(definition.getCenter());
         body = Globals.getPhysicsWorld().createBody(bodyDef);
         FixtureDef fixtureDef = definition.getFixtureDef();
         body.createFixture(fixtureDef);

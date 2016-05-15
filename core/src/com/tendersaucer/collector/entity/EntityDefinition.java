@@ -54,7 +54,7 @@ public abstract class EntityDefinition {
         return size.set(width, height);
     }
 
-    public Vector2 getPosition() {
+    public Vector2 getCenter() {
         return bodyDef.position;
     }
 
