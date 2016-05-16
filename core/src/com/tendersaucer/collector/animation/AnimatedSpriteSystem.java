@@ -14,14 +14,16 @@ import java.util.Map;
 public final class AnimatedSpriteSystem extends AnimatedSprite {
 
     private boolean usingDefault;
-    private final TextureRegion defaultTexture;
+    private String currentAnimationId;
+    private TextureRegion defaultTexture;
     private final Map<String, AnimatedSprite> animationMap;
 
-    public AnimatedSpriteSystem(String defaultTextureKey) {
+    public AnimatedSpriteSystem(String defaultTextureName) {
         super();
 
-        defaultTexture = AssetManager.getInstance().getTextureRegion(defaultTextureKey);
+        defaultTexture = AssetManager.getInstance().getTextureRegion(defaultTextureName);
         animationMap = new HashMap<String, AnimatedSprite>();
+        currentAnimationId = defaultTextureName;
 
         usingDefault = true;
         setRegion(defaultTexture);
@@ -38,35 +40,87 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
     }
 
     @Override
-    public TextureRegion getCurrFrame() {
+    public TextureRegion getCurrentFrame() {
         if (usingDefault) {
             return defaultTexture;
         }
 
-        return super.getCurrFrame();
+        return super.getCurrentFrame();
     }
 
-    public void switchTo(String key) {
-        if (key == null) {
+    public void switchTo(String id, State newState) {
+        if (id == null) {
             usingDefault = true;
         } else {
-            rawAnimation = animationMap.get(key).getRawAnimation();
+            rawAnimation = animationMap.get(id).getRawAnimation();
+        }
+
+        currentAnimationId = id;
+        switch (newState) {
+            case PLAYING:
+                play();
+                break;
+            case PAUSED:
+                pause();
+                break;
+            case STOPPED:
+                stop();
+                break;
+            case FINISHED:
+                setFinished();
+                break;
         }
     }
 
     public void switchToDefault() {
-       switchTo(null);
+       switchTo(null, State.STOPPED);
     }
 
-    public void add(String key, AnimatedSprite animation) {
-        animationMap.put(key, animation);
+    public void add(String id, AnimatedSprite animation) {
+        animationMap.put(id, animation);
     }
 
-    public void remove(String key) {
-        animationMap.remove(key);
+    public void remove(String id) {
+        animationMap.remove(id);
+    }
+
+    public void setDefaultTexture(TextureRegion textureRegion) {
+        this.defaultTexture = textureRegion;
     }
 
     public boolean usingDefault() {
         return usingDefault;
+    }
+
+    public AnimatedSprite getCurrentAnimation() {
+        String id = getCurrentAnimationId();
+        if (id == null) {
+            return null;
+        }
+
+        return animationMap.get(id);
+    }
+
+    public String getCurrentAnimationId() {
+        if (usingDefault) {
+            return null;
+        }
+
+        return currentAnimationId;
+    }
+
+    public boolean anyPlaying(String... animationIds) {
+        for (String animationId : animationIds) {
+            if (isPlaying(animationId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isPlaying(String animationId) {
+        return !usingDefault && getCurrentAnimationId().equals(animationId) &&
+                getCurrentAnimation().isPlaying();
     }
 }

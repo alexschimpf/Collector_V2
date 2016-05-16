@@ -45,41 +45,41 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
 
     /**
      * Uses the world's id as the atlas name
-     * @param regionName
+     * @param regionId
      * @return
      */
-    public TextureRegion getTextureRegion(String regionName) {
-        return getTextureAtlasRegion(getWorldId(), regionName);
+    public TextureRegion getTextureRegion(String regionId) {
+        return getTextureAtlasRegion(getWorldId(), regionId);
     }
 
     /**
      * Uses the world's id as the atlas name
-     * @param regionName
+     * @param regionId
      * @return
      */
-    public Array<AtlasRegion> getTextureRegions(String regionName) {
-        return getTextureAtlasRegions(getWorldId(), regionName);
+    public Array<AtlasRegion> getTextureRegions(String regionId) {
+        return getTextureAtlasRegions(getWorldId(), regionId);
     }
 
-    public Sprite getSprite(String regionName) {
-        return new Sprite(getTextureRegion(regionName));
+    public Sprite getSprite(String regionId) {
+        return new Sprite(getTextureRegion(regionId));
     }
 
-    public AnimatedSprite getAnimatedSprite(String regionName) {
-        return new AnimatedSprite(regionName);
+    public AnimatedSprite getAnimatedSprite(String regionId) {
+        return new AnimatedSprite(regionId);
     }
 
-    public AnimatedSprite getAnimatedSprite(String regionName, float totalDuration) {
-        return new AnimatedSprite(regionName, totalDuration);
+    public AnimatedSprite getAnimatedSprite(String regionId, float totalDuration) {
+        return new AnimatedSprite(regionId, totalDuration);
     }
 
-    public AnimatedSprite getAnimatedSprite(String regionName, float totalDuration, Integer numLoops) {
-        return new AnimatedSprite(regionName, totalDuration, numLoops);
+    public AnimatedSprite getAnimatedSprite(String regionId, float totalDuration, Integer numLoops) {
+        return new AnimatedSprite(regionId, totalDuration, numLoops);
     }
 
-    public Sound getSound(String name) {
+    public Sound getSound(String id) {
         return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, name), Sound.class);
+                SOUND_EXTENSION, SOUND_DIR, id), Sound.class);
     }
 
     private void unloadWorldAssets() {
@@ -92,27 +92,27 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
         loadSounds();
     }
 
-    private void loadTextureAtlas(String name) {
+    private void loadTextureAtlas(String id) {
         load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name), TextureAtlas.class);
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id), TextureAtlas.class);
     }
 
-    private void unloadTextureAtlas(String name) {
+    private void unloadTextureAtlas(String id) {
         String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name);
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
     }
 
-    private void loadSound(String name) {
+    private void loadSound(String id) {
         load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, name), Sound.class);
+                SOUND_EXTENSION, SOUND_DIR, id), Sound.class);
     }
 
-    private void unloadSound(String name) {
+    private void unloadSound(String id) {
         String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, name);
+                SOUND_EXTENSION, SOUND_DIR, id);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
@@ -132,19 +132,19 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
         }
     }
 
-    private TextureAtlas getTextureAtlas(String name) {
+    private TextureAtlas getTextureAtlas(String id) {
         return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, name), TextureAtlas.class);
+                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id), TextureAtlas.class);
     }
 
-    private TextureRegion getTextureAtlasRegion(String atlasName, String regionName) {
+    private TextureRegion getTextureAtlasRegion(String atlasName, String regionId) {
         TextureAtlas textureAtlas = getTextureAtlas(atlasName);
-        return textureAtlas.findRegion(regionName);
+        return textureAtlas.findRegion(regionId);
     }
 
-    private Array<AtlasRegion> getTextureAtlasRegions(String atlasName, String regionName) {
+    private Array<AtlasRegion> getTextureAtlasRegions(String atlasName, String regionId) {
         TextureAtlas textureAtlas = getTextureAtlas(atlasName);
-        return textureAtlas.findRegions(regionName);
+        return textureAtlas.findRegions(regionId);
     }
 
     private String getWorldId() {

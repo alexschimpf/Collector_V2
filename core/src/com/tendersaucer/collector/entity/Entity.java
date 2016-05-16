@@ -198,6 +198,30 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
         return bounds.overlaps(entity.getBounds());
     }
 
+    public Vector2 getLinearVelocity() {
+        return body.getLinearVelocity();
+    }
+
+    public float getAngularSpeed() {
+        return body.getAngularVelocity();
+    }
+
+    public void setLinearVelocity(float x, float y) {
+        body.setLinearVelocity(x, y);
+    }
+
+    public void setAngularSpeed(float speed) {
+        body.setAngularVelocity(speed);
+    }
+
+    public void setPosition(float centerX, float centerY) {
+        body.setTransform(centerX, centerY, body.getAngle());
+    }
+
+    public void setRotation(float angle) {
+        body.setTransform(getCenterX(), getCenterY(), angle);
+    }
+
     protected void tick() {
         float centerX = body.getPosition().x;
         float centerY = body.getPosition().y;

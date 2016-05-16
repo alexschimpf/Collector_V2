@@ -19,7 +19,7 @@ import com.tendersaucer.collector.util.ConversionUtils;
  */
 public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
-    protected enum State {
+    public enum State {
         PLAYING, PAUSED, STOPPED, FINISHED
     }
 
@@ -73,7 +73,6 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         }
 
         stateTime += Gdx.graphics.getDeltaTime();
-        setRegion(getCurrFrame());
 
         if (!loops() && rawAnimation.isAnimationFinished(stateTime)) {
             setFinished();
@@ -91,6 +90,7 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
+        setRegion(getCurrentFrame());
         draw(spriteBatch);
     }
 
@@ -131,14 +131,6 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         setFlip(isFlipX(), flip);
     }
 
-    public com.badlogic.gdx.graphics.g2d.Animation getRawAnimation() {
-        return rawAnimation;
-    }
-
-    public TextureRegion getCurrFrame() {
-        return rawAnimation.getKeyFrame(stateTime);
-    }
-
     public boolean isPlaying() {
         return state == State.PLAYING;
     }
@@ -153,6 +145,14 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
     public boolean isFinished() {
         return state == State.FINISHED;
+    }
+
+    public com.badlogic.gdx.graphics.g2d.Animation getRawAnimation() {
+        return rawAnimation;
+    }
+
+    public TextureRegion getCurrentFrame() {
+        return rawAnimation.getKeyFrame(stateTime);
     }
 
     public State getState() {
