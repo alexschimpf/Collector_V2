@@ -13,7 +13,7 @@ import com.tendersaucer.collector.util.RandomUtils;
  *
  * Created by Alex on 4/8/2016.
  */
-public final class Player extends VisibleEntity {
+public final class Player extends RenderedEntity {
 
     private enum Direction {
         LEFT, RIGHT

@@ -8,7 +8,7 @@ import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
-import com.tendersaucer.collector.entity.VisibleEntity;
+import com.tendersaucer.collector.entity.RenderedEntity;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.event.RoomLoadEndEvent;
@@ -109,8 +109,8 @@ public final class Room implements IUpdate {
                 setPlayer((Player)entity);
             }
 
-            if (entity instanceof VisibleEntity) {
-                entity.addToCanvas();
+            if (entity instanceof RenderedEntity) {
+                ((RenderedEntity)entity).addToCanvas();
             }
         }
     }

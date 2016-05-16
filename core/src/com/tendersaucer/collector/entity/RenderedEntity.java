@@ -6,15 +6,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.screen.Canvas;
+import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Created by Alex on 5/9/2016.
  */
-public abstract class VisibleEntity extends Entity {
+public abstract class RenderedEntity extends Entity implements IRender {
 
     protected Sprite sprite; // subclasses can add more, if necessary
 
-    public VisibleEntity(EntityDefinition definition) {
+    public RenderedEntity(EntityDefinition definition) {
         super(definition);
 
         String textureName = definition.getStringProperty("texture");
@@ -25,8 +26,12 @@ public abstract class VisibleEntity extends Entity {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-        sprite.draw(spriteBatch);
+    protected void tick() {
+        super.tick();
+
+        sprite.setPosition(getLeft(), getTop());
+        sprite.setOrigin(getWidth() / 2, getHeight() / 2);
+        sprite.setRotation(MathUtils.radiansToDegrees * body.getAngle());
     }
 
     @Override
@@ -36,13 +41,12 @@ public abstract class VisibleEntity extends Entity {
         Canvas.getInstance().remove(this);
     }
 
-    @Override
-    protected void tick() {
-        super.tick();
+    public void render(SpriteBatch spriteBatch) {
+        sprite.draw(spriteBatch);
+    }
 
-        sprite.setPosition(getLeft(), getTop());
-        sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-        sprite.setRotation(MathUtils.radiansToDegrees * body.getAngle());
+    public void addToCanvas() {
+        Canvas.getInstance().addToLayer(definition.getLayer(), this);
     }
 
     public Sprite getSprite() {

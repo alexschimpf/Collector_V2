@@ -1,6 +1,5 @@
 package com.tendersaucer.collector.entity;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -11,8 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.screen.Canvas;
-import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.MiscUtils;
 import com.tendersaucer.collector.util.Vector2Pool;
 import com.tendersaucer.collector.world.ICollide;
@@ -24,7 +21,7 @@ import java.util.UUID;
  *
  * Created by Alex on 4/8/2016.
  */
-public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable {
+public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
     public enum State {
         ACTIVE, INACTIVE, DONE
@@ -75,10 +72,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-    }
-
-    @Override
     public boolean update() {
         tick();
         return isDone();
@@ -88,10 +81,6 @@ public abstract class Entity implements IUpdate, IRender, ICollide, IDisposable 
     public void dispose() {
         Globals.getPhysicsWorld().destroyBody(body);
         Vector2Pool.getInstance().free(leftTop);
-    }
-
-    public void addToCanvas() {
-        Canvas.getInstance().addToLayer(definition.getLayer(), this);
     }
 
     public void setTopLeft(float left, float top) {
