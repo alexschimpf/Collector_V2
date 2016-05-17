@@ -14,7 +14,7 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
-import com.tendersaucer.collector.util.JsonUtils;
+import com.tendersaucer.collector.util.ConversionUtils;
 import com.tendersaucer.collector.util.RandomUtils;
 import com.tendersaucer.collector.util.Vector2Pool;
 
@@ -180,23 +180,23 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
 
     protected void loadRanges(JsonValue root) {
         if (root.has("duration")) {
-            durationRange.set(JsonUtils.toVector2(root.get("duration")));
+            durationRange.set(ConversionUtils.toVector2(root.get("duration")));
         }
         if (root.has("num_particles")) {
-            particlesRange.set(JsonUtils.toVector2(root.get("num_particles")));
+            particlesRange.set(ConversionUtils.toVector2(root.get("num_particles")));
         }
         if (root.has("position_offset")) {
-            Vector2 minOffset = JsonUtils.toVector2(root.get("position_offset").get(0));
-            Vector2 maxOffset = JsonUtils.toVector2(root.get("position_offset").get(1));
+            Vector2 minOffset = ConversionUtils.toVector2(root.get("position_offset").get(0));
+            Vector2 maxOffset = ConversionUtils.toVector2(root.get("position_offset").get(1));
             xOffsetRange.set(minOffset.x, maxOffset.x);
             yOffsetRange.set(minOffset.y, maxOffset.y);
         }
         if (root.has("angular_velocity")) {
-            angularVelocityRange.set(JsonUtils.toVector2(root.get("angular_velocity")));
+            angularVelocityRange.set(ConversionUtils.toVector2(root.get("angular_velocity")));
         }
         if (root.has("color")) {
-            Color minColor = JsonUtils.toColor(root.get("color").get(0));
-            Color maxColor = JsonUtils.toColor(root.get("color").get(1));
+            Color minColor = ConversionUtils.toColor(root.get("color").get(0));
+            Color maxColor = ConversionUtils.toColor(root.get("color").get(1));
             redRange.set(minColor.r, maxColor.r);
             greenRange.set(minColor.g, maxColor.g);
             blueRange.set(minColor.b, maxColor.b);
@@ -204,11 +204,11 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         }
         if (root.has("velocity")) {
             JsonValue velocityRoot = root.get("velocity");
-            Vector2 minVelocity = JsonUtils.toVector2(velocityRoot.get("range").get(0));
-            Vector2 maxVelocity = JsonUtils.toVector2(velocityRoot.get("range").get(1));
+            Vector2 minVelocity = ConversionUtils.toVector2(velocityRoot.get("range").get(0));
+            Vector2 maxVelocity = ConversionUtils.toVector2(velocityRoot.get("range").get(1));
             vxRange.set(minVelocity.x, maxVelocity.x);
             vyRange.set(minVelocity.y, maxVelocity.y);
-            velocitySplits.set(JsonUtils.toVector2(velocityRoot.get("splits")));
+            velocitySplits.set(ConversionUtils.toVector2(velocityRoot.get("splits")));
         }
     }
 

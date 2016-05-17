@@ -3,7 +3,7 @@ package com.tendersaucer.collector.particle.modifiers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.particle.Particle;
-import com.tendersaucer.collector.util.JsonUtils;
+import com.tendersaucer.collector.util.ConversionUtils;
 
 /**
  * Created by Alex on 4/30/2016.
@@ -26,6 +26,6 @@ public class LinearSizeParticleModifier extends ParticleModifier {
 
     @Override
     protected void load(JsonValue json) {
-        scale = JsonUtils.toVector2(json.get("scale"));
+        scale = ConversionUtils.toVector2(json.get("scale"));
     }
 }

@@ -3,7 +3,7 @@ package com.tendersaucer.collector.particle.modifiers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.particle.Particle;
-import com.tendersaucer.collector.util.JsonUtils;
+import com.tendersaucer.collector.util.ConversionUtils;
 
 /**
  * Created by Alex on 4/30/2016.
@@ -29,7 +29,7 @@ public class LinearColorParticleModifier extends ParticleModifier {
 
     @Override
     protected void load(JsonValue json) {
-        startColor = JsonUtils.toColor(json.get("start"));
-        endColor = JsonUtils.toColor(json.get("end"));
+        startColor = ConversionUtils.toColor(json.get("start"));
+        endColor = ConversionUtils.toColor(json.get("end"));
     }
 }

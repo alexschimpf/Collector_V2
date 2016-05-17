@@ -1,7 +1,9 @@
 package com.tendersaucer.collector.util;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.MainCamera;
 
 /**
@@ -18,6 +20,16 @@ public final class ConversionUtils {
 
     public static float s2ms(float s) {
         return s * 1000;
+    }
+
+    public static Vector2 toVector2(JsonValue jsonVal) {
+        float[] components = jsonVal.asFloatArray();
+        return new Vector2(components[0], components[1]);
+    }
+
+    public static Color toColor(JsonValue jsonVal) {
+        float[] rgb = jsonVal.asFloatArray();
+        return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
     }
 
     public static Vector2 toVector2(String str) {

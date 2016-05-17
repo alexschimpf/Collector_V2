@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.particle.Particle;
-import com.tendersaucer.collector.util.JsonUtils;
+import com.tendersaucer.collector.util.ConversionUtils;
 import com.tendersaucer.collector.util.PathHelper;
 
 /**
@@ -28,7 +28,7 @@ public class LinearPathParticleModifier extends ParticleModifier {
     protected void load(JsonValue json) {
         Array<Vector2> legs = new Array<Vector2>();
         for (JsonValue leg : json.get("legs")) {
-            legs.add(JsonUtils.toVector2(leg));
+            legs.add(ConversionUtils.toVector2(leg));
         }
 
         pathHelper = new PathHelper(legs);
