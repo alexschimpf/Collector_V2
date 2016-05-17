@@ -15,4 +15,8 @@ public abstract class ParticleModifier {
     public abstract void modify(Particle particle);
 
     protected abstract void load(JsonValue json);
+
+    public final float interpolate(float start, float end, float ratio) {
+        return start + ((end - start) * ratio);
+    }
 }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.util.MiscUtils;
 import com.tendersaucer.collector.util.Vector2Pool;
 import com.tendersaucer.collector.world.ICollide;
 
@@ -168,7 +167,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     }
 
     public float getCenterX() {
-        return MiscUtils.getCenterX(bounds.getX(), bounds.getWidth());
+        return bounds.getX() + (bounds.getWidth() / 2);
     }
 
     public float getCenterY() {
