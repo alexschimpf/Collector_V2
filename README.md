@@ -6,7 +6,7 @@
 
 ---
 
-#### Using these
+#### Using
 * libgdx
 * gdx-freetype
 * Box2D
