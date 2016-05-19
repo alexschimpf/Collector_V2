@@ -12,6 +12,7 @@ import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.event.IWorldLoadBeginListener;
 import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;
+import com.tendersaucer.collector.util.FileUtils;
 
 /**
  * Created by Alex on 5/5/2016.
@@ -78,8 +79,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     public Sound getSound(String id) {
-        return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, id), Sound.class);
+        return get(FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION), Sound.class);
     }
 
     private void unloadWorldAssets() {
@@ -93,26 +93,23 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private void loadTextureAtlas(String id) {
-        load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id), TextureAtlas.class);
+        load(FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION),
+                TextureAtlas.class);
     }
 
     private void unloadTextureAtlas(String id) {
-        String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id);
+        String fileName = FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
     }
 
     private void loadSound(String id) {
-        load(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, id), Sound.class);
+        load(FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION), Sound.class);
     }
 
     private void unloadSound(String id) {
-        String fileName = com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                SOUND_EXTENSION, SOUND_DIR, id);
+        String fileName = FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
@@ -133,8 +130,8 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private TextureAtlas getTextureAtlas(String id) {
-        return get(com.tendersaucer.collector.util.FileUtils.buildFilePathWithExtension(
-                TEXTURE_ATLAS_EXTENSION, TEXTURE_ATLAS_DIR, id), TextureAtlas.class);
+        return get(FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION),
+                TextureAtlas.class);
     }
 
     private TextureRegion getTextureAtlasRegion(String atlasName, String regionId) {
