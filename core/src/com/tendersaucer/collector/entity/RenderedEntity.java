@@ -18,9 +18,9 @@ public abstract class RenderedEntity extends Entity implements IRender {
     public RenderedEntity(EntityDefinition definition) {
         super(definition);
 
-        String textureName = definition.getStringProperty("texture");
+        String textureId = definition.getStringProperty("texture");
         TextureRegion textureRegion =
-                AssetManager.getInstance().getTextureRegion(textureName);
+                AssetManager.getInstance().getTextureRegion(textureId);
         sprite = new Sprite(textureRegion);
         sprite.setSize(getWidth(), getHeight());
     }

@@ -3,14 +3,16 @@ package com.tendersaucer.collector.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.tendersaucer.collector.util.FileUtils;
+import com.tendersaucer.collector.AssetManager;
 
 /**
  * Created by Alex on 5/12/2016.
  */
 public class JSONWorldLoadable implements IWorldLoadable {
 
+    protected static final String WORLDS_DIR = "worlds";
     protected static final String ENTRY_ROOM_ID_PROP = "entry_room_id";
+    private static final String WORLD_CONFIG_NAME = "world.json";
 
     protected String id;
     protected String entryRoomId;
@@ -18,7 +20,7 @@ public class JSONWorldLoadable implements IWorldLoadable {
     public JSONWorldLoadable(String id) {
         this.id = id;
 
-        String configURI = FileUtils.getWorldConfigURI(id);
+        String configURI = AssetManager.getFilePath(WORLDS_DIR, id, WORLD_CONFIG_NAME);
         processJSON(configURI);
     }
 

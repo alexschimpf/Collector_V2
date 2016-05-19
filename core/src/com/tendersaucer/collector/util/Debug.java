@@ -11,9 +11,9 @@ public final class Debug {
     }
 
     public static void printDebugInfo() {
-        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
-        System.out.println("V2Pool #Free: " + Vector2Pool.getInstance().getFree());
-        System.out.println("V3Pool #Free: " + Vector2Pool.getInstance().getFree());
-        System.out.println("Heap size (MB): " + Gdx.app.getJavaHeap() / 1000000.0f);
+        Gdx.app.log("debug", "FPS: " + Gdx.graphics.getFramesPerSecond());
+        Gdx.app.log("debug", "V2Pool #Free: " + Vector2Pool.getInstance().getFree());
+        Gdx.app.log("debug", "V3Pool #Free: " + Vector2Pool.getInstance().getFree());
+        Gdx.app.log("debug", "Heap size (MB): " + Gdx.app.getJavaHeap() / 1000000.0f);
     }
 }

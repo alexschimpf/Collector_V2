@@ -49,6 +49,7 @@ public final class Driver implements Screen {
         eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
+        AssetManager.getInstance().load("0");
         IWorldLoadable worldLoadable = new JSONWorldLoadable("0");
         World.getInstance().load(worldLoadable);
 

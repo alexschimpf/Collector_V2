@@ -54,23 +54,24 @@ public final class Player extends RenderedEntity {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        super.render(spriteBatch);
+        //super.render(spriteBatch);
     }
 
     @Override
     protected void tick() {
-        super.tick();
-
-        if (readyToBlink()) {
-            blink();
-        }
-
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if(!animationSystem.isPlaying(JUMP_ANIMATION_ID)) {
-            animationSystem.switchToDefault();
-        }
-
-        animationSystem.update();
+        return;
+//        super.tick();
+//
+//        if (readyToBlink()) {
+//            blink();
+//        }
+//
+//        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+//        if(!animationSystem.isPlaying(JUMP_ANIMATION_ID)) {
+//            animationSystem.switchToDefault();
+//        }
+//
+//        animationSystem.update();
     }
 
     @Override

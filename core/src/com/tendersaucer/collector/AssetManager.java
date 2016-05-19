@@ -12,7 +12,8 @@ import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.event.IWorldLoadBeginListener;
 import com.tendersaucer.collector.world.IWorldLoadable;
 import com.tendersaucer.collector.world.World;
-import com.tendersaucer.collector.util.FileUtils;
+
+import java.nio.file.Paths;
 
 /**
  * Created by Alex on 5/5/2016.
@@ -22,15 +23,19 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     private static final AssetManager instance = new AssetManager();
     private static final String DEFAULT_WORLD_ID = "0";
     private static final String TEXTURE_ATLAS_DIR = "texture_atlas";
-    private static final String SOUND_DIR = "sound";
-    private static final String TEXTURE_ATLAS_EXTENSION = "atlas";
-    private static final String SOUND_EXTENSION = "mp3";
+    private static final String SOUND_DIR = ".sound";
+    private static final String TEXTURE_ATLAS_EXTENSION = ".atlas";
+    private static final String SOUND_EXTENSION = ".mp3";
 
     private AssetManager() {
     }
 
     public static AssetManager getInstance() {
         return instance;
+    }
+
+    public static String getFilePath(String first, String... more) {
+        return Paths.get(first, more).toString().replace("\\", "/");
     }
 
     @Override
@@ -79,7 +84,12 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     public Sound getSound(String id) {
-        return get(FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION), Sound.class);
+        String fileName = getFilePath(SOUND_DIR, id + SOUND_EXTENSION);
+        if (!isLoaded(fileName)) {
+            Gdx.app.log("assets", "Asset '" + fileName + "' has not been loaded");
+        }
+
+        return get(fileName, Sound.class);
     }
 
     private void unloadWorldAssets() {
@@ -93,23 +103,22 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private void loadTextureAtlas(String id) {
-        load(FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION),
-                TextureAtlas.class);
+        load(getFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION), TextureAtlas.class);
     }
 
     private void unloadTextureAtlas(String id) {
-        String fileName = FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION);
+        String fileName = getFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
     }
 
     private void loadSound(String id) {
-        load(FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION), Sound.class);
+        load(getFilePath(SOUND_DIR, id + SOUND_EXTENSION), Sound.class);
     }
 
     private void unloadSound(String id) {
-        String fileName = FileUtils.buildFilePath(SOUND_DIR, id + SOUND_EXTENSION);
+        String fileName = getFilePath(SOUND_DIR, id + SOUND_EXTENSION);
         if (isLoaded(fileName)) {
             unload(fileName);
         }
@@ -130,8 +139,12 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     }
 
     private TextureAtlas getTextureAtlas(String id) {
-        return get(FileUtils.buildFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION),
-                TextureAtlas.class);
+        String fileName = getFilePath(TEXTURE_ATLAS_DIR, id + TEXTURE_ATLAS_EXTENSION);
+        if (!isLoaded(fileName)) {
+            Gdx.app.log("assets", "Asset '" + fileName + "' has not been loaded");
+        }
+
+        return get(fileName, TextureAtlas.class);
     }
 
     private TextureRegion getTextureAtlasRegion(String atlasName, String regionId) {

@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -51,9 +52,14 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         id = getOrCreateId();
         state = State.ACTIVE;
 
-        createBody();
-        body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
-        setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation"));
+        try {
+            createBody();
+            body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
+            setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation"));
+        } catch(Exception e) {
+            Gdx.app.log("entity", "Error creating body for entity with id=" + id);
+            Gdx.app.log("entity", e.toString());
+        }
     }
 
     /**

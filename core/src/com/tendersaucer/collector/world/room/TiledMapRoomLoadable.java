@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.world.room;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.background.TextureParallaxLayer;
@@ -24,7 +26,6 @@ import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.Driver;
 import com.tendersaucer.collector.screen.IRender;
-import com.tendersaucer.collector.util.FileUtils;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 import com.tendersaucer.collector.util.MapLayerWrapper;
@@ -41,6 +42,8 @@ import java.util.Map;
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
 
+    private static final String ROOMS_DIR = "rooms";
+    private static final String WORLDS_DIR = "worlds";
     private static final String BACKGROUND_PROP = "background";
     private static final String TYPE_PROP = "type";
     private static final String LAYER_POS_PROP = "layer";
@@ -72,7 +75,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         canvasMap = new LinkedHashMap<IRender, Integer>();
         bodySkeletonMap = new HashMap<String, MapObject>();
 
-        filename = FileUtils.getRoomConfigURI(worldId, roomId);
+        filename = AssetManager.getFilePath(WORLDS_DIR, worldId, ROOMS_DIR, roomId + ".tmx");
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.flipY = false;
         tiledMap = new TmxMapLoader().load(filename, params);
@@ -80,7 +83,12 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         background = new ParallaxBackground();
         setBackground();
 
-        processLayers();
+        try {
+            processLayers();
+        } catch (Exception e) {
+            Gdx.app.log("tiled", "Error processing layers");
+            Gdx.app.log("tiled", e.toString());
+        }
     }
 
     @Override

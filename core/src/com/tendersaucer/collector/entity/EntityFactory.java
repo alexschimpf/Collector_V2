@@ -1,5 +1,7 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.Gdx;
+
 import java.lang.reflect.Constructor;
 
 /**
@@ -25,8 +27,8 @@ public final class EntityFactory {
             entity.init();
         } catch (Exception e) {
             String entityInfo = "type=" + entityDef.getType() + ", id=" + entityDef.getId();
-            System.out.println("Error building entity (" + entityInfo + ")");
-            System.out.println(e.toString());
+            Gdx.app.log("entity", "Error building entity (" + entityInfo + ")");
+            Gdx.app.log("entity", e.toString());
         }
 
         return entity;
