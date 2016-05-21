@@ -44,7 +44,7 @@ public final class EntityConfig {
     private void parseConfig(JsonValue root) {
         for (JsonValue entityRoot : root.get("entities")) {
             String entityType = entityRoot.name;
-            if (!entityType.equals("")) {
+            if (entityType.equals("")) {
                 throw new InvalidConfigException(CONFIG_FILENAME, "type", "null");
             }
 
@@ -75,7 +75,7 @@ public final class EntityConfig {
     private void addCustomProperties(JsonValue entityRoot, EntityProperties entityProperties) {
         String type = entityRoot.name;
         String className = entityRoot.getString("class");
-        if (!className.equals("")) {
+        if (className.equals("")) {
             throw new InvalidConfigException(CONFIG_FILENAME, "class", "null");
         }
 

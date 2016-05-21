@@ -66,11 +66,11 @@ public final class Player extends RenderedEntity {
 
     @Override
     protected Sprite createSprite(EntityDefinition definition) {
-        AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("default");
+        AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("player_default");
         animationSystem.setSize(getWidth(), getHeight());
-        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("default", 300));
-        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("default", 300));
-        animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));
+        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("player_default", 300));
+        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("player_default", 300));
+        animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("player_default", 300));
 
         return animationSystem;
     }

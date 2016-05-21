@@ -6,6 +6,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.tendersaucer.collector.Game;
 import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.tools.TilesetGenerator;
 
 public class DesktopLauncher {
 
@@ -16,7 +17,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.vSyncEnabled = true;
-		//config.fullscreen = Globals.FULLSCREEN_MODE;
+		config.fullscreen = Globals.FULLSCREEN_MODE;
 		config.resizable = false;
 		config.title = "Collector";
 
@@ -29,6 +30,8 @@ public class DesktopLauncher {
 			TexturePacker.Settings settings = new Settings();
 			settings.duplicatePadding = true;
 			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, TEXTURE_PACK_NAME);
+		} else if (Globals.PACK_TILESETS) {
+			TilesetGenerator.generate("tiles.png");
 		} else {
 			new LwjglApplication(new Game(), config);
 		}
