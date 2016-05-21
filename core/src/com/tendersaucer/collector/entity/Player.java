@@ -27,7 +27,7 @@ public final class Player extends RenderedEntity {
         LEFT, RIGHT
     }
 
-    public static final float MOVE_SPEED = 10;
+    public static final float MOVE_SPEED = 20;
     public static final float JUMP_IMPULSE = -150;
     public static final float MASS = 5.69f;
     public static final short COLLISION_MASK = 0x0002;
@@ -75,12 +75,12 @@ public final class Player extends RenderedEntity {
 
     @Override
     public void onBeginContact(Contact contact, Entity entity) {
-        numFootContacts++;
+        handleFootContact(contact, true);
     }
 
     @Override
     public void onEndContact(Contact contact, Entity entity) {
-        numFootContacts--;
+        handleFootContact(contact, false);
     }
 
     @Override
@@ -106,7 +106,7 @@ public final class Player extends RenderedEntity {
 
         body.setBullet(true);
         body.getMassData().mass = MASS;
-        attachFootSensors(body, definition.getSize().x);
+        attachFootSensor(body, definition.getSize().x);
 
         Filter filter = new Filter();
         filter.categoryBits = 0x0001;
@@ -219,14 +219,39 @@ public final class Player extends RenderedEntity {
         return RandomUtils.pickFromRange(2000, 8000);
     }
 
-    private void attachFootSensors(Body body, float width) {
-        Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
-
+    private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
+        Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
         shape.setAsBox(width / 2 * 0.83f, 0.12f, localBottom, 0);
         Fixture fixture = body.createFixture(shape, 0);
         fixture.setSensor(true);
 
         shape.dispose();
+    }
+
+    private void handleFootContact(Contact contact, boolean onBeginContact) {
+        Fixture footSensor = getFootSensor();
+        if (contact.getFixtureA() == footSensor || contact.getFixtureB() == footSensor) {
+            Fixture otherFixture = contact.getFixtureA();
+            if (otherFixture == footSensor) {
+                otherFixture = contact.getFixtureB();
+            }
+
+            if(!otherFixture.isSensor()) {
+                if (onBeginContact) {
+                    isJumping = ++numFootContacts < 1;
+                } else {
+                    isJumping = Math.max(0, --numFootContacts) < 1;
+                }
+            }
+        }
+    }
+
+    private Fixture getMainFixture() {
+        return body.getFixtureList().get(0);
+    }
+
+    private Fixture getFootSensor() {
+        return body.getFixtureList().get(1);
     }
 }

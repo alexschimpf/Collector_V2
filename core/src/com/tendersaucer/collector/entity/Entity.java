@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.util.BodyData;
 import com.tendersaucer.collector.util.Vector2Pool;
 import com.tendersaucer.collector.world.ICollide;
 
@@ -70,6 +71,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
      * For any necessary post-construction operations (e.g. listening to events)
      */
     public void init() {
+        body.setUserData(new BodyData(this));
     }
 
     @Override

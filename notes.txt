@@ -1,5 +1,4 @@
 Working:
-- Get player working (including controls)
 - Make sure background works
 - Rethink World/Room idea
 - Allow for hierarchy in entity.json

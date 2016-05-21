@@ -35,7 +35,15 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyUp(InputEvent event, int keyCode) {
-        return false;
+        switch(keyCode) {
+            case Keys.SPACE:
+                Globals.getPlayer().stopJump();
+                break;
+            default:
+                return false;
+        }
+
+        return true;
     }
 
     @Override
