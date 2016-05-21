@@ -23,9 +23,9 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
     private static final AssetManager instance = new AssetManager();
     private static final String DEFAULT_WORLD_ID = "0";
     private static final String TEXTURE_ATLAS_DIR = "texture_atlas";
-    private static final String SOUND_DIR = ".sound";
+    private static final String SOUND_DIR = "sound";
     private static final String TEXTURE_ATLAS_EXTENSION = ".atlas";
-    private static final String SOUND_EXTENSION = ".mp3";
+    private static final String SOUND_EXTENSION = ".wav";
 
     private AssetManager() {
     }

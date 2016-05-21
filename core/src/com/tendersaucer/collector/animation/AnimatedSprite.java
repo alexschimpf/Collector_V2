@@ -73,6 +73,7 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         }
 
         stateTime += Gdx.graphics.getDeltaTime();
+        setRegion(getCurrentFrame());
 
         if (!loops() && rawAnimation.isAnimationFinished(stateTime)) {
             setFinished();
@@ -90,13 +91,12 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        setRegion(getCurrentFrame());
         draw(spriteBatch);
     }
 
     @Override
     public void setSize(float width, float height) {
-        setSize(width, height);
+        super.setSize(width, height);
         setOrigin(width / 2, height / 2); // not sure why setOriginCenter doesn't work...
     }
 

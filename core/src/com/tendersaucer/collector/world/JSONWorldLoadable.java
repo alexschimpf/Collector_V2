@@ -16,7 +16,7 @@ public class JSONWorldLoadable implements IWorldLoadable {
     public JSONWorldLoadable(String id) {
         this.id = id;
 
-        String configURI = AssetManager.getFilePath("worlds", id, "worlds.json");
+        String configURI = AssetManager.getFilePath("worlds", id, "world.json");
         processJSON(configURI);
     }
 

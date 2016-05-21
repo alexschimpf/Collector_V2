@@ -1,7 +1,6 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.tendersaucer.collector.AssetManager;
@@ -52,11 +51,6 @@ public final class Player extends RenderedEntity {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch) {
-        super.render(spriteBatch);
-    }
-
-    @Override
     protected void tick() {
         super.tick();
 
@@ -65,7 +59,7 @@ public final class Player extends RenderedEntity {
         }
 
         AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if(!animationSystem.isPlaying(JUMP_ANIMATION_ID)) {
+        if(!animationSystem.anyPlaying(MOVE_ANIMATION_ID, JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
             animationSystem.switchToDefault();
         }
 
@@ -85,6 +79,7 @@ public final class Player extends RenderedEntity {
     @Override
     protected Sprite createSprite(EntityDefinition definition) {
         AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("default");
+        animationSystem.setSize(getWidth(), getHeight());
         animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("default", 300));
         animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("default", 300));
         animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));

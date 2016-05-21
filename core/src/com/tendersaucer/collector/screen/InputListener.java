@@ -30,6 +30,15 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean keyDown(InputEvent event, int keyCode) {
         switch (keyCode) {
+            case Keys.LEFT:
+                Globals.getPlayer().moveLeft();
+                break;
+            case Keys.RIGHT:
+                Globals.getPlayer().moveRight();
+                break;
+            case Keys.SPACE:
+                Globals.getPlayer().jump();
+                break;
             case Keys.ESCAPE:
                 Gdx.app.exit();
                 break;
