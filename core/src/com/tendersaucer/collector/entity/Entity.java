@@ -62,6 +62,10 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         }
     }
 
+    public static boolean isPlayer(Entity entity) {
+        return entity != null && entity.getType().equals(Player.TYPE);
+    }
+
     /**
      * For any necessary post-construction operations (e.g. listening to events)
      */

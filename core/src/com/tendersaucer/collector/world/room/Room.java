@@ -14,7 +14,6 @@ import com.tendersaucer.collector.event.RoomLoadBeginEvent;
 import com.tendersaucer.collector.event.RoomLoadEndEvent;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
-import com.tendersaucer.collector.util.EntityUtils;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -105,7 +104,7 @@ public final class Room implements IUpdate {
             }
 
             entityMap.put(id, entity);
-            if (EntityUtils.isPlayer(entity)) {
+            if (Entity.isPlayer(entity)) {
                 setPlayer((Player)entity);
             }
 
