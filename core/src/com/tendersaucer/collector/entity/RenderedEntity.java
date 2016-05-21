@@ -18,11 +18,7 @@ public abstract class RenderedEntity extends Entity implements IRender {
     public RenderedEntity(EntityDefinition definition) {
         super(definition);
 
-        String textureId = definition.getStringProperty("texture");
-        TextureRegion textureRegion =
-                AssetManager.getInstance().getTextureRegion(textureId);
-        sprite = new Sprite(textureRegion);
-        sprite.setSize(getWidth(), getHeight());
+        sprite = createSprite(definition);
     }
 
     @Override
@@ -39,6 +35,16 @@ public abstract class RenderedEntity extends Entity implements IRender {
         super.dispose();
 
         Canvas.getInstance().remove(this);
+    }
+
+    protected Sprite createSprite(EntityDefinition definition) {
+        String textureId = definition.getStringProperty("texture");
+        TextureRegion textureRegion =
+                AssetManager.getInstance().getTextureRegion(textureId);
+        Sprite sprite = new Sprite(textureRegion);
+        sprite.setSize(getWidth(), getHeight());
+
+        return sprite;
     }
 
     public void render(SpriteBatch spriteBatch) {

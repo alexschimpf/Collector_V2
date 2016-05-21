@@ -17,8 +17,7 @@
             "class": "Player",
             "properties": {
                 "optional": [
-                    { "name": "body_type", "default": "dynamic" },
-                    { "name": "texture", "default": "default" }
+                    { "name": "body_type", "default": "dynamic" }
                 ]
             }
         }

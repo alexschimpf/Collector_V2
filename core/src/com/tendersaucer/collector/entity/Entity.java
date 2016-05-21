@@ -53,7 +53,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         state = State.ACTIVE;
 
         try {
-            createBody();
+            body = createBody(definition);
             body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
             setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation"));
         } catch(Exception e) {
@@ -229,18 +229,20 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         leftTop.set(left, top);
     }
 
-    protected void createBody() {
+    protected Body createBody(EntityDefinition definition) {
         BodyDef bodyDef = definition.getBodyDef();
         bodyDef.position.set(definition.getCenter());
-        body = Globals.getPhysicsWorld().createBody(bodyDef);
+        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
         FixtureDef fixtureDef = definition.getFixtureDef();
         body.createFixture(fixtureDef);
         fixtureDef.shape.dispose();
+
+        return body;
     }
 
     private String getOrCreateId() {
         String id = definition.getId();
-        if (id == null || id.isEmpty()) {
+        if (id == null || id.equals("")) {
             id = UUID.randomUUID().toString();
         }
 

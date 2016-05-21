@@ -42,22 +42,6 @@ import java.util.Map;
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
 
-    private static final String ROOMS_DIR = "rooms";
-    private static final String WORLDS_DIR = "worlds";
-    private static final String BACKGROUND_PROP = "background";
-    private static final String TYPE_PROP = "type";
-    private static final String LAYER_POS_PROP = "layer";
-    private static final String X_PROP = "x";
-    private static final String Y_PROP = "y";
-    private static final String WIDTH_PROP = "width";
-    private static final String HEIGHT_PROP = "height";
-    private static final String BODY_WIDTH_PROP = "body_width";
-    private static final String BODY_HEIGHT_PROP = "body_height";
-    private static final String BODY_SKELETON_ID_PROP = "body_skeleton_id";
-    private static final String BODY_SKELETON_TYPE = "body_skeleton";
-    private static final String PLAYER_TYPE = "player";
-    private static final String BODIES_LAYER = "bodies";
-
     private final String id;
     private final String filename;
     private final TiledMap tiledMap;
@@ -75,7 +59,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         canvasMap = new LinkedHashMap<IRender, Integer>();
         bodySkeletonMap = new HashMap<String, MapObject>();
 
-        filename = AssetManager.getFilePath(WORLDS_DIR, worldId, ROOMS_DIR, roomId + ".tmx");
+        filename = AssetManager.getFilePath("worlds", worldId, "rooms", roomId + ".tmx");
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.flipY = false;
         tiledMap = new TmxMapLoader().load(filename, params);
@@ -126,16 +110,16 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             MapLayerWrapper layerWrapper = new MapLayerWrapper(renderer, layer);
 
             // Bodies must exist before entity objects.
-            if (layerWrapper.getName().equals(BODIES_LAYER)) {
+            if (layerWrapper.getName().equals("bodies")) {
                 processLayer(layerWrapper);
             } else {
-                if (!TiledUtils.propertyExists(layerWrapper, LAYER_POS_PROP)) {
-                    throw new InvalidConfigException(filename, LAYER_POS_PROP, "null");
+                if (!TiledUtils.propertyExists(layerWrapper, "layer")) {
+                    throw new InvalidConfigException(filename, "layer", "null");
                 }
 
-                int layerPos = TiledUtils.getIntProperty(layerWrapper, LAYER_POS_PROP);
+                int layerPos = TiledUtils.getIntProperty(layerWrapper, "layer");
                 if (!isLayerPosValid(layerPos)) {
-                    throw new InvalidConfigException(filename, LAYER_POS_PROP, layerPos);
+                    throw new InvalidConfigException(filename, "layer", layerPos);
                 }
 
                 layersToProcess.add(layerWrapper);
@@ -156,14 +140,14 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             if (object instanceof TextureMapObject) {
                 entities.add((TextureMapObject)object);
             } else {
-                if (!TiledUtils.propertyExists(object, TYPE_PROP)) {
+                if (!TiledUtils.propertyExists(object, "type")) {
                     freeBodies.add(object);
                 } else {
-                    String type = TiledUtils.getStringProperty(object, TYPE_PROP);
+                    String type = TiledUtils.getStringProperty(object, "type");
                     if (isBodySkeleton(type)) {
                         bodySkeletonMap.put(object.getName(), object);
                     } else {
-                        throw new InvalidConfigException(filename, TYPE_PROP, type);
+                        throw new InvalidConfigException(filename, "type", type);
                     }
                 }
             }
@@ -194,26 +178,26 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private void processEntities(MapLayerWrapper layer, Array<TextureMapObject> entities) {
         for (TextureMapObject object : entities) {
-            if (!TiledUtils.propertyExists(object,TYPE_PROP)) {
-                throw new InvalidConfigException(filename, TYPE_PROP, "null");
+            if (!TiledUtils.propertyExists(object,"type")) {
+                throw new InvalidConfigException(filename, "type", "null");
             }
 
-            String type = TiledUtils.getStringProperty(object, TYPE_PROP);
+            String type = TiledUtils.getStringProperty(object, "type");
             TiledEntityPropertyValidator.validateAndProcess(type, object.getProperties());
 
             // Determine body skeleton.
             MapObject bodySkeleton = object;
-            if (TiledUtils.propertyExists(object, BODY_SKELETON_ID_PROP)) {
-                String bodySkeletonId = TiledUtils.getStringProperty(object, BODY_SKELETON_ID_PROP);
+            if (TiledUtils.propertyExists(object, "body_skeleton_id")) {
+                String bodySkeletonId = TiledUtils.getStringProperty(object, "body_skeleton_id");
                 if (!bodySkeletonMap.containsKey(bodySkeletonId)) {
-                  throw new InvalidConfigException(filename, BODY_SKELETON_ID_PROP, bodySkeletonId);
+                  throw new InvalidConfigException(filename, "body_skeleton_id", bodySkeletonId);
                 }
 
                 bodySkeleton = bodySkeletonMap.get(bodySkeletonId);
-            } else if (TiledUtils.propertyExists(object, BODY_WIDTH_PROP) &&
-                    TiledUtils.propertyExists(object,BODY_HEIGHT_PROP)) {
-                float bodyWidth = TiledUtils.getFloatProperty(object, BODY_WIDTH_PROP);
-                float bodyHeight = TiledUtils.getFloatProperty(object,BODY_HEIGHT_PROP);
+            } else if (TiledUtils.propertyExists(object, "body_width") &&
+                    TiledUtils.propertyExists(object, "body_height")) {
+                float bodyWidth = TiledUtils.getFloatProperty(object, "body_width");
+                float bodyHeight = TiledUtils.getFloatProperty(object,"body_height");
                 bodySkeleton = object;
                 if  (bodyWidth != 0 && bodyHeight != 0) {
                     bodySkeleton = new RectangleMapObject();
@@ -230,12 +214,12 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private void setBackground() {
-        if (!tiledMap.getProperties().containsKey(BACKGROUND_PROP)) {
+        if (!tiledMap.getProperties().containsKey("background")) {
             return;
         }
 
         // Format: "texture1, 0.8, texture2, 0.3, ..."
-        String[] backgroundInfo = tiledMap.getProperties().get(BACKGROUND_PROP).toString().split(", ");
+        String[] backgroundInfo = tiledMap.getProperties().get("background").toString().split(", ");
         for (int i = 0; i < backgroundInfo.length; i += 2) {
             String textureName = backgroundInfo[i];
             float parallaxRatio = Float.parseFloat(backgroundInfo[i+1]);
@@ -244,12 +228,12 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private int getLayerPos(MapLayerWrapper layer, TextureMapObject object) {
-        if (TiledUtils.propertyExists(object, LAYER_POS_PROP)) {
-            return TiledUtils.getIntProperty(object, LAYER_POS_PROP);
-        } else if (TiledUtils.propertyExists(layer, LAYER_POS_PROP)) {
-            return TiledUtils.getIntProperty(layer, LAYER_POS_PROP);
+        if (TiledUtils.propertyExists(object, "layer")) {
+            return TiledUtils.getIntProperty(object, "layer");
+        } else if (TiledUtils.propertyExists(layer, "layer")) {
+            return TiledUtils.getIntProperty(layer, "layer");
         } else {
-            throw new InvalidConfigException(filename, LAYER_POS_PROP, "null");
+            throw new InvalidConfigException(filename, "layer", "null");
         }
     }
 
@@ -264,10 +248,10 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private Vector2 getObjectPosition( MapObject object) {
         float unitScale = MainCamera.getInstance().getTileMapScale();
-        float width = TiledUtils.getFloatProperty(object, WIDTH_PROP) * unitScale;
-        float height = TiledUtils.getFloatProperty(object, HEIGHT_PROP) * unitScale;
-        float x = (TiledUtils.getFloatProperty(object, X_PROP) * unitScale) + (width / 2);
-        float y = (TiledUtils.getFloatProperty(object, Y_PROP) * unitScale) - (height / 2);
+        float width = TiledUtils.getFloatProperty(object, "width") * unitScale;
+        float height = TiledUtils.getFloatProperty(object, "height") * unitScale;
+        float x = (TiledUtils.getFloatProperty(object, "x") * unitScale) + (width / 2);
+        float y = (TiledUtils.getFloatProperty(object, "y") * unitScale) - (height / 2);
 
         return new Vector2(x, y);
     }
@@ -277,6 +261,6 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private boolean isBodySkeleton(String type) {
-        return type != null && type.equals(BODY_SKELETON_TYPE);
+        return type != null && type.equals("body_skeleton");
     }
 }

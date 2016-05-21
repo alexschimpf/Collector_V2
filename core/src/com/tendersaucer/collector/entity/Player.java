@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -43,8 +44,6 @@ public final class Player extends RenderedEntity {
         numFootContacts = 0;
         isJumping = false;
         direction = Direction.RIGHT;
-
-        // TODO: Set sprite as AnimatedSprite
     }
 
     @Override
@@ -54,24 +53,23 @@ public final class Player extends RenderedEntity {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        //super.render(spriteBatch);
+        super.render(spriteBatch);
     }
 
     @Override
     protected void tick() {
-        return;
-//        super.tick();
-//
-//        if (readyToBlink()) {
-//            blink();
-//        }
-//
-//        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-//        if(!animationSystem.isPlaying(JUMP_ANIMATION_ID)) {
-//            animationSystem.switchToDefault();
-//        }
-//
-//        animationSystem.update();
+        super.tick();
+
+        if (readyToBlink()) {
+            blink();
+        }
+
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+        if(!animationSystem.isPlaying(JUMP_ANIMATION_ID)) {
+            animationSystem.switchToDefault();
+        }
+
+        animationSystem.update();
     }
 
     @Override
@@ -82,6 +80,16 @@ public final class Player extends RenderedEntity {
     @Override
     public void onEndContact(Contact contact, Entity entity) {
         numFootContacts--;
+    }
+
+    @Override
+    protected Sprite createSprite(EntityDefinition definition) {
+        AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("default");
+        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("default", 300));
+        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("default", 300));
+        animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));
+
+        return animationSystem;
     }
 
     public boolean isFacingLeft() {
@@ -109,9 +117,6 @@ public final class Player extends RenderedEntity {
         }
     }
 
-    /*
-     * If not moving downward, reduce speed (but not to a halt).
-     */
     public void stopJump() {
         if (getLinearVelocity().y < 0) {
             setLinearVelocity(getLinearVelocity().x, 0.02f);
