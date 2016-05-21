@@ -1,10 +1,12 @@
 package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.*;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.MainCamera;
+import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 
 /**
@@ -19,6 +21,15 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean update() {
+        Player player = Globals.getPlayer();
+        if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            player.moveRight();
+        } else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+            player.moveLeft();
+        } else if(!Globals.isAndroid()){
+            player.stopMove();
+        }
+
         return false;
     }
 
@@ -30,17 +41,17 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean keyDown(InputEvent event, int keyCode) {
         switch (keyCode) {
-            case Keys.LEFT:
-                Globals.getPlayer().moveLeft();
-                break;
-            case Keys.RIGHT:
-                Globals.getPlayer().moveRight();
-                break;
             case Keys.SPACE:
                 Globals.getPlayer().jump();
                 break;
             case Keys.ESCAPE:
                 Gdx.app.exit();
+                break;
+            case Keys.Z:
+                MainCamera.getInstance().getRawCamera().zoom += 0.1f;
+                break;
+            case Keys.X:
+                MainCamera.getInstance().getRawCamera().zoom -= 0.1f;
                 break;
             case Keys.D:
                 Globals.DEBUG_PHYSICS = !Globals.DEBUG_PHYSICS;

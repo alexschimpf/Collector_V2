@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 
 /**
@@ -16,10 +17,12 @@ public final class HUD implements IUpdate, IRender {
     private static final HUD instance = new HUD();
 
     private Stage stage;
+    private InputListener inputListener;
 
     private HUD() {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        stage.addListener(new InputListener());
+        inputListener = new InputListener();
+        stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -34,6 +37,12 @@ public final class HUD implements IUpdate, IRender {
 
     @Override
     public boolean update() {
+        if (Globals.isDesktop()) {
+            inputListener.update();
+        } else {
+            // TODO
+        }
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 
         return false;

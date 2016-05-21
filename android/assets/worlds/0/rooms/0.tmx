@@ -133,6 +133,6 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="23" name="player" type="player" gid="4" x="256" y="384" width="128" height="192"/>
+  <object id="23" name="player" type="player" gid="4" x="256" y="256" width="64" height="64"/>
  </objectgroup>
 </map>

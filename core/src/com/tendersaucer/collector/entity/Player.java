@@ -1,9 +1,17 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.tendersaucer.collector.AssetManager;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
 import com.tendersaucer.collector.util.RandomUtils;
@@ -20,8 +28,7 @@ public final class Player extends RenderedEntity {
     }
 
     public static final float MOVE_SPEED = 10;
-    public static final float JUMP_IMPULSE = -98;
-    public static final float MOVE_PARTICLE_DELAY = 100;
+    public static final float JUMP_IMPULSE = -150;
     public static final float MASS = 5.69f;
     public static final short COLLISION_MASK = 0x0002;
     public static final String TYPE = "player";
@@ -85,6 +92,51 @@ public final class Player extends RenderedEntity {
         animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));
 
         return animationSystem;
+    }
+
+    @Override
+    protected Body createBody(EntityDefinition definition) {
+        BodyDef bodyDef = definition.getBodyDef();
+        bodyDef.position.set(definition.getCenter());
+        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
+
+        FixtureDef fixtureDef = createFixtureDef(definition);
+        body.createFixture(fixtureDef);
+        fixtureDef.shape.dispose();
+
+        body.setBullet(true);
+        body.getMassData().mass = MASS;
+        attachFootSensors(body, definition.getSize().x);
+
+        Filter filter = new Filter();
+        filter.categoryBits = 0x0001;
+        filter.maskBits = ~Player.COLLISION_MASK;
+        body.getFixtureList().get(0).setFilterData(filter);
+
+        return body;
+    }
+
+    private FixtureDef createFixtureDef(EntityDefinition definition) {
+        PolygonShape shape = new PolygonShape();
+        shape.set(new Vector2[] {
+            new Vector2(0.9f, -1.29f),
+            new Vector2(0.6f, -1.3f),
+            new Vector2(-0.6f, -1.3f),
+            new Vector2(-0.9f, -1.29f),
+            new Vector2(-0.9f, 1.29f),
+            new Vector2(-0.6f, 1.3f),
+            new Vector2(0.6f, 1.3f),
+            new Vector2(0.9f, 1.29f)
+        });
+
+        definition.getFixtureDef().shape.dispose();
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1;
+        fixtureDef.friction = 0f;
+        fixtureDef.restitution = 0;
+
+        return fixtureDef;
     }
 
     public boolean isFacingLeft() {
@@ -165,5 +217,16 @@ public final class Player extends RenderedEntity {
 
     private float getNewBlinkDelay() {
         return RandomUtils.pickFromRange(2000, 8000);
+    }
+
+    private void attachFootSensors(Body body, float width) {
+        Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width / 2 * 0.83f, 0.12f, localBottom, 0);
+        Fixture fixture = body.createFixture(shape, 0);
+        fixture.setSensor(true);
+
+        shape.dispose();
     }
 }

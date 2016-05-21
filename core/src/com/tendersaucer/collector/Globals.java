@@ -1,5 +1,7 @@
 package com.tendersaucer.collector;
 
+import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.world.World;
 import com.tendersaucer.collector.world.room.Room;
@@ -26,6 +28,22 @@ public final class Globals {
 
     private Globals() {
         gameState = GameState.RUNNING;
+    }
+
+    public static ApplicationType getApplicationType() {
+        return Gdx.app.getType();
+    }
+
+    public static boolean isAndroid() {
+        return Gdx.app.getType().equals(ApplicationType.Android);
+    }
+
+    public static boolean isDesktop() {
+        return Gdx.app.getType().equals(ApplicationType.Desktop);
+    }
+
+    public static boolean isIOS() {
+        return Gdx.app.getType().equals(ApplicationType.iOS);
     }
 
     public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {

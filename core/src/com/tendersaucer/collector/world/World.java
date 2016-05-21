@@ -19,7 +19,7 @@ import java.util.Iterator;
  */
 public final class World implements IUpdate {
 
-    public static final float DEFAULT_GRAVITY = 20;
+    public static final float DEFAULT_GRAVITY = 50;
     private static final World instance = new World();
 
     private String id;
