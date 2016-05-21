@@ -8,6 +8,7 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
+import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Game input listener
@@ -21,7 +22,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean update() {
-        Player player = Globals.getPlayer();
+        Player player = Room.getInstance().getPlayer();
         if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
             player.moveRight();
         } else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -37,7 +38,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     public boolean keyUp(InputEvent event, int keyCode) {
         switch(keyCode) {
             case Keys.SPACE:
-                Globals.getPlayer().stopJump();
+                Room.getInstance().getPlayer().stopJump();
                 break;
             default:
                 return false;
@@ -50,7 +51,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     public boolean keyDown(InputEvent event, int keyCode) {
         switch (keyCode) {
             case Keys.SPACE:
-                Globals.getPlayer().jump();
+                Room.getInstance().getPlayer().jump();
                 break;
             case Keys.ESCAPE:
                 Gdx.app.exit();

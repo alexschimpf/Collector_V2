@@ -8,12 +8,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.util.BodyData;
 import com.tendersaucer.collector.util.Vector2Pool;
 import com.tendersaucer.collector.world.ICollide;
+import com.tendersaucer.collector.world.World;
 
 import java.util.UUID;
 
@@ -90,7 +90,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
     @Override
     public void dispose() {
-        Globals.getPhysicsWorld().destroyBody(body);
+        World.getInstance().getPhysicsWorld().destroyBody(body);
         Vector2Pool.getInstance().free(leftTop);
     }
 
@@ -234,7 +234,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     protected Body createBody(EntityDefinition definition) {
         BodyDef bodyDef = definition.getBodyDef();
         bodyDef.position.set(definition.getCenter());
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
+        Body body = World.getInstance().getPhysicsWorld().createBody(bodyDef);
         FixtureDef fixtureDef = definition.getFixtureDef();
         body.createFixture(fixtureDef);
         fixtureDef.shape.dispose();

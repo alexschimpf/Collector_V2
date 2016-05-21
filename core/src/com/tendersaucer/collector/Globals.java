@@ -2,9 +2,6 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
-import com.tendersaucer.collector.entity.Player;
-import com.tendersaucer.collector.world.World;
-import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Game global variables
@@ -44,14 +41,6 @@ public final class Globals {
 
     public static boolean isIOS() {
         return Gdx.app.getType().equals(ApplicationType.iOS);
-    }
-
-    public static com.badlogic.gdx.physics.box2d.World getPhysicsWorld() {
-        return World.getInstance().getPhysicsWorld();
-    }
-
-    public static Player getPlayer() {
-        return Room.getInstance().getPlayer();
     }
 
     public static GameState getGameState() {

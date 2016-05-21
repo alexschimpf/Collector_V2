@@ -116,7 +116,7 @@ public final class Driver implements Screen {
 
         if(Globals.DEBUG_PHYSICS) {
             debugMatrix.set(camera.combined);
-            debugRenderer.render(Globals.getPhysicsWorld(), debugMatrix);
+            debugRenderer.render(World.getInstance().getPhysicsWorld(), debugMatrix);
         }
 
         HUD.getInstance().render(spriteBatch);

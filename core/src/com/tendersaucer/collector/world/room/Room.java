@@ -2,7 +2,6 @@ package com.tendersaucer.collector.world.room;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
@@ -16,6 +15,7 @@ import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
+import com.tendersaucer.collector.world.World;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -116,7 +116,7 @@ public final class Room implements IUpdate {
 
     private void loadFreeBodies(IRoomLoadable loadable) {
         for (FixtureBodyDefinition fixtureBodyDef : loadable.getFreeBodyDefinitions()) {
-            Body body = Globals.getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
+            Body body = World.getInstance().getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
             body.createFixture(fixtureBodyDef.fixtureDef);
 
             fixtureBodyDef.fixtureDef.shape.dispose();

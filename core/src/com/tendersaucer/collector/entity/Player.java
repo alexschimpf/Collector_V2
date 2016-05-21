@@ -11,10 +11,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
 import com.tendersaucer.collector.util.RandomUtils;
+import com.tendersaucer.collector.world.World;
 
 /**
  * User-controlled player
@@ -98,7 +98,7 @@ public final class Player extends RenderedEntity {
     protected Body createBody(EntityDefinition definition) {
         BodyDef bodyDef = definition.getBodyDef();
         bodyDef.position.set(definition.getCenter());
-        Body body = Globals.getPhysicsWorld().createBody(bodyDef);
+        Body body = World.getInstance().getPhysicsWorld().createBody(bodyDef);
 
         FixtureDef fixtureDef = createFixtureDef(definition);
         body.createFixture(fixtureDef);
