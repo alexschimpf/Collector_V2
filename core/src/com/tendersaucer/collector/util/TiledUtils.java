@@ -24,7 +24,7 @@ import com.tendersaucer.collector.MainCamera;
 
 /**
  * Tiled utility functions
- *
+ * <p/>
  * Created by Alex on 4/13/2016.
  */
 public final class TiledUtils {
@@ -94,17 +94,17 @@ public final class TiledUtils {
         fixtureDef.restitution = 0;
 
         Shape shape = null;
-        if(object instanceof TextureMapObject) {
+        if (object instanceof TextureMapObject) {
             shape = getTextureMapShape(object);
-        } else if(object instanceof RectangleMapObject) {
+        } else if (object instanceof RectangleMapObject) {
             shape = getRectangleShape(object);
-        } else if(object instanceof CircleMapObject) {
+        } else if (object instanceof CircleMapObject) {
             shape = getCircleShape(object);
-        } else if(object instanceof EllipseMapObject) {
+        } else if (object instanceof EllipseMapObject) {
             shape = getEllipseShape(object);
-        } else if(object instanceof PolygonMapObject) {
+        } else if (object instanceof PolygonMapObject) {
             shape = getPolygonShape(object);
-        } else if(object instanceof PolylineMapObject) {
+        } else if (object instanceof PolylineMapObject) {
             shape = getPolylineShape(object);
         }
 
@@ -120,11 +120,11 @@ public final class TiledUtils {
 
         BodyType bodyType;
         String bodyTypeName = object.getProperties().get(BODY_TYPE_PROP).toString();
-        if(bodyTypeName.equals(STATIC_BODY_TYPE)) {
+        if (bodyTypeName.equals(STATIC_BODY_TYPE)) {
             bodyType = BodyType.StaticBody;
-        } else if(bodyTypeName.equals(KINEMATIC_BODY_TYPE)) {
+        } else if (bodyTypeName.equals(KINEMATIC_BODY_TYPE)) {
             bodyType = BodyType.KinematicBody;
-        } else if(bodyTypeName.equals(DYNAMIC_BODY_TYPE)) {
+        } else if (bodyTypeName.equals(DYNAMIC_BODY_TYPE)) {
             bodyType = BodyType.DynamicBody;
         } else {
             throw new InvalidConfigException(BODY_TYPE_PROP, bodyTypeName);
@@ -156,7 +156,7 @@ public final class TiledUtils {
     }
 
     public static boolean getBooleanProperty(MapLayerWrapper layer, String key) {
-        return Boolean.parseBoolean(getStringProperty(layer,key));
+        return Boolean.parseBoolean(getStringProperty(layer, key));
     }
 
     public static int getIntProperty(MapLayerWrapper layer, String key) {
@@ -190,7 +190,7 @@ public final class TiledUtils {
     }
 
     public static boolean getBooleanProperty(MapObject object, String key) {
-        return Boolean.parseBoolean(getStringProperty(object,key));
+        return Boolean.parseBoolean(getStringProperty(object, key));
     }
 
     public static int getIntProperty(MapObject object, String key) {
@@ -202,9 +202,9 @@ public final class TiledUtils {
     }
 
     private static Shape getTextureMapShape(MapObject object) {
-        TextureMapObject textureMapObject = (TextureMapObject)object;
-        float width = (Float)textureMapObject.getProperties().get("width");
-        float height = (Float)textureMapObject.getProperties().get("height");
+        TextureMapObject textureMapObject = (TextureMapObject) object;
+        float width = (Float) textureMapObject.getProperties().get("width");
+        float height = (Float) textureMapObject.getProperties().get("height");
 
         PolygonShape shape = new PolygonShape();
         float scale = MainCamera.getInstance().getTileMapScale();
@@ -214,7 +214,7 @@ public final class TiledUtils {
     }
 
     private static Shape getRectangleShape(MapObject object) {
-        Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
+        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
         PolygonShape shape = new PolygonShape();
         float scale = MainCamera.getInstance().getTileMapScale();
         shape.setAsBox((rectangle.width / 2) * scale, (rectangle.height / 2) * scale);
@@ -223,7 +223,7 @@ public final class TiledUtils {
     }
 
     private static Shape getCircleShape(MapObject object) {
-        Circle circle = ((CircleMapObject)object).getCircle();
+        Circle circle = ((CircleMapObject) object).getCircle();
         CircleShape shape = new CircleShape();
         shape.setRadius(circle.radius * MainCamera.getInstance().getTileMapScale());
 
@@ -232,7 +232,7 @@ public final class TiledUtils {
 
     // Just assume the ellipse is a circle for now.
     private static Shape getEllipseShape(MapObject object) {
-        Ellipse circle = ((EllipseMapObject)object).getEllipse();
+        Ellipse circle = ((EllipseMapObject) object).getEllipse();
         CircleShape shape = new CircleShape();
         shape.setRadius(circle.width / 2 * MainCamera.getInstance().getTileMapScale());
 
@@ -240,9 +240,9 @@ public final class TiledUtils {
     }
 
     private static Shape getPolygonShape(MapObject object) {
-        Polygon polygon = ((PolygonMapObject)object).getPolygon();
+        Polygon polygon = ((PolygonMapObject) object).getPolygon();
         float[] vertices = polygon.getTransformedVertices();
-        for(int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length; i++) {
             vertices[i] *= MainCamera.getInstance().getTileMapScale();
         }
 
@@ -253,9 +253,9 @@ public final class TiledUtils {
     }
 
     private static Shape getPolylineShape(MapObject object) {
-        Polyline polyline = ((PolylineMapObject)object).getPolyline();
+        Polyline polyline = ((PolylineMapObject) object).getPolyline();
         float[] vertices = polyline.getTransformedVertices();
-        for(int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length; i++) {
             vertices[i] *= MainCamera.getInstance().getTileMapScale();
         }
 

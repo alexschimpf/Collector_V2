@@ -7,19 +7,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Created by Alex on 4/30/2016.
  */
 public class Particle implements IUpdate, IRender, Pool.Poolable {
 
+    protected final Vector2 velocity;
     protected float duration;
     protected long startTime;
     protected float angularVelocity;
     protected Sprite sprite;
-    protected final Vector2 velocity;
 
     public Particle() {
         angularVelocity = 0;
@@ -52,21 +52,8 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         return getAge() > duration;
     }
 
-    public void setDuration(float duration) {
-        this.duration = duration;
-    }
-
     public void setStarted() {
         startTime = TimeUtils.millis();
-    }
-
-    public void setAngularVelocity(float angularVelocity) {
-        this.angularVelocity = angularVelocity;
-    }
-
-    public void setSprite(Sprite sprite) {
-        this.sprite.set(sprite);
-        resetOrigin();
     }
 
     public void setPosition(float x, float y) {
@@ -87,16 +74,8 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         velocity.set(vx, vy);
     }
 
-    public void setAlpha(float alpha) {
-        sprite.setAlpha(alpha);
-    }
-
     public void setOrigin(float x, float y) {
         sprite.setOrigin(x, y);
-    }
-
-    public void setColor(Color color) {
-        sprite.setColor(color);
     }
 
     public void setColor(float r, float b, float g) {
@@ -119,12 +98,25 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         return sprite;
     }
 
+    public void setSprite(Sprite sprite) {
+        this.sprite.set(sprite);
+        resetOrigin();
+    }
+
     public float getAngularVelocity() {
         return angularVelocity;
     }
 
+    public void setAngularVelocity(float angularVelocity) {
+        this.angularVelocity = angularVelocity;
+    }
+
     public float getDuration() {
         return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
     }
 
     public long getStartTime() {
@@ -155,6 +147,10 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         return sprite.getColor().a;
     }
 
+    public void setAlpha(float alpha) {
+        sprite.setAlpha(alpha);
+    }
+
     public float getScaleX() {
         return sprite.getScaleX();
     }
@@ -175,7 +171,11 @@ public class Particle implements IUpdate, IRender, Pool.Poolable {
         return sprite.getColor();
     }
 
+    public void setColor(Color color) {
+        sprite.setColor(color);
+    }
+
     private void resetOrigin() {
-        setOrigin(sprite.getWidth() / 2 , sprite.getHeight() / 2);
+        setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
     }
 }

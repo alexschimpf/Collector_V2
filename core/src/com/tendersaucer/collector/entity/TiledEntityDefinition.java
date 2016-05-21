@@ -8,7 +8,7 @@ import com.tendersaucer.collector.util.TiledUtils;
 
 /**
  * Entity definition also based on Tiled map objects and properties
- *
+ * <p/>
  * Created by Alex on 4/12/2016.
  */
 public final class TiledEntityDefinition extends EntityDefinition {

@@ -10,7 +10,7 @@ import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Wrapper around TiledMapLayer
- *
+ * <p/>
  * Created by Alex on 4/12/2016.
  */
 public final class MapLayerWrapper implements IRender {
@@ -22,14 +22,14 @@ public final class MapLayerWrapper implements IRender {
         this.renderer = renderer;
 
         if (rawLayer instanceof TiledMapTileLayer) {
-            flipCells((TiledMapTileLayer)rawLayer);
+            flipCells((TiledMapTileLayer) rawLayer);
         }
         this.rawLayer = rawLayer;
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        renderer.renderTileLayer((TiledMapTileLayer)rawLayer);
+        renderer.renderTileLayer((TiledMapTileLayer) rawLayer);
     }
 
     public MapProperties getProperties() {

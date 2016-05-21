@@ -12,7 +12,7 @@ import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Game input listener
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
@@ -23,28 +23,15 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean update() {
         Player player = Room.getInstance().getPlayer();
-        if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
             player.moveRight();
-        } else if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             player.moveLeft();
-        } else if(!Globals.isAndroid()){
+        } else if (!Globals.isAndroid()) {
             player.stopMove();
         }
 
         return false;
-    }
-
-    @Override
-    public boolean keyUp(InputEvent event, int keyCode) {
-        switch(keyCode) {
-            case Keys.SPACE:
-                Room.getInstance().getPlayer().stopJump();
-                break;
-            default:
-                return false;
-        }
-
-        return true;
     }
 
     @Override
@@ -73,6 +60,19 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 break;
             case Keys.P:
                 Globals.PRINT_DEBUG_INFO = !Globals.PRINT_DEBUG_INFO;
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(InputEvent event, int keyCode) {
+        switch (keyCode) {
+            case Keys.SPACE:
+                Room.getInstance().getPlayer().stopJump();
                 break;
             default:
                 return false;

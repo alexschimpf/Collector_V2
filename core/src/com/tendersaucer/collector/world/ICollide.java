@@ -5,13 +5,14 @@ import com.tendersaucer.collector.entity.Entity;
 
 /**
  * Interface for colliding objects
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public interface ICollide {
 
     /**
      * Fired from CollisionListener when contact begins
+     *
      * @param contact
      * @param entity
      */
@@ -19,6 +20,7 @@ public interface ICollide {
 
     /**
      * Fired from CollisionListener when contact ends
+     *
      * @param contact
      * @param entity
      */

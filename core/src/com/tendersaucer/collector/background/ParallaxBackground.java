@@ -11,7 +11,7 @@ import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Simple parallax background
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public class ParallaxBackground implements IRender {
@@ -28,7 +28,7 @@ public class ParallaxBackground implements IRender {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        for(ParallaxLayer layer : layers) {
+        for (ParallaxLayer layer : layers) {
             adjustCamera(spriteBatch, layer.getParallaxRatio());
 
             // Reposition camera based on layer's parallax ratio.
@@ -42,8 +42,8 @@ public class ParallaxBackground implements IRender {
             int numYRepeats = MathUtils.ceil(Math.abs(startTop - camera.getBottom()) / height);
             float endLeft = startLeft + (numXRepeats * width);
             float endTop = startTop + (numYRepeats * height);
-            for(float left = startLeft; left < endLeft; left += width) {
-                for(float top = startTop; top < endTop; top += height) {
+            for (float left = startLeft; left < endLeft; left += width) {
+                for (float top = startTop; top < endTop; top += height) {
                     layer.setTopLeft(left, top);
                     layer.render(spriteBatch);
                 }

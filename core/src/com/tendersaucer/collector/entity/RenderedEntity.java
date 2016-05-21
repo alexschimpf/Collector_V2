@@ -22,19 +22,19 @@ public abstract class RenderedEntity extends Entity implements IRender {
     }
 
     @Override
+    public void dispose() {
+        super.dispose();
+
+        Canvas.getInstance().remove(this);
+    }
+
+    @Override
     protected void tick() {
         super.tick();
 
         sprite.setPosition(getLeft(), getTop());
         sprite.setOrigin(getWidth() / 2, getHeight() / 2);
         sprite.setRotation(MathUtils.radiansToDegrees * body.getAngle());
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        Canvas.getInstance().remove(this);
     }
 
     protected Sprite createSprite(EntityDefinition definition) {

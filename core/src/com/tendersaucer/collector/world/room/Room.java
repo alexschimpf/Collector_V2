@@ -23,16 +23,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Levels of a world
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Room implements IUpdate {
 
     private static final Room instance = new Room();
 
+    private final Map<String, Entity> entityMap;
     private String id;
     private Player player;
-    private final Map<String, Entity> entityMap;
 
     private Room() {
         entityMap = new ConcurrentHashMap<String, Entity>();
@@ -81,6 +81,10 @@ public final class Room implements IUpdate {
         return player;
     }
 
+    private void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public String getId() {
         return id;
     }
@@ -105,11 +109,11 @@ public final class Room implements IUpdate {
 
             entityMap.put(id, entity);
             if (Entity.isPlayer(entity)) {
-                setPlayer((Player)entity);
+                setPlayer((Player) entity);
             }
 
             if (entity instanceof RenderedEntity) {
-                ((RenderedEntity)entity).addToCanvas();
+                ((RenderedEntity) entity).addToCanvas();
             }
         }
     }
@@ -121,9 +125,5 @@ public final class Room implements IUpdate {
 
             fixtureBodyDef.fixtureDef.shape.dispose();
         }
-    }
-
-    private void setPlayer(Player player) {
-        this.player = player;
     }
 }

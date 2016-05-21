@@ -18,14 +18,10 @@ import com.tendersaucer.collector.world.World;
 
 /**
  * User-controlled player
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Player extends RenderedEntity {
-
-    private enum Direction {
-        LEFT, RIGHT
-    }
 
     public static final float MOVE_SPEED = 20;
     public static final float JUMP_IMPULSE = -150;
@@ -53,11 +49,6 @@ public final class Player extends RenderedEntity {
     }
 
     @Override
-    public String getType() {
-        return TYPE;
-    }
-
-    @Override
     protected void tick() {
         super.tick();
 
@@ -65,12 +56,23 @@ public final class Player extends RenderedEntity {
             blink();
         }
 
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if(!animationSystem.anyPlaying(MOVE_ANIMATION_ID, JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem) sprite;
+        if (!animationSystem.anyPlaying(MOVE_ANIMATION_ID, JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
             animationSystem.switchToDefault();
         }
 
         animationSystem.update();
+    }
+
+    @Override
+    protected Sprite createSprite(EntityDefinition definition) {
+        AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("default");
+        animationSystem.setSize(getWidth(), getHeight());
+        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("default", 300));
+        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("default", 300));
+        animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));
+
+        return animationSystem;
     }
 
     @Override
@@ -84,14 +86,8 @@ public final class Player extends RenderedEntity {
     }
 
     @Override
-    protected Sprite createSprite(EntityDefinition definition) {
-        AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("default");
-        animationSystem.setSize(getWidth(), getHeight());
-        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("default", 300));
-        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("default", 300));
-        animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("default", 300));
-
-        return animationSystem;
+    public String getType() {
+        return TYPE;
     }
 
     @Override
@@ -118,15 +114,15 @@ public final class Player extends RenderedEntity {
 
     private FixtureDef createFixtureDef(EntityDefinition definition) {
         PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[] {
-            new Vector2(0.9f, -1.29f),
-            new Vector2(0.6f, -1.3f),
-            new Vector2(-0.6f, -1.3f),
-            new Vector2(-0.9f, -1.29f),
-            new Vector2(-0.9f, 1.29f),
-            new Vector2(-0.6f, 1.3f),
-            new Vector2(0.6f, 1.3f),
-            new Vector2(0.9f, 1.29f)
+        shape.set(new Vector2[]{
+                new Vector2(0.9f, -1.29f),
+                new Vector2(0.6f, -1.3f),
+                new Vector2(-0.6f, -1.3f),
+                new Vector2(-0.9f, -1.29f),
+                new Vector2(-0.9f, 1.29f),
+                new Vector2(-0.6f, 1.3f),
+                new Vector2(0.6f, 1.3f),
+                new Vector2(0.9f, 1.29f)
         });
 
         definition.getFixtureDef().shape.dispose();
@@ -153,14 +149,14 @@ public final class Player extends RenderedEntity {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
-        ((AnimatedSpriteSystem)sprite).setFlipHorizontally(isFacingLeft());
+        ((AnimatedSpriteSystem) sprite).setFlipHorizontally(isFacingLeft());
     }
 
     public void jump() {
         if (!isJumping) {
             AssetManager.getInstance().getSound("jump").play();
             body.applyLinearImpulse(0, JUMP_IMPULSE, getCenterX(), getCenterY(), true);
-            ((AnimatedSpriteSystem)sprite).switchTo(JUMP_ANIMATION_ID, AnimatedSprite.State.PLAYING);
+            ((AnimatedSpriteSystem) sprite).switchTo(JUMP_ANIMATION_ID, AnimatedSprite.State.PLAYING);
         }
     }
 
@@ -181,9 +177,9 @@ public final class Player extends RenderedEntity {
     public void stopMove() {
         setLinearVelocity(0, getLinearVelocity().y);
 
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if(!animationSystem.anyPlaying(JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
-            ((AnimatedSpriteSystem)sprite).switchToDefault();
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem) sprite;
+        if (!animationSystem.anyPlaying(JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
+            ((AnimatedSpriteSystem) sprite).switchToDefault();
         }
     }
 
@@ -194,25 +190,25 @@ public final class Player extends RenderedEntity {
         setLinearVelocity(vx, getLinearVelocity().y);
 
         // Update sprite.
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if(numFootContacts > 0 && !isJumping &&
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem) sprite;
+        if (numFootContacts > 0 && !isJumping &&
                 !animationSystem.anyPlaying(MOVE_ANIMATION_ID, JUMP_ANIMATION_ID)) {
             animationSystem.switchTo(MOVE_ANIMATION_ID, AnimatedSprite.State.PLAYING);
-        } else if(numFootContacts == 0 &&
+        } else if (numFootContacts == 0 &&
                 !animationSystem.anyPlaying(JUMP_ANIMATION_ID, BLINK_ANIMATION_ID)) {
             animationSystem.switchToDefault();
         }
     }
 
     private boolean readyToBlink() {
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem) sprite;
         return animationSystem.usingDefault() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkDelay;
     }
 
     private void blink() {
         lastBlinkTime = TimeUtils.millis();
         blinkDelay = getNewBlinkDelay();
-        ((AnimatedSpriteSystem)sprite).switchTo(BLINK_ANIMATION_ID, AnimatedSprite.State.PLAYING);
+        ((AnimatedSpriteSystem) sprite).switchTo(BLINK_ANIMATION_ID, AnimatedSprite.State.PLAYING);
     }
 
     private float getNewBlinkDelay() {
@@ -237,7 +233,7 @@ public final class Player extends RenderedEntity {
                 otherFixture = contact.getFixtureB();
             }
 
-            if(!otherFixture.isSensor()) {
+            if (!otherFixture.isSensor()) {
                 if (onBeginContact) {
                     isJumping = ++numFootContacts < 1;
                 } else {
@@ -253,5 +249,9 @@ public final class Player extends RenderedEntity {
 
     private Fixture getFootSensor() {
         return body.getFixtureList().get(1);
+    }
+
+    private enum Direction {
+        LEFT, RIGHT
     }
 }

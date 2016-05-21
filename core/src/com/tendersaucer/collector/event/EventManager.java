@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Manages most game events and their listeners in one consolidated place
  * However, some are not handled here (e.g ICollide)
- *
+ * <p/>
  * Created by Alex on 5/5/2016.
  */
 public final class EventManager {
@@ -52,9 +52,9 @@ public final class EventManager {
     }
 
     public <L> void notify(Event<L> event) {
-        Class<Event<L>> eventClass = (Class<Event<L>>)event.getClass();
+        Class<Event<L>> eventClass = (Class<Event<L>>) event.getClass();
         if (eventListeners.containsKey(eventClass)) {
-            for (L listener : (ArrayList<L>)eventListeners.get(eventClass)) {
+            for (L listener : (ArrayList<L>) eventListeners.get(eventClass)) {
                 event.notify(listener);
             }
         }

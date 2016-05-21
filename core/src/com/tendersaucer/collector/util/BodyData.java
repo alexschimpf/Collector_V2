@@ -4,7 +4,7 @@ import com.tendersaucer.collector.entity.Entity;
 
 /**
  * Object metadata to be attached to a body
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class BodyData {

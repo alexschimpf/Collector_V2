@@ -9,10 +9,9 @@ import com.badlogic.gdx.utils.Array;
  */
 public class PathHelper {
 
-    private float totalDistance;
-
     // Each vector represents a "leg" (i.e. (dx, dy)) of the path.
     private final Array<Vector2> legs;
+    private float totalDistance;
 
     public PathHelper() {
         legs = new Array<Vector2>();

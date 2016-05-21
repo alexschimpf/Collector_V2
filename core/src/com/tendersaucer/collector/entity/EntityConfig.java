@@ -25,12 +25,8 @@ public final class EntityConfig {
         entityTypePropertiesMap = new ConcurrentHashMap<String, EntityProperties>();
         entityTypeClassMap = new ConcurrentHashMap<String, String>();
 
-//        try {
-            JsonReader jsonReader = new JsonReader();
-            parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
-//        } catch (Exception e) {
-//            System.out.println("THE FUCKKKKK: " + e.toString());
-//        }
+        JsonReader jsonReader = new JsonReader();
+        parseConfig(jsonReader.parse(Gdx.files.internal(CONFIG_FILENAME)));
     }
 
     public static EntityConfig getInstance() {
@@ -48,7 +44,7 @@ public final class EntityConfig {
     private void parseConfig(JsonValue root) {
         for (JsonValue entityRoot : root.get("entities")) {
             String entityType = entityRoot.name;
-            if (entityType.isEmpty()) {
+            if (!entityType.equals("")) {
                 throw new InvalidConfigException(CONFIG_FILENAME, "type", "null");
             }
 
@@ -79,7 +75,7 @@ public final class EntityConfig {
     private void addCustomProperties(JsonValue entityRoot, EntityProperties entityProperties) {
         String type = entityRoot.name;
         String className = entityRoot.getString("class");
-        if (className.isEmpty()) {
+        if (!className.equals("")) {
             throw new InvalidConfigException(CONFIG_FILENAME, "class", "null");
         }
 
@@ -91,7 +87,7 @@ public final class EntityConfig {
         }
 
         // Required
-        if (entityRoot.get("properties").hasChild("required")){
+        if (entityRoot.get("properties").hasChild("required")) {
             for (JsonValue requiredProperty : entityRoot.get("properties").get("required")) {
                 // If it was an optional global property but is now required, remove it as optional.
                 String name = requiredProperty.asString();
@@ -104,7 +100,7 @@ public final class EntityConfig {
         }
 
         // Optional
-        if (entityRoot.get("properties").hasChild("optional")){
+        if (entityRoot.get("properties").hasChild("optional")) {
             for (JsonValue optionalProperty : entityRoot.get("properties").get("optional")) {
                 // If it was a required global property but is now optional, remove it as required.
                 String name = optionalProperty.getString("name");

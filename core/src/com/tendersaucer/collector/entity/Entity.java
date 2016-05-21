@@ -19,22 +19,18 @@ import java.util.UUID;
 
 /**
  * Abstract entity
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
-    public enum State {
-        ACTIVE, INACTIVE, DONE
-    }
-
     protected State state;
     protected Body body;
-    protected  String type;
-    protected  String id;
-    protected  Vector2 leftTop;
-    protected  Rectangle bounds;
-    protected  EntityDefinition definition; // in case it needs to be cloned
+    protected String type;
+    protected String id;
+    protected Vector2 leftTop;
+    protected Rectangle bounds;
+    protected EntityDefinition definition; // in case it needs to be cloned
 
     public Entity(EntityDefinition definition) {
         this.definition = definition;
@@ -57,7 +53,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
             body = createBody(definition);
             body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
             setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             Gdx.app.log("entity", "Error creating body for entity with id=" + id);
             Gdx.app.log("entity", e.toString());
         }
@@ -102,10 +98,6 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         body.setTransform(x, y, body.getAngle());
     }
 
-    public void setAngle(float angle) {
-        body.setTransform(getCenterX(), getCenterY(), angle);
-    }
-
     public void rotateDegrees(float degrees) {
         rotateRadians(MathUtils.radiansToDegrees * degrees);
     }
@@ -122,6 +114,10 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         return state == State.ACTIVE;
     }
 
+    public void setActive(boolean active) {
+        state = active ? State.ACTIVE : State.INACTIVE;
+    }
+
     public boolean isInactive() {
         return state == State.INACTIVE;
     }
@@ -132,10 +128,6 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
     public void setDone() {
         state = State.DONE;
-    }
-
-    public void setActive(boolean active) {
-        state = active ? State.ACTIVE : State.INACTIVE;
     }
 
     public String getId() {
@@ -152,6 +144,10 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
     public float getAngle() {
         return body.getAngle();
+    }
+
+    public void setAngle(float angle) {
+        body.setTransform(getCenterX(), getCenterY(), angle);
     }
 
     public float getWidth() {
@@ -206,12 +202,12 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         return body.getAngularVelocity();
     }
 
-    public void setLinearVelocity(float x, float y) {
-        body.setLinearVelocity(x, y);
-    }
-
     public void setAngularSpeed(float speed) {
         body.setAngularVelocity(speed);
+    }
+
+    public void setLinearVelocity(float x, float y) {
+        body.setLinearVelocity(x, y);
     }
 
     public void setPosition(float centerX, float centerY) {
@@ -249,5 +245,9 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         }
 
         return id;
+    }
+
+    public enum State {
+        ACTIVE, INACTIVE, DONE
     }
 }

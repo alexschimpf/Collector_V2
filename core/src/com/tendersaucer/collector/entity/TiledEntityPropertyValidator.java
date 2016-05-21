@@ -1,13 +1,14 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.maps.MapProperties;
+import com.tendersaucer.collector.entity.EntityConfig.EntityProperties;
 import com.tendersaucer.collector.util.InvalidConfigException;
-import com.tendersaucer.collector.entity.EntityConfig.*;
+
 import java.util.Iterator;
 
 /**
  * Validates entity properties from loadable against config
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class TiledEntityPropertyValidator {
@@ -24,7 +25,7 @@ public final class TiledEntityPropertyValidator {
         // Check that all required properties are set.
         for (String requiredProperty : entityProperties.getRequiredProperties()) {
             if (!properties.containsKey(requiredProperty)) {
-                throw new InvalidConfigException(type + ": Required entity property '" + requiredProperty  + "' missing");
+                throw new InvalidConfigException(type + ": Required entity property '" + requiredProperty + "' missing");
             }
         }
 

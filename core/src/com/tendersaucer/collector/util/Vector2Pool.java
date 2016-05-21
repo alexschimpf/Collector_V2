@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Pool;
 
 /**
  * Vector2 object pool
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Vector2Pool extends Pool<Vector2> {

@@ -7,7 +7,7 @@ import com.tendersaucer.collector.MainCamera;
 
 /**
  * Abstract entity definition
- *
+ * <p/>
  * Created by Alex on 4/13/2016.
  */
 public abstract class EntityDefinition {
@@ -87,7 +87,7 @@ public abstract class EntityDefinition {
     }
 
     public Vector2 getVector2Property(String key) {
-        if(getStringProperty(key).isEmpty()) {
+        if (getStringProperty(key).isEmpty()) {
             return new Vector2();
         }
 
@@ -98,7 +98,7 @@ public abstract class EntityDefinition {
 
     public boolean[] getBooleanArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if(full.isEmpty()) {
+        if (full.isEmpty()) {
             return new boolean[0];
         }
 
@@ -106,7 +106,7 @@ public abstract class EntityDefinition {
         boolean[] booleanArr = new boolean[strArr.length];
 
         int i = 0;
-        for(String elem : strArr) {
+        for (String elem : strArr) {
             booleanArr[i++] = Boolean.parseBoolean(elem);
         }
 
@@ -115,7 +115,7 @@ public abstract class EntityDefinition {
 
     public int[] getIntArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if(full.isEmpty()) {
+        if (full.isEmpty()) {
             return new int[0];
         }
 
@@ -123,7 +123,7 @@ public abstract class EntityDefinition {
         int[] intArr = new int[strArr.length];
 
         int i = 0;
-        for(String elem : strArr) {
+        for (String elem : strArr) {
             intArr[i++] = Integer.parseInt(elem);
         }
 
@@ -132,7 +132,7 @@ public abstract class EntityDefinition {
 
     public float[] getFloatArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if(full.isEmpty()) {
+        if (full.isEmpty()) {
             return new float[0];
         }
 
@@ -140,7 +140,7 @@ public abstract class EntityDefinition {
         float[] floatArr = new float[strArr.length];
 
         int i = 0;
-        for(String elem : strArr) {
+        for (String elem : strArr) {
             floatArr[i++] = Float.parseFloat(elem);
         }
 
@@ -149,7 +149,7 @@ public abstract class EntityDefinition {
 
     public String[] getStringArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if(full.isEmpty()) {
+        if (full.isEmpty()) {
             return new String[0];
         }
 

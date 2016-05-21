@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * Convenience class that simply holds a FixtureDef and BodyDef
- *
+ * <p/>
  * Created by Alex on 4/24/2016.
  */
 public class FixtureBodyDefinition {

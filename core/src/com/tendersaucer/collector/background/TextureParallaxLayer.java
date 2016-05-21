@@ -6,7 +6,7 @@ import com.tendersaucer.collector.AssetManager;
 
 /**
  * Parallax layer from single texture
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public class TextureParallaxLayer extends ParallaxLayer {

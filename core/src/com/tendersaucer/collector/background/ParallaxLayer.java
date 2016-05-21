@@ -5,7 +5,7 @@ import com.tendersaucer.collector.screen.IRender;
 
 /**
  * Layer in ParallaxBackground
- *
+ * <p/>
  * Created by Alex on 4/9/2016.
  */
 public abstract class ParallaxLayer implements IRender {

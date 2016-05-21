@@ -14,19 +14,15 @@ import com.tendersaucer.collector.util.ConversionUtils;
 
 /**
  * An animated sprite
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
-    public enum State {
-        PLAYING, PAUSED, STOPPED, FINISHED
-    }
-
     protected float stateTime;
     protected int currNumLoops;
     protected State state;
-    protected  Integer numLoops;
+    protected Integer numLoops;
     protected com.badlogic.gdx.graphics.g2d.Animation rawAnimation;
 
     public AnimatedSprite(String key, float totalDuration, Integer numLoops, State state) {
@@ -194,6 +190,7 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
     /**
      * Sets the number of times this animation will loop
+     *
      * @param numLoops - if null, will loop indefinitely
      */
     public void setNumLoops(Integer numLoops) {
@@ -208,5 +205,9 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         state = State.FINISHED;
         stateTime = 0;
         currNumLoops = 0;
+    }
+
+    public enum State {
+        PLAYING, PAUSED, STOPPED, FINISHED
     }
 }

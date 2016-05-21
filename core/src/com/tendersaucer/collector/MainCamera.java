@@ -6,16 +6,16 @@ import com.tendersaucer.collector.world.room.Room;
 
 /**
  * Main game camera
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class MainCamera implements IUpdate {
 
+    public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
     private static final MainCamera instance = new MainCamera();
     private static final int TILE_SIZE_PIXELS = 64;
     private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2D to handle
     private static final int BASE_VIEWPORT_HEIGHT = 50;
-    public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
 
     private final OrthographicCamera rawCamera;
 

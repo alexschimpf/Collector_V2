@@ -74,8 +74,8 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
         for (JsonValue child : root.get("modifiers")) {
             String className = MODIFIERS_CLASS_PATH + child.asString();
             try {
-                 modifierClassMap.put(child.name,
-                         (Class<? extends ParticleModifier>)Class.forName(className));
+                modifierClassMap.put(child.name,
+                        (Class<? extends ParticleModifier>) Class.forName(className));
             } catch (ClassNotFoundException e) {
                 Gdx.app.log("particle", e.toString());
             }
@@ -120,7 +120,7 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
             String type = json.name;
             Class<?> c = modifierClassMap.get(type);
             Constructor<?> constructor = c.getConstructor(JsonValue.class);
-            modifier = (ParticleModifier)constructor.newInstance(json);
+            modifier = (ParticleModifier) constructor.newInstance(json);
         } catch (NoSuchMethodException e) {
             Gdx.app.log("particle", e.toString());
         } catch (InstantiationException e) {

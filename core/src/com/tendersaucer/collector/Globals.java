@@ -5,14 +5,10 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * Game global variables
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Globals {
-
-    public enum GameState {
-        RUNNING, PAUSED, LOADING
-    }
 
     public static boolean ENABLE_MUSIC = false;
     public static boolean FULLSCREEN_MODE = false;
@@ -20,7 +16,6 @@ public final class Globals {
     public static boolean PRINT_DEBUG_INFO = false;
     public static boolean PACK_TEXTURES = false;
     public static boolean SHOW_PARTICLE_EFFECT_VIEWER = false;
-
     private static GameState gameState;
 
     private Globals() {
@@ -57,5 +52,9 @@ public final class Globals {
 
     public static boolean isGameLoading() {
         return gameState == GameState.LOADING;
+    }
+
+    public enum GameState {
+        RUNNING, PAUSED, LOADING
     }
 }

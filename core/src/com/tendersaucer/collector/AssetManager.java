@@ -51,6 +51,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
 
     /**
      * Uses the world's id as the atlas name
+     *
      * @param regionId
      * @return
      */
@@ -60,6 +61,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
 
     /**
      * Uses the world's id as the atlas name
+     *
      * @param regionId
      * @return
      */
@@ -163,7 +165,7 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
             // e.g. when no world exists for ParticleEffectViewer
             worldId = DEFAULT_WORLD_ID;
         }
-        
+
         return worldId;
     }
 }

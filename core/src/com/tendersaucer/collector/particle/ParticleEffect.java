@@ -32,15 +32,11 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         }
     };
 
-    protected long lastLoopTime;
-    protected Float loopDelay; // loops indefinitely if not null
     protected final Vector2 position;
     protected final Vector2 sizeRange;
     protected final Array<Sprite> sprites;
     protected final Array<Particle> particles;
     protected final Array<ParticleModifier> modifiers;
-
-    // Ranges
     protected final Vector2 durationRange;
     protected final Vector2 particlesRange;
     protected final Vector2 xOffsetRange;
@@ -53,6 +49,8 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     protected final Vector2 blueRange;
     protected final Vector2 greenRange;
     protected final Vector2 alphaRange;
+    protected long lastLoopTime;
+    protected Float loopDelay; // loops indefinitely if not null
 
     public ParticleEffect(JsonValue json) {
         lastLoopTime = 0;
@@ -221,7 +219,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     }
 
     protected void createParticles() {
-        int numParticles = (int)RandomUtils.pickFromRange(particlesRange);
+        int numParticles = (int) RandomUtils.pickFromRange(particlesRange);
         for (int i = 0; i < numParticles; i++) {
             Particle particle = particlePool.obtain();
             setParticleProperties(particle);

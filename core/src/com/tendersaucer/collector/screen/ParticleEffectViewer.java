@@ -31,11 +31,11 @@ import com.tendersaucer.collector.util.Vector2Pool;
  */
 public class ParticleEffectViewer implements Screen {
 
-    private Stage stage;
-    private BitmapFont font;
     private final Skin skin;
     private final InputListener inputListener;
     private final SpriteBatch spriteBatch;
+    private Stage stage;
+    private BitmapFont font;
 
     public ParticleEffectViewer() {
         if (Globals.FULLSCREEN_MODE) {
@@ -97,7 +97,7 @@ public class ParticleEffectViewer implements Screen {
     }
 
     private void render() {
-        if(Globals.PRINT_DEBUG_INFO) {
+        if (Globals.PRINT_DEBUG_INFO) {
             Debug.printDebugInfo();
         }
 
@@ -109,9 +109,11 @@ public class ParticleEffectViewer implements Screen {
         OrthographicCamera camera = (OrthographicCamera) MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
-        spriteBatch.begin(); {
+        spriteBatch.begin();
+        {
             Canvas.getInstance().render(spriteBatch);
-        } spriteBatch.end();
+        }
+        spriteBatch.end();
 
         stage.draw();
     }
@@ -145,7 +147,7 @@ public class ParticleEffectViewer implements Screen {
         stage.addActor(dropdown);
     }
 
-    private  void loadFont() {
+    private void loadFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
                 Gdx.files.internal("font/font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param =
@@ -184,7 +186,7 @@ public class ParticleEffectViewer implements Screen {
 
         @Override
         public boolean keyDown(InputEvent event, int keyCode) {
-            switch(keyCode) {
+            switch (keyCode) {
                 case Keys.ESCAPE:
                     Gdx.app.exit();
                     break;

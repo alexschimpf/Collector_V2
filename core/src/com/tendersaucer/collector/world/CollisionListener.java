@@ -11,7 +11,7 @@ import com.tendersaucer.collector.util.BodyData;
 
 /**
  * Game collision listener
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class CollisionListener implements ContactListener {
@@ -74,7 +74,7 @@ public final class CollisionListener implements ContactListener {
 
     private Entity getEntity(Fixture fixture) {
         Body body = fixture.getBody();
-        BodyData bodyData = (BodyData)body.getUserData();
+        BodyData bodyData = (BodyData) body.getUserData();
         if (bodyData == null) {
             return null;
         }

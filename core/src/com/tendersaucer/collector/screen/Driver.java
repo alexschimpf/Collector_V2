@@ -21,7 +21,7 @@ import com.tendersaucer.collector.world.World;
 
 /**
  * Main update and render logic
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Driver implements Screen {
@@ -41,7 +41,7 @@ public final class Driver implements Screen {
     public static Driver getInstance() {
         return instance;
     }
-    
+
     @Override
     public void show() {
         EventManager eventManager = EventManager.getInstance();
@@ -58,7 +58,7 @@ public final class Driver implements Screen {
 
     @Override
     public void render(float delta) {
-        if(Globals.PRINT_DEBUG_INFO) {
+        if (Globals.PRINT_DEBUG_INFO) {
             Debug.printDebugInfo();
         }
 
@@ -103,18 +103,20 @@ public final class Driver implements Screen {
         ParticleEffectManager.getInstance().update();
     }
 
-    private void render(){
+    private void render() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         OrthographicCamera camera = MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
-        spriteBatch.begin(); {
+        spriteBatch.begin();
+        {
             Canvas.getInstance().render(spriteBatch);
-        } spriteBatch.end();
+        }
+        spriteBatch.end();
 
-        if(Globals.DEBUG_PHYSICS) {
+        if (Globals.DEBUG_PHYSICS) {
             debugMatrix.set(camera.combined);
             debugRenderer.render(World.getInstance().getPhysicsWorld(), debugMatrix);
         }

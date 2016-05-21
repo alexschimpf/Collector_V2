@@ -8,15 +8,15 @@ import java.util.Map;
 
 /**
  * Conveniently manages related animations
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class AnimatedSpriteSystem extends AnimatedSprite {
 
+    private final Map<String, AnimatedSprite> animationMap;
     private boolean usingDefault;
     private String currentAnimationId;
     private TextureRegion defaultTexture;
-    private final Map<String, AnimatedSprite> animationMap;
 
     public AnimatedSpriteSystem(String defaultTextureName) {
         super();
@@ -73,7 +73,7 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
     }
 
     public void switchToDefault() {
-       switchTo(null, State.STOPPED);
+        switchTo(null, State.STOPPED);
     }
 
     public void add(String id, AnimatedSprite animation) {

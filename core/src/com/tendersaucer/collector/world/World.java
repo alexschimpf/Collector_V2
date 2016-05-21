@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 /**
  * Manages rooms
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class World implements IUpdate {
@@ -22,9 +22,9 @@ public final class World implements IUpdate {
     public static final float DEFAULT_GRAVITY = 50;
     private static final World instance = new World();
 
+    private final com.badlogic.gdx.physics.box2d.World physicsWorld;
     private String id;
     private String entryRoomId;
-    private final com.badlogic.gdx.physics.box2d.World physicsWorld;
 
     private World() {
         physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, DEFAULT_GRAVITY), true);

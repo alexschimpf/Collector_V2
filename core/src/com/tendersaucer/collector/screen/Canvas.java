@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Canvas, composed of layers of IRender objects
- *
+ * <p/>
  * Created by Alex on 4/10/2016.
  */
 public final class Canvas implements IRender, IRoomLoadBeginListener {
 
-    private static final Canvas instance = new Canvas();
     public static final int NUM_LAYERS = 10;
+    private static final Canvas instance = new Canvas();
 
     private final Map<IRender, Integer> objectLayerMap;
     private final Array<LinkedHashMap<IRender, Boolean>> layers; // 0 = Background, 10 = Foreground
@@ -64,7 +64,7 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
 
         Iterator objectLayerMapIter = objectLayerMap.keySet().iterator();
         while (objectLayerMapIter.hasNext()) {
-            IRender object = (IRender)objectLayerMapIter.next();
+            IRender object = (IRender) objectLayerMapIter.next();
             int objectLayer = objectLayerMap.get(object);
             if (objectLayer == layer) {
                 objectLayerMapIter.remove();

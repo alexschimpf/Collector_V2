@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public final class ConfigurableEntityDefinition extends EntityDefinition {
 
+    private final Map<String, String> propertyMap;
     private int layer;
     private FixtureDef fixtureDef;
-    private final Map<String, String> propertyMap;
 
     public ConfigurableEntityDefinition(String id, String type, BodyDef bodyDef) {
         super(id, type, bodyDef);
@@ -36,19 +36,19 @@ public final class ConfigurableEntityDefinition extends EntityDefinition {
         return layer;
     }
 
-    public void addPropety(String name, String value) {
-        propertyMap.put(name, value);
-    }
-
-    public void removePropety(String name) {
-        propertyMap.remove(name);
+    public void setLayer(int layer) {
+        this.layer = layer;
     }
 
     public void setFixtureDef(FixtureDef fixtureDef) {
         this.fixtureDef = fixtureDef;
     }
 
-    public void setLayer(int layer) {
-        this.layer = layer;
+    public void addPropety(String name, String value) {
+        propertyMap.put(name, value);
+    }
+
+    public void removePropety(String name) {
+        propertyMap.remove(name);
     }
 }

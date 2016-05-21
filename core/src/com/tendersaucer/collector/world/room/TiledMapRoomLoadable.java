@@ -37,7 +37,7 @@ import java.util.Map;
 
 /**
  * Loadable room from TiledMap
-
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class TiledMapRoomLoadable implements IRoomLoadable {
@@ -106,7 +106,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         renderer.setView(MainCamera.getInstance().getRawCamera());
 
         Array<MapLayerWrapper> layersToProcess = new Array<MapLayerWrapper>();
-        for(MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : tiledMap.getLayers()) {
             MapLayerWrapper layerWrapper = new MapLayerWrapper(renderer, layer);
 
             // Bodies must exist before entity objects.
@@ -138,7 +138,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
         for (MapObject object : layer.getObjects()) {
             if (object instanceof TextureMapObject) {
-                entities.add((TextureMapObject)object);
+                entities.add((TextureMapObject) object);
             } else {
                 if (!TiledUtils.propertyExists(object, "type")) {
                     freeBodies.add(object);
@@ -161,11 +161,11 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         for (MapObject object : bodies) {
             FixtureBodyDefinition fixtureBodyDefinition;
             if (object instanceof RectangleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createRectangleFixtureBodyDef((RectangleMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createRectangleFixtureBodyDef((RectangleMapObject) object);
             } else if (object instanceof CircleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createCircleFixtureBodyDef((CircleMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createCircleFixtureBodyDef((CircleMapObject) object);
             } else if (object instanceof EllipseMapObject) {
-                fixtureBodyDefinition = TiledUtils.createEllipseFixtureBodyDef((EllipseMapObject)object);
+                fixtureBodyDefinition = TiledUtils.createEllipseFixtureBodyDef((EllipseMapObject) object);
             } else if (object instanceof PolylineMapObject || object instanceof PolygonMapObject) {
                 fixtureBodyDefinition = TiledUtils.createPolyFixtureBodyDef(object);
             } else {
@@ -178,7 +178,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
     private void processEntities(MapLayerWrapper layer, Array<TextureMapObject> entities) {
         for (TextureMapObject object : entities) {
-            if (!TiledUtils.propertyExists(object,"type")) {
+            if (!TiledUtils.propertyExists(object, "type")) {
                 throw new InvalidConfigException(filename, "type", "null");
             }
 
@@ -190,18 +190,18 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             if (TiledUtils.propertyExists(object, "body_skeleton_id")) {
                 String bodySkeletonId = TiledUtils.getStringProperty(object, "body_skeleton_id");
                 if (!bodySkeletonMap.containsKey(bodySkeletonId)) {
-                  throw new InvalidConfigException(filename, "body_skeleton_id", bodySkeletonId);
+                    throw new InvalidConfigException(filename, "body_skeleton_id", bodySkeletonId);
                 }
 
                 bodySkeleton = bodySkeletonMap.get(bodySkeletonId);
             } else if (TiledUtils.propertyExists(object, "body_width") &&
                     TiledUtils.propertyExists(object, "body_height")) {
                 float bodyWidth = TiledUtils.getFloatProperty(object, "body_width");
-                float bodyHeight = TiledUtils.getFloatProperty(object,"body_height");
+                float bodyHeight = TiledUtils.getFloatProperty(object, "body_height");
                 bodySkeleton = object;
-                if  (bodyWidth != 0 && bodyHeight != 0) {
+                if (bodyWidth != 0 && bodyHeight != 0) {
                     bodySkeleton = new RectangleMapObject();
-                    ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
+                    ((RectangleMapObject) bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
                 }
             }
 
@@ -222,7 +222,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         String[] backgroundInfo = tiledMap.getProperties().get("background").toString().split(", ");
         for (int i = 0; i < backgroundInfo.length; i += 2) {
             String textureName = backgroundInfo[i];
-            float parallaxRatio = Float.parseFloat(backgroundInfo[i+1]);
+            float parallaxRatio = Float.parseFloat(backgroundInfo[i + 1]);
             background.addLayer(new TextureParallaxLayer(parallaxRatio, textureName));
         }
     }
@@ -246,7 +246,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         return bodyDef;
     }
 
-    private Vector2 getObjectPosition( MapObject object) {
+    private Vector2 getObjectPosition(MapObject object) {
         float unitScale = MainCamera.getInstance().getTileMapScale();
         float width = TiledUtils.getFloatProperty(object, "width") * unitScale;
         float height = TiledUtils.getFloatProperty(object, "height") * unitScale;

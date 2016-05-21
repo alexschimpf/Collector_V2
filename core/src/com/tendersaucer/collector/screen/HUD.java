@@ -9,7 +9,7 @@ import com.tendersaucer.collector.IUpdate;
 
 /**
  * Game heads up display
- *
+ * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class HUD implements IUpdate, IRender {
@@ -32,7 +32,7 @@ public final class HUD implements IUpdate, IRender {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-       stage.draw();
+        stage.draw();
     }
 
     @Override
