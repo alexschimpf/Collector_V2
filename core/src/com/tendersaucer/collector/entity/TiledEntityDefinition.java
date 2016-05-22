@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,19 +17,27 @@ public final class TiledEntityDefinition extends EntityDefinition {
     private final int layer;
     private final MapProperties properties;
     private final FixtureDef fixtureDef;
+    private final TextureRegion textureRegion;
 
     public TiledEntityDefinition(String name, String type, int layer, BodyDef bodyDef,
-                                 MapObject bodySkeleton, MapProperties properties) {
+                                 MapObject bodySkeleton, MapProperties properties,
+                                 TextureRegion textureRegion) {
         super(name, type, bodyDef);
 
         this.layer = layer;
         this.properties = properties;
-        this.fixtureDef = TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
+        this.textureRegion = textureRegion;
+        fixtureDef = TiledUtils.getFixtureDefFromBodySkeleton(bodySkeleton);
     }
 
     @Override
     public Object getProperty(String key) {
         return properties.get(key);
+    }
+
+    @Override
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
     }
 
     @Override

@@ -151,12 +151,19 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager imp
 
     private TextureRegion getTextureAtlasRegion(String atlasName, String regionId) {
         TextureAtlas textureAtlas = getTextureAtlas(atlasName);
-        return textureAtlas.findRegion(regionId);
+        TextureRegion textureRegion = textureAtlas.findRegion(regionId);
+        textureRegion.flip(false, true);
+        return textureRegion;
     }
 
     private Array<AtlasRegion> getTextureAtlasRegions(String atlasName, String regionId) {
         TextureAtlas textureAtlas = getTextureAtlas(atlasName);
-        return textureAtlas.findRegions(regionId);
+        Array<AtlasRegion> atlasRegions = textureAtlas.findRegions(regionId);
+        for (AtlasRegion atlasRegion : atlasRegions) {
+            atlasRegion.flip(false, true);
+        }
+
+        return atlasRegions;
     }
 
     private String getWorldId() {

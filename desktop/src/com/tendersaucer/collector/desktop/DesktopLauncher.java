@@ -21,17 +21,21 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.title = "Collector";
 
-		if (!config.fullscreen) {
+		// TODO: How to get native resolution?
+		if (Globals.FULLSCREEN_MODE) {
+			config.width = 3200;
+			config.height = 1800;
+		} else {
 			config.width = 1280;
-			config.height = 1280;
+			config.height = 720;
 		}
 
 		if(Globals.PACK_TEXTURES) {
 			TexturePacker.Settings settings = new Settings();
 			settings.duplicatePadding = true;
 			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, TEXTURE_PACK_NAME);
-		} else if (Globals.PACK_TILESETS) {
-			TilesetGenerator.generate("tiles.png");
+		} else if (Globals.PACK_TILE_SETS) {
+			TilesetGenerator.generate("entity_tiles.png");
 		} else {
 			new LwjglApplication(new Game(), config);
 		}

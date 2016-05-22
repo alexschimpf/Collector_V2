@@ -20,6 +20,12 @@
                     { "name": "body_type", "default": "dynamic" }
                 ]
             }
+        },
+        "detection_line": {
+            "class": "DetectionLine",
+            "properties": {
+                "required": [ "duration" ]
+            }
         }
     }
 }

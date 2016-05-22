@@ -44,10 +44,6 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         this(key, totalDuration, numLoops, State.STOPPED);
     }
 
-    public AnimatedSprite(String key, float totalDuration, State state) {
-        this(key, totalDuration, 1, state);
-    }
-
     public AnimatedSprite(String key, float totalDuration) {
         this(key, totalDuration, 1);
     }

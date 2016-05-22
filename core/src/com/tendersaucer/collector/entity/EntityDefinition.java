@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -29,6 +30,8 @@ public abstract class EntityDefinition {
     }
 
     public abstract Object getProperty(String key);
+
+    public abstract TextureRegion getTextureRegion();
 
     public abstract FixtureDef getFixtureDef();
 
@@ -67,7 +70,7 @@ public abstract class EntityDefinition {
     }
 
     public boolean isPropertyEmpty(String key) {
-        return !propertyExists(key) || getStringProperty(key).isEmpty();
+        return !propertyExists(key) || getStringProperty(key).equals("");
     }
 
     public String getStringProperty(String key) {
@@ -87,7 +90,7 @@ public abstract class EntityDefinition {
     }
 
     public Vector2 getVector2Property(String key) {
-        if (getStringProperty(key).isEmpty()) {
+        if (getStringProperty(key).equals("")) {
             return new Vector2();
         }
 
@@ -98,7 +101,7 @@ public abstract class EntityDefinition {
 
     public boolean[] getBooleanArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if (full.isEmpty()) {
+        if (full.equals("")) {
             return new boolean[0];
         }
 
@@ -115,7 +118,7 @@ public abstract class EntityDefinition {
 
     public int[] getIntArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if (full.isEmpty()) {
+        if (full.equals("")) {
             return new int[0];
         }
 
@@ -132,7 +135,7 @@ public abstract class EntityDefinition {
 
     public float[] getFloatArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if (full.isEmpty()) {
+        if (full.equals("")) {
             return new float[0];
         }
 
@@ -149,7 +152,7 @@ public abstract class EntityDefinition {
 
     public String[] getStringArrayProperty(String key, String delim) {
         String full = getStringProperty(key);
-        if (full.isEmpty()) {
+        if (full.equals("")) {
             return new String[0];
         }
 

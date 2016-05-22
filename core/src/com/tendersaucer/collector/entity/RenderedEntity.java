@@ -2,9 +2,7 @@ package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
 
@@ -38,10 +36,7 @@ public abstract class RenderedEntity extends Entity implements IRender {
     }
 
     protected Sprite createSprite(EntityDefinition definition) {
-        String textureId = definition.getStringProperty("texture");
-        TextureRegion textureRegion =
-                AssetManager.getInstance().getTextureRegion(textureId);
-        Sprite sprite = new Sprite(textureRegion);
+        Sprite sprite = new Sprite(definition.getTextureRegion());
         sprite.setSize(getWidth(), getHeight());
 
         return sprite;

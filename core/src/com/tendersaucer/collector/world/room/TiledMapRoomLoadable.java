@@ -208,7 +208,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
             int layerPos = getLayerPos(layer, object);
             BodyDef bodyDef = getBodyDef(layer, object);
             EntityDefinition entityDefinition = new TiledEntityDefinition(object.getName(), type,
-                    layerPos, bodyDef, bodySkeleton, object.getProperties());
+                    layerPos, bodyDef, bodySkeleton, object.getProperties(), object.getTextureRegion());
             entityDefinitions.add(entityDefinition);
         }
     }

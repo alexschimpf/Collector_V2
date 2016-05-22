@@ -1,7 +1,6 @@
 Working:
-- Make sure background works
 - Rethink World/Room idea
-- Allow for hierarchy in entity.json
+- Need to cache texture regions in AssetManager
 
 Backlog:
 - DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
@@ -10,6 +9,7 @@ Backlog:
 - Make sure everything (that needs it) is disposed of
 - Figure out how script system will work
     - ScriptTrigger entity?
+- Allow for hierarchy in entity.json
 
 Game ideas:
 - dreamlike
@@ -23,3 +23,10 @@ Game ideas:
 - things look kind of drawn, thin lines
     - slight curve to them
     - kind of like 'doodle jump'
+
+---------------------------------------------------
+
+Create a texture for each image (or more if they need animations).
+Use TilesetGenerator to combine them into a tileset to use in Tiled.
+Each tilemap will have an entity tileset and one or more environment tilesets.
+EntityDefinition needs getTextureRegion(...).

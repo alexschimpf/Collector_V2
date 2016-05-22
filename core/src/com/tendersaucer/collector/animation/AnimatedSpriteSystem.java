@@ -49,13 +49,13 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
     }
 
     public void switchTo(String id, State newState) {
-        if (id == null) {
-            usingDefault = true;
-        } else {
+        if (id != null) {
             rawAnimation = animationMap.get(id).getRawAnimation();
         }
 
+        usingDefault = (id == null);
         currentAnimationId = id;
+
         switch (newState) {
             case PLAYING:
                 play();
@@ -117,6 +117,14 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
         }
 
         return false;
+    }
+
+    public boolean isCurrent(String animationId) {
+        if (animationId == null) {
+            return usingDefault;
+        }
+
+        return !usingDefault && getCurrentAnimationId().equals(animationId);
     }
 
     public boolean isPlaying(String animationId) {
