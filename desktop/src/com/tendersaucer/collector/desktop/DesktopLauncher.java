@@ -34,7 +34,7 @@ public class DesktopLauncher {
 			TexturePacker.Settings settings = new Settings();
 			settings.duplicatePadding = true;
 			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, TEXTURE_PACK_NAME);
-		} else if (Globals.PACK_TILE_SETS) {
+		} else if (Globals.PACK_TILESETS) {
 			TilesetGenerator.generate("entity_tiles");
 		} else {
 			new LwjglApplication(new Game(), config);

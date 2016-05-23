@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -28,8 +30,7 @@ public class TilesetGenerator {
     }
 
     public static void generate(String fileName) {
-        int i = 0;
-        int page = 0;
+        int i = 0, page = 0;
         File[] files = getTextureFiles();
         while (i < files.length) {
             BufferedImage image = new BufferedImage(TILESET_SIZE, TILESET_SIZE,
@@ -38,36 +39,28 @@ public class TilesetGenerator {
             graphics.setBackground(java.awt.Color.RED);
             graphics.clearRect(0, 0, TILESET_SIZE, TILESET_SIZE);
 
-            for (int row = 0; row < NUM_TILES_TALL; row++) {
-                for (int col = 0; col < NUM_TILES_WIDE; col++) {
-                    int x = (col * (TILE_SIZE + SPACING)) + SPACING;
-                    int y = (row * (TILE_SIZE + SPACING)) + SPACING;
-
-                    if (i >= files.length) {
-                        break;
-                    }
-
-                    File textureFile = files[i++];
-                    BufferedImage textureImage = null;
-                    try {
-                        textureImage = ImageIO.read(textureFile);
-                    } catch (Exception e) {
-                        Gdx.app.log("tileset", e.toString());
-                        return;
-                    }
-
-                    graphics.drawImage(textureImage, x, y, null);
-                }
-            }
-
             try {
-                File outputfile = new File(OUTPUT_DIR + fileName + "_" + page + ".png");
-                ImageIO.write(image, "png", outputfile);
+                for (int row = 0; row < NUM_TILES_TALL; row++) {
+                    for (int col = 0; col < NUM_TILES_WIDE; col++) {
+                        int x = (col * (TILE_SIZE + SPACING)) + SPACING;
+                        int y = (row * (TILE_SIZE + SPACING)) + SPACING;
+
+                        if (i >= files.length) {
+                            break;
+                        }
+
+                        File textureFile = files[i++];
+                        BufferedImage textureImage = null;
+                        textureImage = ImageIO.read(textureFile);
+                        graphics.drawImage(textureImage, x, y, null);
+                    }
+                }
+
+                String outputFileName = OUTPUT_DIR + fileName + "_" + page++ + ".png";
+                ImageIO.write(image, "png", new File(outputFileName));
             } catch (Exception e) {
                 Gdx.app.log("tileset", e.toString());
             }
-
-            page++;
         }
     }
 
@@ -82,36 +75,25 @@ public class TilesetGenerator {
         Arrays.sort(files, new Comparator<File>() {
             @Override
             public int compare(File a, File b) {
-                String aFullName = a.getName();
-                String bFullName = b.getName();
-                if (aFullName.contains("_") && bFullName.contains("_")) {
-                    int aIndexStart = aFullName.lastIndexOf("_") + 1;
-                    int bIndexStart = bFullName.lastIndexOf("_") + 1;
-                    String aName = aFullName.substring(0, aIndexStart - 1);
-                    String bName = bFullName.substring(0, bIndexStart - 1);
+                Pattern pattern = Pattern.compile("(.+)_(\\d+)\\.png");
+                Matcher aMatcher = pattern.matcher(a.getName());
+                Matcher bMatcher = pattern.matcher(b.getName());
+
+                // e.g. If A="xxx_0.png" and B="xxx_1.png", put A first.
+                if (aMatcher.matches() && bMatcher.matches()) {
+                    String aName = aMatcher.group(1);
+                    String bName = bMatcher.group(1);
                     if (aName.equals(bName)) {
-                        String aIndex = aFullName.substring(aIndexStart).replace(".png", "");
-                        String bIndex = bFullName.substring(bIndexStart).replace(".png", "");
-                        if (isInteger(aIndex) && isInteger(bIndex)) {
-                            return Integer.parseInt(aIndex) - Integer.parseInt(bIndex);
-                        }
+                        int aIndex = Integer.parseInt(aMatcher.group(2));
+                        int bIndex = Integer.parseInt(bMatcher.group(2));
+                        return aIndex - bIndex;
                     }
                 }
 
-                return aFullName.compareTo(bFullName);
+                return a.getName().compareTo(b.getName());
             }
         });
 
         return files;
-    }
-
-    private static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
-        return true;
     }
 }
