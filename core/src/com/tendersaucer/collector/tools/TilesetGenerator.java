@@ -72,10 +72,10 @@ public class TilesetGenerator {
             }
         });
 
+        final Pattern pattern = Pattern.compile("(.+)_(\\d+)\\.png");
         Arrays.sort(files, new Comparator<File>() {
             @Override
             public int compare(File a, File b) {
-                Pattern pattern = Pattern.compile("(.+)_(\\d+)\\.png");
                 Matcher aMatcher = pattern.matcher(a.getName());
                 Matcher bMatcher = pattern.matcher(b.getName());
 
