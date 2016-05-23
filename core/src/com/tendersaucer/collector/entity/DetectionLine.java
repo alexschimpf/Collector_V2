@@ -8,7 +8,7 @@ import com.tendersaucer.collector.world.room.Room;
  */
 public class DetectionLine extends RenderedEntity {
 
-    protected static final float DEFAULT_ALPHA = 0.1f;
+    protected static final float DEFAULT_ALPHA = 0.2f;
 
     protected final float duration;
     protected long startTime;

@@ -128,7 +128,6 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
     }
 
     public boolean isPlaying(String animationId) {
-        return !usingDefault && getCurrentAnimationId().equals(animationId) &&
-                getCurrentAnimation().isPlaying();
+        return isCurrent(animationId) && isPlaying();
     }
 }

@@ -64,7 +64,7 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
 
         Iterator objectLayerMapIter = objectLayerMap.keySet().iterator();
         while (objectLayerMapIter.hasNext()) {
-            IRender object = (IRender) objectLayerMapIter.next();
+            IRender object = (IRender)objectLayerMapIter.next();
             int objectLayer = objectLayerMap.get(object);
             if (objectLayer == layer) {
                 objectLayerMapIter.remove();

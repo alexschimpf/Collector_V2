@@ -138,7 +138,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
 
         for (MapObject object : layer.getObjects()) {
             if (object instanceof TextureMapObject) {
-                entities.add((TextureMapObject) object);
+                entities.add((TextureMapObject)object);
             } else {
                 if (!TiledUtils.propertyExists(object, "type")) {
                     freeBodies.add(object);
@@ -161,11 +161,11 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
         for (MapObject object : bodies) {
             FixtureBodyDefinition fixtureBodyDefinition;
             if (object instanceof RectangleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createRectangleFixtureBodyDef((RectangleMapObject) object);
+                fixtureBodyDefinition = TiledUtils.createRectangleFixtureBodyDef((RectangleMapObject)object);
             } else if (object instanceof CircleMapObject) {
-                fixtureBodyDefinition = TiledUtils.createCircleFixtureBodyDef((CircleMapObject) object);
+                fixtureBodyDefinition = TiledUtils.createCircleFixtureBodyDef((CircleMapObject)object);
             } else if (object instanceof EllipseMapObject) {
-                fixtureBodyDefinition = TiledUtils.createEllipseFixtureBodyDef((EllipseMapObject) object);
+                fixtureBodyDefinition = TiledUtils.createEllipseFixtureBodyDef((EllipseMapObject)object);
             } else if (object instanceof PolylineMapObject || object instanceof PolygonMapObject) {
                 fixtureBodyDefinition = TiledUtils.createPolyFixtureBodyDef(object);
             } else {
@@ -201,7 +201,7 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                 bodySkeleton = object;
                 if (bodyWidth != 0 && bodyHeight != 0) {
                     bodySkeleton = new RectangleMapObject();
-                    ((RectangleMapObject) bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
+                    ((RectangleMapObject)bodySkeleton).getRectangle().setSize(bodyWidth, bodyHeight);
                 }
             }
 

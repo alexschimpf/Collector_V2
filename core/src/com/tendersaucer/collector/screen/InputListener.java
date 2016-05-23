@@ -28,7 +28,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
         } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             player.moveLeft();
         } else if (!Globals.isAndroid()) {
-            player.stopMove();
+            player.stopHorizontalMove();
         }
 
         return false;

@@ -10,6 +10,9 @@ import com.badlogic.gdx.Gdx;
  */
 public final class Globals {
 
+    public enum GameState {
+        RUNNING, PAUSED, LOADING
+    }
     public static boolean ENABLE_MUSIC = false;
     public static boolean FULLSCREEN_MODE = true;
     public static boolean DEBUG_PHYSICS = false;
@@ -53,9 +56,5 @@ public final class Globals {
 
     public static boolean isGameLoading() {
         return gameState == GameState.LOADING;
-    }
-
-    public enum GameState {
-        RUNNING, PAUSED, LOADING
     }
 }

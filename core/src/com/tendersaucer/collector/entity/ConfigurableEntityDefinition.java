@@ -47,12 +47,12 @@ public final class ConfigurableEntityDefinition extends EntityDefinition {
         this.layer = layer;
     }
 
-    public void setTextureRegion(TextureRegion textureRegion) {
-        this.textureRegion = textureRegion;
-    }
-
     public void setFixtureDef(FixtureDef fixtureDef) {
         this.fixtureDef = fixtureDef;
+    }
+
+    public void setTextureRegion(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
     }
 
     public void addPropety(String name, String value) {

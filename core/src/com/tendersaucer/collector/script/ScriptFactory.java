@@ -18,7 +18,7 @@ public class ScriptFactory {
             String className = ScriptConfig.getInstance().getClassName(scriptType);
             Class<?> c = Class.forName(className);
             Constructor<?> constructor = c.getConstructor(ScriptDefinition.class);
-            script = (Script) constructor.newInstance(scriptDef);
+            script = (Script)constructor.newInstance(scriptDef);
         } catch (ClassNotFoundException e) {
             // TODO:
         } catch (NoSuchMethodException e) {

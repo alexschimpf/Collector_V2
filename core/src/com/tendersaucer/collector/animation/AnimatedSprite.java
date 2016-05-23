@@ -19,6 +19,9 @@ import com.tendersaucer.collector.util.ConversionUtils;
  */
 public class AnimatedSprite extends Sprite implements IUpdate, IRender {
 
+    public enum State {
+        PLAYING, PAUSED, STOPPED, FINISHED
+    }
     protected float stateTime;
     protected int currNumLoops;
     protected State state;
@@ -201,9 +204,5 @@ public class AnimatedSprite extends Sprite implements IUpdate, IRender {
         state = State.FINISHED;
         stateTime = 0;
         currNumLoops = 0;
-    }
-
-    public enum State {
-        PLAYING, PAUSED, STOPPED, FINISHED
     }
 }

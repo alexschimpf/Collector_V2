@@ -219,7 +219,7 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
     }
 
     protected void createParticles() {
-        int numParticles = (int) RandomUtils.pickFromRange(particlesRange);
+        int numParticles = (int)RandomUtils.pickFromRange(particlesRange);
         for (int i = 0; i < numParticles; i++) {
             Particle particle = particlePool.obtain();
             setParticleProperties(particle);

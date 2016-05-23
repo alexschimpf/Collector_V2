@@ -106,7 +106,7 @@ public class ParticleEffectViewer implements Screen {
 
         Gdx.graphics.setTitle("ParticleEffectViewer (x" + inputListener.getSizeScale() + ")");
 
-        OrthographicCamera camera = (OrthographicCamera) MainCamera.getInstance().getRawCamera();
+        OrthographicCamera camera = (OrthographicCamera)MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin();

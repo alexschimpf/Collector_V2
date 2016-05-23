@@ -202,9 +202,9 @@ public final class TiledUtils {
     }
 
     private static Shape getTextureMapShape(MapObject object) {
-        TextureMapObject textureMapObject = (TextureMapObject) object;
-        float width = (Float) textureMapObject.getProperties().get("width");
-        float height = (Float) textureMapObject.getProperties().get("height");
+        TextureMapObject textureMapObject = (TextureMapObject)object;
+        float width = (Float)textureMapObject.getProperties().get("width");
+        float height = (Float)textureMapObject.getProperties().get("height");
 
         PolygonShape shape = new PolygonShape();
         float scale = MainCamera.getInstance().getTileMapScale();
@@ -214,7 +214,7 @@ public final class TiledUtils {
     }
 
     private static Shape getRectangleShape(MapObject object) {
-        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
         PolygonShape shape = new PolygonShape();
         float scale = MainCamera.getInstance().getTileMapScale();
         shape.setAsBox((rectangle.width / 2) * scale, (rectangle.height / 2) * scale);
@@ -223,7 +223,7 @@ public final class TiledUtils {
     }
 
     private static Shape getCircleShape(MapObject object) {
-        Circle circle = ((CircleMapObject) object).getCircle();
+        Circle circle = ((CircleMapObject)object).getCircle();
         CircleShape shape = new CircleShape();
         shape.setRadius(circle.radius * MainCamera.getInstance().getTileMapScale());
 
@@ -232,7 +232,7 @@ public final class TiledUtils {
 
     // Just assume the ellipse is a circle for now.
     private static Shape getEllipseShape(MapObject object) {
-        Ellipse circle = ((EllipseMapObject) object).getEllipse();
+        Ellipse circle = ((EllipseMapObject)object).getEllipse();
         CircleShape shape = new CircleShape();
         shape.setRadius(circle.width / 2 * MainCamera.getInstance().getTileMapScale());
 
@@ -240,7 +240,7 @@ public final class TiledUtils {
     }
 
     private static Shape getPolygonShape(MapObject object) {
-        Polygon polygon = ((PolygonMapObject) object).getPolygon();
+        Polygon polygon = ((PolygonMapObject)object).getPolygon();
         float[] vertices = polygon.getTransformedVertices();
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] *= MainCamera.getInstance().getTileMapScale();
@@ -253,7 +253,7 @@ public final class TiledUtils {
     }
 
     private static Shape getPolylineShape(MapObject object) {
-        Polyline polyline = ((PolylineMapObject) object).getPolyline();
+        Polyline polyline = ((PolylineMapObject)object).getPolyline();
         float[] vertices = polyline.getTransformedVertices();
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] *= MainCamera.getInstance().getTileMapScale();

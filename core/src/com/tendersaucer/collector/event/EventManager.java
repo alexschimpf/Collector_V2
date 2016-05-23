@@ -52,9 +52,9 @@ public final class EventManager {
     }
 
     public <L> void notify(Event<L> event) {
-        Class<Event<L>> eventClass = (Class<Event<L>>) event.getClass();
+        Class<Event<L>> eventClass = (Class<Event<L>>)event.getClass();
         if (eventListeners.containsKey(eventClass)) {
-            for (L listener : (ArrayList<L>) eventListeners.get(eventClass)) {
+            for (L listener : (ArrayList<L>)eventListeners.get(eventClass)) {
                 event.notify(listener);
             }
         }

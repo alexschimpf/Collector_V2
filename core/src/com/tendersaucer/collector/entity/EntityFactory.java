@@ -23,7 +23,7 @@ public final class EntityFactory {
             String className = ENTITIES_CLASS_PATH + EntityConfig.getInstance().getClassName(entityType);
             Class<?> c = Class.forName(className);
             Constructor<?> constructor = c.getConstructor(EntityDefinition.class);
-            entity = (Entity) constructor.newInstance(entityDef);
+            entity = (Entity)constructor.newInstance(entityDef);
             entity.init();
         } catch (Exception e) {
             String entityInfo = "type=" + entityDef.getType() + ", id=" + entityDef.getId();

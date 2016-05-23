@@ -109,11 +109,11 @@ public final class Room implements IUpdate {
 
             entityMap.put(id, entity);
             if (Entity.isPlayer(entity)) {
-                setPlayer((Player) entity);
+                setPlayer((Player)entity);
             }
 
             if (entity instanceof RenderedEntity) {
-                ((RenderedEntity) entity).addToCanvas();
+                ((RenderedEntity)entity).addToCanvas();
             }
         }
     }

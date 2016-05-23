@@ -23,7 +23,7 @@ public class TilesetGenerator {
     private static final int TILESET_SIZE = 1024;
     private static final int NUM_TILES_WIDE = TILESET_SIZE / (TILE_SIZE + (SPACING * 2));
     private static final int NUM_TILES_TALL = NUM_TILES_WIDE;
-    private static final String TEXTURES_DIR =  "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas/textures";
+    private static final String TEXTURES_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas/textures";
     private static final String OUTPUT_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/worlds/0/rooms/";
 
     private TilesetGenerator() {
@@ -42,16 +42,14 @@ public class TilesetGenerator {
             try {
                 for (int row = 0; row < NUM_TILES_TALL; row++) {
                     for (int col = 0; col < NUM_TILES_WIDE; col++) {
-                        int x = (col * (TILE_SIZE + SPACING)) + SPACING;
-                        int y = (row * (TILE_SIZE + SPACING)) + SPACING;
-
                         if (i >= files.length) {
                             break;
                         }
 
                         File textureFile = files[i++];
-                        BufferedImage textureImage = null;
-                        textureImage = ImageIO.read(textureFile);
+                        BufferedImage textureImage = ImageIO.read(textureFile);
+                        int x = (col * (TILE_SIZE + SPACING)) + SPACING;
+                        int y = (row * (TILE_SIZE + SPACING)) + SPACING;
                         graphics.drawImage(textureImage, x, y, null);
                     }
                 }
