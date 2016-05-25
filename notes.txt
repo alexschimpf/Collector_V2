@@ -30,3 +30,9 @@ Create a texture for each image (or more if they need animations).
 Use TilesetGenerator to combine them into a tileset to use in Tiled.
 Each tilemap will have an entity tileset and one or more environment tilesets.
 EntityDefinition needs getTextureRegion(...).
+
+
+
+
+
+

@@ -17,7 +17,6 @@ import com.tendersaucer.collector.world.World;
 
 /**
  * User-controlled player
- * <p/>
  * Created by Alex on 4/8/2016.
  */
 public final class Player extends RenderedEntity {
@@ -33,10 +32,7 @@ public final class Player extends RenderedEntity {
     public static final String TYPE = "player";
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
-//  private static final String BLINK_ANIMATION_ID = "blink";
 
-//  private float blinkDelay;
-//  private long lastBlinkTime;
     private int numFootContacts;
     private Direction direction;
 
@@ -44,23 +40,12 @@ public final class Player extends RenderedEntity {
         super(def);
 
         numFootContacts = 0;
-//      blinkDelay = getNewBlinkDelay();
-//      lastBlinkTime = TimeUtils.millis();
         direction = Direction.RIGHT;
     }
 
     @Override
     protected void tick() {
         super.tick();
-
-//        if (readyToBlink()) {
-//            blink();
-//        }
-
-        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if (!animationSystem.usingDefault() && (!isMoving() || !animationSystem.isPlaying())) {
-            animationSystem.switchToDefault();
-        }
 
         ((AnimatedSpriteSystem)sprite).update();
     }
@@ -69,9 +54,8 @@ public final class Player extends RenderedEntity {
     protected Sprite createSprite(EntityDefinition definition) {
         AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("player_default");
         animationSystem.setSize(getWidth(), getHeight());
-        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("player_jump", 250));
-        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("player_move", 400));
-        //animationSystem.add(BLINK_ANIMATION_ID, new AnimatedSprite("player_default", 300));
+        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("player_jump", 300));
+        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("player_move", 300));
 
         return animationSystem;
     }
@@ -118,7 +102,11 @@ public final class Player extends RenderedEntity {
         if (!isJumping()) {
             AssetManager.getInstance().getSound("jump").play();
             body.applyLinearImpulse(0, JUMP_IMPULSE, getCenterX(), getCenterY(), true);
-            ((AnimatedSpriteSystem)sprite).switchTo(JUMP_ANIMATION_ID, AnimatedSprite.State.PLAYING);
+
+            AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+            if (!animationSystem.isCurrent(JUMP_ANIMATION_ID)) {
+                animationSystem.switchTo(JUMP_ANIMATION_ID, AnimatedSprite.State.PLAYING, true);
+            }
         }
     }
 
@@ -126,10 +114,11 @@ public final class Player extends RenderedEntity {
         if (getLinearVelocity().y < 0) {
             setLinearVelocity(getLinearVelocity().x, 0.02f);
         }
-    }
 
-    public void stopHorizontalMove() {
-        setLinearVelocity(0, getLinearVelocity().y);
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+        if (animationSystem.isCurrent(JUMP_ANIMATION_ID)) {
+            animationSystem.switchToDefault();
+        }
     }
 
     public void moveLeft() {
@@ -147,8 +136,20 @@ public final class Player extends RenderedEntity {
         setLinearVelocity(vx, getLinearVelocity().y);
 
         AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-        if (!isJumping()) {
+        if (!animationSystem.isCurrent(MOVE_ANIMATION_ID) && !isJumping()) {
             animationSystem.switchTo(MOVE_ANIMATION_ID, AnimatedSprite.State.PLAYING);
+        } else if (numFootContacts == 0 && animationSystem.isCurrent(MOVE_ANIMATION_ID)) {
+            // If moving straight off a surface, without jumping.
+            animationSystem.switchToDefault();
+        }
+    }
+
+    public void stopHorizontalMove() {
+        setLinearVelocity(0, getLinearVelocity().y);
+
+        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
+        if (animationSystem.isCurrent(MOVE_ANIMATION_ID)) {
+            animationSystem.switchToDefault();
         }
     }
 
@@ -167,21 +168,6 @@ public final class Player extends RenderedEntity {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-
-//    private void blink() {
-//        lastBlinkTime = TimeUtils.millis();
-//        blinkDelay = getNewBlinkDelay();
-//        ((AnimatedSpriteSystem)sprite).switchTo(BLINK_ANIMATION_ID, AnimatedSprite.State.PLAYING);
-//    }
-//
-//    private boolean readyToBlink() {
-//        AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
-//        return animationSystem.usingDefault() && TimeUtils.timeSinceMillis(lastBlinkTime) > blinkDelay;
-//    }
-//
-//    private float getNewBlinkDelay() {
-//        return RandomUtils.pickFromRange(2000, 8000);
-//    }
 
     private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
@@ -210,13 +196,9 @@ public final class Player extends RenderedEntity {
         }
     }
 
-    private boolean isMoving() {
-        return !getLinearVelocity().equals(Vector2.Zero);
-    }
-
     private boolean isJumping() {
         // May have not left the ground yet but is still in the process of jumping
-        return numFootContacts < 1 || ((AnimatedSpriteSystem)sprite).isPlaying(JUMP_ANIMATION_ID);
+        return numFootContacts == 0 || ((AnimatedSpriteSystem)sprite).isPlaying(JUMP_ANIMATION_ID);
     }
 
     private Fixture getMainFixture() {
@@ -230,14 +212,14 @@ public final class Player extends RenderedEntity {
     private FixtureDef createFixtureDef(EntityDefinition definition) {
         PolygonShape shape = new PolygonShape();
         shape.set(new Vector2[]{
-            new Vector2(0.9f, -1.29f),
-            new Vector2(0.6f, -1.3f),
-            new Vector2(-0.6f, -1.3f),
-            new Vector2(-0.9f, -1.29f),
-            new Vector2(-0.9f, 1.29f),
-            new Vector2(-0.6f, 1.3f),
-            new Vector2(0.6f, 1.3f),
-            new Vector2(0.9f, 1.29f)
+                new Vector2(0.9f, -1.29f),
+                new Vector2(0.6f, -1.3f),
+                new Vector2(-0.6f, -1.3f),
+                new Vector2(-0.9f, -1.29f),
+                new Vector2(-0.9f, 1.29f),
+                new Vector2(-0.6f, 1.3f),
+                new Vector2(0.6f, 1.3f),
+                new Vector2(0.9f, 1.29f)
         });
 
         definition.getFixtureDef().shape.dispose();

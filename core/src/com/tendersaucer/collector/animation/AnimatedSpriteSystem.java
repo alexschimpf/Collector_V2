@@ -14,6 +14,7 @@ import java.util.Map;
 public final class AnimatedSpriteSystem extends AnimatedSprite {
 
     private final Map<String, AnimatedSprite> animationMap;
+    private boolean defaultOnFinished;
     private boolean usingDefault;
     private String currentAnimationId;
     private TextureRegion defaultTexture;
@@ -25,6 +26,7 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
         animationMap = new HashMap<String, AnimatedSprite>();
         currentAnimationId = defaultTextureName;
 
+        defaultOnFinished = false;
         usingDefault = true;
         setRegion(defaultTexture);
     }
@@ -33,6 +35,9 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
     public boolean update() {
         if (usingDefault) {
             setRegion(defaultTexture);
+            return false;
+        } else if (isFinished() && defaultOnFinished) {
+            switchToDefault();
             return false;
         }
 
@@ -48,7 +53,7 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
         return super.getCurrentFrame();
     }
 
-    public void switchTo(String id, State newState) {
+    public void switchTo(String id, State newState, boolean defaultOnFinished) {
         if (id != null) {
             rawAnimation = animationMap.get(id).getRawAnimation();
         }
@@ -70,6 +75,12 @@ public final class AnimatedSpriteSystem extends AnimatedSprite {
                 setFinished();
                 break;
         }
+
+        this.defaultOnFinished = defaultOnFinished;
+    }
+
+    public void switchTo(String id, State newState) {
+        switchTo(id, newState, false);
     }
 
     public void switchToDefault() {

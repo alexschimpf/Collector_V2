@@ -1,6 +1,6 @@
 
 0.png
-size: 512,256
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -39,20 +39,6 @@ player_jump
   orig: 64, 64
   offset: 0, 0
   index: 1
-player_move
-  rotate: false
-  xy: 67, 133
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-player_move
-  rotate: false
-  xy: 67, 133
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 9
 player_jump
   rotate: false
   xy: 1, 1
@@ -60,35 +46,7 @@ player_jump
   orig: 64, 64
   offset: 0, 0
   index: 2
-player_move
-  rotate: false
-  xy: 1, 1
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_move
-  rotate: false
-  xy: 1, 1
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 8
 player_jump
-  rotate: false
-  xy: 67, 67
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
-player_move
-  rotate: false
-  xy: 67, 67
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 7
-player_move
   rotate: false
   xy: 67, 67
   size: 64, 64
@@ -102,28 +60,7 @@ player_jump
   orig: 64, 64
   offset: 0, 0
   index: 4
-player_move
-  rotate: false
-  xy: 133, 133
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 6
-player_move
-  rotate: false
-  xy: 133, 133
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 4
 player_jump
-  rotate: false
-  xy: 67, 1
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 5
-player_move
   rotate: false
   xy: 67, 1
   size: 64, 64
@@ -200,3 +137,59 @@ player_jump
   orig: 64, 64
   offset: 0, 0
   index: 15
+player_move
+  rotate: false
+  xy: 397, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+player_move
+  rotate: false
+  xy: 331, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+player_move
+  rotate: false
+  xy: 397, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+player_move
+  rotate: false
+  xy: 463, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 4
+player_move
+  rotate: false
+  xy: 397, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 5
+player_move
+  rotate: false
+  xy: 463, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+player_move
+  rotate: false
+  xy: 529, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+player_move
+  rotate: false
+  xy: 463, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
