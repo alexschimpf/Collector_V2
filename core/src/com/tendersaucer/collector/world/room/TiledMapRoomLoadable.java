@@ -182,6 +182,11 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
                 throw new InvalidConfigException(filename, "type", "null");
             }
 
+            // Layer position may be set from the layer itself
+            if (!TiledUtils.propertyExists(object, "layer")) {
+                object.getProperties().put("layer", TiledUtils.getIntProperty(layer, "layer"));
+            }
+
             String type = TiledUtils.getStringProperty(object, "type");
             TiledEntityPropertyValidator.validateAndProcess(type, object.getProperties());
 
@@ -228,13 +233,13 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     }
 
     private int getLayerPos(MapLayerWrapper layer, TextureMapObject object) {
-        if (TiledUtils.propertyExists(object, "layer")) {
-            return TiledUtils.getIntProperty(object, "layer");
-        } else if (TiledUtils.propertyExists(layer, "layer")) {
-            return TiledUtils.getIntProperty(layer, "layer");
-        } else {
-            throw new InvalidConfigException(filename, "layer", "null");
-        }
+     if (TiledUtils.propertyExists(object, "layer")) {
+        return TiledUtils.getIntProperty(object, "layer");
+    } else if (TiledUtils.propertyExists(layer, "layer")) {
+        return TiledUtils.getIntProperty(layer, "layer");
+    } else {
+        throw new InvalidConfigException(filename, "layer", "null");
+    }
     }
 
     private BodyDef getBodyDef(MapLayerWrapper layer, MapObject object) {

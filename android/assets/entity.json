@@ -16,6 +16,7 @@
         "player": {
             "class": "Player",
             "properties": {
+                "required": [ "layer" ],
                 "optional": [
                     { "name": "body_type", "default": "dynamic" }
                 ]
@@ -24,7 +25,7 @@
         "detection_line": {
             "class": "DetectionLine",
             "properties": {
-                "required": [ "duration" ]
+                "required": [ "duration", "layer" ]
             }
         }
     }

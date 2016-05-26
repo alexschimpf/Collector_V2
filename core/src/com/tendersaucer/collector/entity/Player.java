@@ -32,6 +32,8 @@ public final class Player extends RenderedEntity {
     public static final String TYPE = "player";
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
+    private static final float JUMP_ANIMATION_DURATION = 400;
+    private static final float MOVE_ANIMATION_DURATION = 300;
 
     private int numFootContacts;
     private Direction direction;
@@ -54,8 +56,8 @@ public final class Player extends RenderedEntity {
     protected Sprite createSprite(EntityDefinition definition) {
         AnimatedSpriteSystem animationSystem = new AnimatedSpriteSystem("player_default");
         animationSystem.setSize(getWidth(), getHeight());
-        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("player_jump", 300));
-        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("player_move", 300));
+        animationSystem.add(JUMP_ANIMATION_ID, new AnimatedSprite("player_jump", JUMP_ANIMATION_DURATION));
+        animationSystem.add(MOVE_ANIMATION_ID, new AnimatedSprite("player_move", MOVE_ANIMATION_DURATION));
 
         return animationSystem;
     }
