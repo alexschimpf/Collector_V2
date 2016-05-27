@@ -1,4 +1,5 @@
 Working:
+- Weird issue with tile maps being flipped or something
 - Rethink World/Room idea
 - Need to cache texture regions in AssetManager
 - Platforms that hang on a spring
