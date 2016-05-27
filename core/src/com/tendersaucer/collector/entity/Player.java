@@ -33,7 +33,7 @@ public final class Player extends RenderedEntity {
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
     private static final float JUMP_ANIMATION_DURATION = 400;
-    private static final float MOVE_ANIMATION_DURATION = 300;
+    private static final float MOVE_ANIMATION_DURATION = 200;
 
     private int numFootContacts;
     private Direction direction;

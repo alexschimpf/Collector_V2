@@ -38,10 +38,6 @@ public class ParticleEffectViewer implements Screen {
     private BitmapFont font;
 
     public ParticleEffectViewer() {
-        if (Globals.FULLSCREEN_MODE) {
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        }
-
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         spriteBatch = new SpriteBatch();
         inputListener = new InputListener();
@@ -49,10 +45,9 @@ public class ParticleEffectViewer implements Screen {
 
     @Override
     public void show() {
-        loadFont();
-
         AssetManager.getInstance().load("0");
         ParticleEffectManager.getInstance().loadDefinitions();
+        loadFont();
 
         setStage();
         createDropdown();
@@ -67,7 +62,7 @@ public class ParticleEffectViewer implements Screen {
     @Override
     public void resize(int width, int height) {
         MainCamera.getInstance().resizeViewport(width, height);
-        stage.getViewport().update(width, height, false);
+        stage.getViewport().update(width, height);
     }
 
     @Override
@@ -106,7 +101,7 @@ public class ParticleEffectViewer implements Screen {
 
         Gdx.graphics.setTitle("ParticleEffectViewer (x" + inputListener.getSizeScale() + ")");
 
-        OrthographicCamera camera = (OrthographicCamera)MainCamera.getInstance().getRawCamera();
+        OrthographicCamera camera = MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
         spriteBatch.begin();
@@ -172,7 +167,6 @@ public class ParticleEffectViewer implements Screen {
 
                 Vector2 position = ConversionUtils.toWorldCoords(x, y);
                 MainCamera camera = MainCamera.getInstance();
-
                 float minSize = (camera.getViewportWidth() / 30) * sizeScale;
                 float maxSize = (camera.getViewportHeight() / 20) * sizeScale;
                 Vector2 sizeRange = Vector2Pool.getInstance().obtain(minSize, maxSize);

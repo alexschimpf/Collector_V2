@@ -1,6 +1,10 @@
 Working:
 - Rethink World/Room idea
 - Need to cache texture regions in AssetManager
+- Platforms that hang on a spring
+- An entity system where one tile flips between discrete # of colors
+    - To land on a platform in the system, it must match the tile's color
+    - Each platform is a static color, but unique within its system
 
 Backlog:
 - DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
@@ -30,6 +34,8 @@ Create a texture for each image (or more if they need animations).
 Use TilesetGenerator to combine them into a tileset to use in Tiled.
 Each tilemap will have an entity tileset and one or more environment tilesets.
 EntityDefinition needs getTextureRegion(...).
+
+
 
 
 

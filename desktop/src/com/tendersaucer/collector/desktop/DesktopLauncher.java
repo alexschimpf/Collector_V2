@@ -2,48 +2,41 @@ package com.tendersaucer.collector.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.tendersaucer.collector.Game;
 import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.tools.TilesetGenerator;
+import com.tendersaucer.collector.ParticleEffectViewerApp;
 
 public class DesktopLauncher {
 
-	private static final String TEXTURE_PACK_NAME = "0";
-	private static final String TEXTURES_DIR =  "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas/textures";
-	private static final String DESTINATION_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas";
+    private enum RunMode {
+        GAME, PARTICLE_EFFECT_VIEWER
+    }
 
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.vSyncEnabled = true;
-		config.fullscreen = Globals.FULLSCREEN_MODE;
-		config.resizable = false;
-		config.title = "Collector";
+    private static final RunMode RUN_MODE = RunMode.GAME;
 
-		// TODO: How to get native resolution?
-		if (Globals.FULLSCREEN_MODE) {
-			config.width = 3200;
-			config.height = 1800;
-		} else {
-			config.width = 1280;
-			config.height = 720;
-		}
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.vSyncEnabled = true;
+        config.fullscreen = Globals.FULLSCREEN_MODE;
+        config.resizable = false;
+        config.title = "Collector";
 
-		boolean startGame = true;
-		if(Globals.PACK_TEXTURES) {
-			startGame = false;
-			TexturePacker.Settings settings = new Settings();
-			settings.duplicatePadding = true;
-			TexturePacker.process(settings, TEXTURES_DIR, DESTINATION_DIR, TEXTURE_PACK_NAME);
-		}
-		if (Globals.PACK_TILESETS) {
-			startGame = false;
-			TilesetGenerator.generate("entity_tiles");
-		}
+        // TODO: How to get native resolution?
+        if (Globals.FULLSCREEN_MODE) {
+            config.width = 3200;
+            config.height = 1800;
+        } else {
+            config.width = 1280;
+            config.height = 720;
+        }
 
-		if (startGame) {
-			new LwjglApplication(new Game(), config);
-		}
-	}
+        switch (RUN_MODE) {
+            case GAME:
+                new LwjglApplication(new Game(), config);
+                break;
+            case PARTICLE_EFFECT_VIEWER:
+                new LwjglApplication(new ParticleEffectViewerApp(), config);
+                break;
+        }
+    }
 }

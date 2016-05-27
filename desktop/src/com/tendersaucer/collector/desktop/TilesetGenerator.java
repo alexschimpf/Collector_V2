@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.tools;
+package com.tendersaucer.collector.desktop;
 
 import com.badlogic.gdx.Gdx;
 
@@ -29,7 +29,11 @@ public class TilesetGenerator {
     private TilesetGenerator() {
     }
 
-    public static void generate(String fileName) {
+    public static void main(String[] args) {
+        generate("entity_tiles");
+    }
+
+    private static void generate(String fileName) {
         int i = 0, page = 0;
         File[] files = getTextureFiles();
         while (i < files.length) {

@@ -27,6 +27,18 @@
             "properties": {
                 "required": [ "duration", "layer" ]
             }
+        },
+        "color_system_platform": {
+            "class": "ColorSystemPlatform",
+            "properties": {
+                "required": [ "color", "provider_id", "layer" ]
+            }
+        },
+        "color_system_provider": {
+            "class": "ColorSystemProvider",
+            "properties": {
+                "required": [ "change_delay", "colors", "layer" ]
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -89,6 +90,11 @@ public abstract class EntityDefinition {
         return Float.parseFloat(getStringProperty(key));
     }
 
+    public Color getColorProperty(String key) {
+        float[] rgba = getFloatArrayProperty(key, ",");
+        return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+    }
+
     public Vector2 getVector2Property(String key) {
         if (getStringProperty(key).equals("")) {
             return new Vector2();
@@ -96,7 +102,6 @@ public abstract class EntityDefinition {
 
         float[] vals = getFloatArrayProperty(key, ",");
         return new Vector2(vals[0], vals[1]);
-
     }
 
     public boolean[] getBooleanArrayProperty(String key, String delim) {
