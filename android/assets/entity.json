@@ -1,0 +1,56 @@
+{
+    "entities": {
+        "entity": {
+            "class": "Entity",
+            "properties": {
+                "required": [
+                    "id", "x", "y", "width", "height", "type"
+                ],
+                "optional": [
+                    { "name": "body_type", "default": "static" },
+                    { "name": "body_width", "default": "0" },
+                    { "name": "body_height", "default": "0" },
+                    { "name": "fixed_rotation", "default": "true" },
+                    { "name": "rotation", "default": "0" },
+                    { "name": "is_visible", "default": "true" }
+                ]
+            },
+            "children": {
+                "rendered_entity": {
+                    "class": "RenderedEntity",
+                    "properties": {
+                        "required": [ "layer" ]
+                    },
+                    "children": {
+                        "player": {
+                            "class": "Player",
+                            "properties": {
+                                "optional": [
+                                    { "name": "body_type", "default": "dynamic" }
+                                ]
+                            }
+                        },
+                        "detection_line": {
+                            "class": "DetectionLine",
+                            "properties": {
+                                "required": [ "duration" ]
+                            }
+                        },
+                        "color_system_platform": {
+                            "class": "ColorSystemPlatform",
+                            "properties": {
+                                "required": [ "color", "provider_id" ]
+                            }
+                        },
+                        "color_system_provider": {
+                            "class": "ColorSystemProvider",
+                            "properties": {
+                                "required": [ "change_delay", "colors" ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
