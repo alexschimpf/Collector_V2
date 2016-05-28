@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.world.room;
+package com.tendersaucer.collector.level;
 
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.background.ParallaxBackground;
@@ -9,21 +9,21 @@ import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import java.util.Map;
 
 /**
- * Interface for a loadable room
+ * Interface for a loadable level
  * <p/>
  * Created by Alex on 4/9/2016.
  */
-public interface IRoomLoadable {
+public interface ILevelLoadable {
 
     /**
-     * Returns the room's id. This id should be unique within a world
+     * Returns the level's id
      *
-     * @return room's id
+     * @return level's id
      */
     String getId();
 
     /**
-     * Returns the room's background
+     * Returns the level's background
      *
      * @return background
      */

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.tendersaucer.collector.event.ColorSystemNewColorEvent;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.IColorSystemNewColorListener;
-import com.tendersaucer.collector.world.room.Room;
+import com.tendersaucer.collector.level.Level;
 
 /**
  * Created by Alex on 5/26/2016.
@@ -41,7 +41,7 @@ public class ColorSystemPlatform extends RenderedEntity implements IColorSystemN
         super.tick();
 
         if (!body.isActive() && hasCurrentColor() &&
-                !getBounds().overlaps(Room.getInstance().getPlayer().getBounds())) {
+                !getBounds().overlaps(Level.getInstance().getPlayer().getBounds())) {
             body.setActive(true);
         } else if (body.isActive() && !hasCurrentColor()) {
             body.setActive(false);

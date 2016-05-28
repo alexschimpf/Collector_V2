@@ -140,7 +140,7 @@ public final class TiledUtils {
 
     public static boolean isPropertyEmpty(MapLayerWrapper layer, String key) {
         MapProperties properties = layer.getProperties();
-        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+        return !properties.containsKey(key) || properties.get(key).toString().equals("");
     }
 
     public static Object getProperty(MapLayerWrapper layer, String key) {
@@ -174,7 +174,7 @@ public final class TiledUtils {
 
     public static boolean isPropertyEmpty(MapObject object, String key) {
         MapProperties properties = object.getProperties();
-        return !properties.containsKey(key) || properties.get(key).toString().isEmpty();
+        return !properties.containsKey(key) || properties.get(key).toString().equals("");
     }
 
     public static Object getProperty(MapObject object, String key) {

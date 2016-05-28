@@ -1,7 +1,7 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import com.tendersaucer.collector.world.room.Room;
+import com.tendersaucer.collector.level.Level;
 
 /**
  * Created by Alex on 5/21/2016.
@@ -31,7 +31,7 @@ public class DetectionLine extends RenderedEntity {
             return;
         }
 
-        Player player = Room.getInstance().getPlayer();
+        Player player = Level.getInstance().getPlayer();
         if (player.getBottom() >= getTop() || player.getRight() <= getLeft() ||
                 player.getLeft() >= getRight()) {
             startTime = TimeUtils.millis();

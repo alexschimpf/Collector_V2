@@ -10,7 +10,7 @@
   <properties>
    <property name="layer" value="5"/>
   </properties>
-  <object id="52" name="player" type="player" gid="2" x="320" y="704" width="64" height="64">
+  <object id="52" name="player" type="player" gid="2" x="320" y="192" width="64" height="64">
    <properties>
     <property name="layer" type="int" value="6"/>
    </properties>
@@ -34,7 +34,7 @@
     <property name="provider_id" value="csp_0"/>
    </properties>
   </object>
-  <object id="57" name="csp_0" type="color_system_provider" gid="21" x="896" y="512" width="64" height="64">
+  <object id="57" name="csp_0" type="color_system_provider" gid="21" x="320" y="640" width="64" height="64">
    <properties>
     <property name="change_delay" type="float" value="800"/>
     <property name="colors" value="0.4,0,0,1;0,0,0.4,1;0.4,0,0,1;0,0.4,0,1"/>

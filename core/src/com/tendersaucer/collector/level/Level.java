@@ -1,7 +1,10 @@
-package com.tendersaucer.collector.world.room;
+package com.tendersaucer.collector.level;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
@@ -9,41 +12,49 @@ import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.entity.RenderedEntity;
 import com.tendersaucer.collector.event.EventManager;
-import com.tendersaucer.collector.event.RoomLoadBeginEvent;
-import com.tendersaucer.collector.event.RoomLoadEndEvent;
+import com.tendersaucer.collector.event.LevelLoadBeginEvent;
+import com.tendersaucer.collector.event.LevelLoadEndEvent;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
-import com.tendersaucer.collector.world.World;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Levels of a world
+ * A single level
  * <p/>
  * Created by Alex on 4/8/2016.
  */
-public final class Room implements IUpdate {
+public final class Level implements IUpdate {
 
-    private static final Room instance = new Room();
+    public static final float DEFAULT_GRAVITY = 50;
+    private static final Level instance = new Level();
+
+    private World physicsWorld;
 
     private final Map<String, Entity> entityMap;
     private String id;
     private Player player;
 
-    private Room() {
+    private Level() {
         entityMap = new ConcurrentHashMap<String, Entity>();
+
+        com.badlogic.gdx.physics.box2d.World.setVelocityThreshold(0.5f);
+        physicsWorld = new World(new Vector2(0, DEFAULT_GRAVITY), true);
+        physicsWorld.setContactListener(com.tendersaucer.collector.level.CollisionListener.getInstance());
     }
 
-    public static Room getInstance() {
+    public static Level getInstance() {
         return instance;
     }
 
     @Override
     public boolean update() {
+        physicsWorld.step(1 / 45.0f, 5, 5);
+
         Iterator<String> entityIdIter = entityMap.keySet().iterator();
         while (entityIdIter.hasNext()) {
             Entity entity = entityMap.get(entityIdIter.next());
@@ -56,11 +67,12 @@ public final class Room implements IUpdate {
         return false;
     }
 
-    public void load(IRoomLoadable loadable) {
-        EventManager.getInstance().notify(new RoomLoadBeginEvent(loadable));
+    public void load(ILevelLoadable loadable) {
+        EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
 
         id = loadable.getId();
 
+        clearPhysicsWorld();
         Canvas.getInstance().addToLayer(0, loadable.getBackground());
 
         // Add non-entity/background canvas objects.
@@ -74,7 +86,18 @@ public final class Room implements IUpdate {
         loadEntities(loadable);
         loadFreeBodies(loadable);
 
-        EventManager.getInstance().notify(new RoomLoadEndEvent());
+        EventManager.getInstance().notify(new LevelLoadEndEvent());
+    }
+
+    public World getPhysicsWorld() {
+        return physicsWorld;
+    }
+
+    public Array<Body> getBodies() {
+        Array<Body> bodies = new Array<Body>();
+        physicsWorld.getBodies(bodies);
+
+        return bodies;
     }
 
     public Player getPlayer() {
@@ -98,7 +121,7 @@ public final class Room implements IUpdate {
         return id;
     }
 
-    private void loadEntities(IRoomLoadable loadable) {
+    private void loadEntities(ILevelLoadable loadable) {
         for (EntityDefinition entityDefinition : loadable.getEntityDefinitions()) {
             Entity entity = EntityFactory.buildEntity(entityDefinition);
 
@@ -118,12 +141,22 @@ public final class Room implements IUpdate {
         }
     }
 
-    private void loadFreeBodies(IRoomLoadable loadable) {
+    private void loadFreeBodies(ILevelLoadable loadable) {
         for (FixtureBodyDefinition fixtureBodyDef : loadable.getFreeBodyDefinitions()) {
-            Body body = World.getInstance().getPhysicsWorld().createBody(fixtureBodyDef.bodyDef);
+            Body body = physicsWorld.createBody(fixtureBodyDef.bodyDef);
             body.createFixture(fixtureBodyDef.fixtureDef);
 
             fixtureBodyDef.fixtureDef.shape.dispose();
+        }
+    }
+
+    private void clearPhysicsWorld() {
+        Iterator<Body> bodiesIter = getBodies().iterator();
+        while (bodiesIter.hasNext()) {
+            Body body = bodiesIter.next();
+            physicsWorld.destroyBody(body);
+
+            bodiesIter.remove();
         }
     }
 }

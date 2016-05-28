@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.tendersaucer.collector.IUpdate;
-import com.tendersaucer.collector.event.IRoomLoadBeginListener;
+import com.tendersaucer.collector.event.ILevelLoadBeginListener;
 import com.tendersaucer.collector.particle.modifiers.ParticleModifier;
-import com.tendersaucer.collector.world.room.IRoomLoadable;
+import com.tendersaucer.collector.level.ILevelLoadable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by Alex on 4/30/2016.xA
  */
-public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
+public class ParticleEffectManager implements IUpdate, ILevelLoadBeginListener {
 
     private static final ParticleEffectManager instance = new ParticleEffectManager();
     private static final String CONFIG_FILENAME = "particle.json";
@@ -54,7 +54,7 @@ public class ParticleEffectManager implements IUpdate, IRoomLoadBeginListener {
     }
 
     @Override
-    public void onRoomLoadBegin(IRoomLoadable loadable) {
+    public void onLevelLoadBegin(ILevelLoadable loadable) {
         clearLiveEffects();
     }
 

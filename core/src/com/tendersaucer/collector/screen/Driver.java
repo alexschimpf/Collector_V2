@@ -11,13 +11,11 @@ import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
-import com.tendersaucer.collector.event.RoomLoadBeginEvent;
-import com.tendersaucer.collector.event.WorldLoadBeginEvent;
+import com.tendersaucer.collector.event.LevelLoadBeginEvent;
+import com.tendersaucer.collector.level.Level;
+import com.tendersaucer.collector.level.TiledMapLevelLoadable;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
-import com.tendersaucer.collector.world.IWorldLoadable;
-import com.tendersaucer.collector.world.JSONWorldLoadable;
-import com.tendersaucer.collector.world.World;
 
 /**
  * Main update and render logic
@@ -45,13 +43,11 @@ public final class Driver implements Screen {
     @Override
     public void show() {
         EventManager eventManager = EventManager.getInstance();
-        eventManager.listen(WorldLoadBeginEvent.class, AssetManager.getInstance());
-        eventManager.listen(RoomLoadBeginEvent.class, Canvas.getInstance());
-        eventManager.listen(RoomLoadBeginEvent.class, ParticleEffectManager.getInstance());
+        eventManager.listen(LevelLoadBeginEvent.class, Canvas.getInstance());
+        eventManager.listen(LevelLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
-        AssetManager.getInstance().load("0");
-        IWorldLoadable worldLoadable = new JSONWorldLoadable("0");
-        World.getInstance().load(worldLoadable);
+        AssetManager.getInstance().load();
+        Level.getInstance().load(new TiledMapLevelLoadable("0"));
 
         ParticleEffectManager.getInstance().loadDefinitions();
     }
@@ -99,7 +95,7 @@ public final class Driver implements Screen {
     private void update() {
         MainCamera.getInstance().update();
         HUD.getInstance().update();
-        World.getInstance().update();
+        Level.getInstance().update();
         ParticleEffectManager.getInstance().update();
     }
 
@@ -122,7 +118,7 @@ public final class Driver implements Screen {
 
         if (Globals.DEBUG_PHYSICS) {
             debugMatrix.set(camera.combined);
-            debugRenderer.render(World.getInstance().getPhysicsWorld(), debugMatrix);
+            debugRenderer.render(Level.getInstance().getPhysicsWorld(), debugMatrix);
         }
 
         HUD.getInstance().render(spriteBatch);

@@ -45,7 +45,7 @@ public class ParticleEffectViewer implements Screen {
 
     @Override
     public void show() {
-        AssetManager.getInstance().load("0");
+        AssetManager.getInstance().load();
         ParticleEffectManager.getInstance().loadDefinitions();
         loadFont();
 

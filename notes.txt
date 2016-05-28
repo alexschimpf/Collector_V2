@@ -1,11 +1,9 @@
 Working:
-- Weird issue with tile maps being flipped or something
+- Fix issue with tile maps being flipped or whatever (or shifted down one)
 - Rethink World/Room idea
-- Need to cache texture regions in AssetManager
+    - Depends on how game will be
+- Need to cache texture regions in AssetManager??
 - Platforms that hang on a spring
-- An entity system where one tile flips between discrete # of colors
-    - To land on a platform in the system, it must match the tile's color
-    - Each platform is a static color, but unique within its system
 
 Backlog:
 - DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
@@ -14,7 +12,6 @@ Backlog:
 - Make sure everything (that needs it) is disposed of
 - Figure out how script system will work
     - ScriptTrigger entity?
-- Allow for hierarchy in entity.json
 
 Game ideas:
 - dreamlike
@@ -29,12 +26,6 @@ Game ideas:
     - slight curve to them
     - kind of like 'doodle jump'
 
----------------------------------------------------
-
-Create a texture for each image (or more if they need animations).
-Use TilesetGenerator to combine them into a tileset to use in Tiled.
-Each tilemap will have an entity tileset and one or more environment tilesets.
-EntityDefinition needs getTextureRegion(...).
 
 
 

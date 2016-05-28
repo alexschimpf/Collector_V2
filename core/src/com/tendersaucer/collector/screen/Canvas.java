@@ -2,8 +2,8 @@ package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.event.IRoomLoadBeginListener;
-import com.tendersaucer.collector.world.room.IRoomLoadable;
+import com.tendersaucer.collector.event.ILevelLoadBeginListener;
+import com.tendersaucer.collector.level.ILevelLoadable;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p/>
  * Created by Alex on 4/10/2016.
  */
-public final class Canvas implements IRender, IRoomLoadBeginListener {
+public final class Canvas implements IRender, ILevelLoadBeginListener {
 
     public static final int NUM_LAYERS = 10;
     private static final Canvas instance = new Canvas();
@@ -46,7 +46,7 @@ public final class Canvas implements IRender, IRoomLoadBeginListener {
     }
 
     @Override
-    public void onRoomLoadBegin(IRoomLoadable roomLoadable) {
+    public void onLevelLoadBegin(ILevelLoadable levelLoadable) {
         clearLayers();
     }
 

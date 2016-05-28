@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.world.room;
+package com.tendersaucer.collector.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
@@ -36,11 +36,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Loadable room from TiledMap
+ * Loadable level from TiledMap
  * <p/>
  * Created by Alex on 4/8/2016.
  */
-public final class TiledMapRoomLoadable implements IRoomLoadable {
+public final class TiledMapLevelLoadable implements ILevelLoadable {
 
     private final String id;
     private final String filename;
@@ -51,15 +51,15 @@ public final class TiledMapRoomLoadable implements IRoomLoadable {
     private final Map<IRender, Integer> canvasMap;
     private final Map<String, MapObject> bodySkeletonMap;
 
-    public TiledMapRoomLoadable(String worldId, String roomId) {
-        this.id = roomId;
+    public TiledMapLevelLoadable(String levelId) {
+        this.id = levelId;
 
         freeBodyDefinitions = new Array<FixtureBodyDefinition>();
         entityDefinitions = new Array<EntityDefinition>();
         canvasMap = new LinkedHashMap<IRender, Integer>();
         bodySkeletonMap = new HashMap<String, MapObject>();
 
-        filename = AssetManager.getFilePath("worlds", worldId, "rooms", roomId + ".tmx");
+        filename = AssetManager.getFilePath("levels", levelId + ".tmx");
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.flipY = false;
         tiledMap = new TmxMapLoader().load(filename, params);
