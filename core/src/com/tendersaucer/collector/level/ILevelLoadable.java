@@ -16,11 +16,11 @@ import java.util.Map;
 public interface ILevelLoadable {
 
     /**
-     * Returns the level's id
-     *
+     * Returns the level's id. This increments by 1 for each level reached.
+     * In other words, the next level = curr + 1.
      * @return level's id
      */
-    String getId();
+    int getId();
 
     /**
      * Returns the level's background

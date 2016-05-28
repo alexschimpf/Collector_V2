@@ -36,7 +36,7 @@ public final class Level implements IUpdate {
     private World physicsWorld;
 
     private final Map<String, Entity> entityMap;
-    private String id;
+    private int id;
     private Player player;
 
     private Level() {
@@ -100,6 +100,11 @@ public final class Level implements IUpdate {
         return bodies;
     }
 
+    // TODO: When does a room have no next room?
+    public Integer getNextLevelId() {
+        return id + 1;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -108,7 +113,7 @@ public final class Level implements IUpdate {
         this.player = player;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

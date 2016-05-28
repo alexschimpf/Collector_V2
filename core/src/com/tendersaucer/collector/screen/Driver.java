@@ -47,7 +47,7 @@ public final class Driver implements Screen {
         eventManager.listen(LevelLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
         AssetManager.getInstance().load();
-        Level.getInstance().load(new TiledMapLevelLoadable("0"));
+        Level.getInstance().load(new TiledMapLevelLoadable(0));
 
         ParticleEffectManager.getInstance().loadDefinitions();
     }

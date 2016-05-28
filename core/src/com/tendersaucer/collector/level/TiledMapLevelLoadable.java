@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public final class TiledMapLevelLoadable implements ILevelLoadable {
 
-    private final String id;
+    private final int id;
     private final String filename;
     private final TiledMap tiledMap;
     private final ParallaxBackground background;
@@ -51,7 +51,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
     private final Map<IRender, Integer> canvasMap;
     private final Map<String, MapObject> bodySkeletonMap;
 
-    public TiledMapLevelLoadable(String levelId) {
+    public TiledMapLevelLoadable(int levelId) {
         this.id = levelId;
 
         freeBodyDefinitions = new Array<FixtureBodyDefinition>();
@@ -76,7 +76,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
     }
 
     @Override
-    public String getId() {
+    public int getId() {
         return id;
     }
 
