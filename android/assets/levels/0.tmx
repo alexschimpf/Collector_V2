@@ -17,32 +17,32 @@
   </object>
   <object id="53" type="color_system_platform" gid="6" x="640" y="512" width="128" height="4">
    <properties>
-    <property name="color" value="0,0.4,0,1"/>
+    <property name="color" value="0,1,0,1"/>
     <property name="provider_id" value="csp_0"/>
    </properties>
   </object>
   <object id="54" type="color_system_platform" gid="6" x="896" y="256" width="128" height="4">
    <properties>
-    <property name="color" value="0,0,0.4,1"/>
+    <property name="color" value="0,0,1,1"/>
     <property name="provider_id" value="csp_0"/>
    </properties>
   </object>
   <object id="55" x="256" y="704" width="192" height="64"/>
   <object id="56" type="color_system_platform" gid="6" x="512" y="640" width="128" height="4">
    <properties>
-    <property name="color" value="0.4,0,0,1"/>
+    <property name="color" value="1,0,0,1"/>
     <property name="provider_id" value="csp_0"/>
    </properties>
   </object>
-  <object id="57" name="csp_0" type="color_system_provider" gid="21" x="320" y="640" width="64" height="64">
+  <object id="57" name="csp_0" type="color_system_provider" gid="21" x="960" y="576" width="64" height="64">
    <properties>
     <property name="change_delay" type="float" value="800"/>
-    <property name="colors" value="0.4,0,0,1;0,0,0.4,1;0.4,0,0,1;0,0.4,0,1"/>
+    <property name="colors" value="1,0,0,1;0,0,1,1;1,0,0,1;0,1,0,1"/>
    </properties>
   </object>
   <object id="58" type="color_system_platform" gid="6" x="768" y="384" width="128" height="4">
    <properties>
-    <property name="color" value="0.4,0,0,1"/>
+    <property name="color" value="1,0,0,1"/>
     <property name="provider_id" value="csp_0"/>
    </properties>
   </object>

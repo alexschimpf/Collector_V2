@@ -33,18 +33,20 @@ public final class Level implements IUpdate {
     public static final float DEFAULT_GRAVITY = 50;
     private static final Level instance = new Level();
 
-    private World physicsWorld;
-
     private final Map<String, Entity> entityMap;
     private int id;
     private Player player;
+    private World physicsWorld;
+    private Vector2 respawnPosition;
 
     private Level() {
         entityMap = new ConcurrentHashMap<String, Entity>();
 
-        com.badlogic.gdx.physics.box2d.World.setVelocityThreshold(0.5f);
+        respawnPosition = new Vector2();
+
+        World.setVelocityThreshold(0.5f);
         physicsWorld = new World(new Vector2(0, DEFAULT_GRAVITY), true);
-        physicsWorld.setContactListener(com.tendersaucer.collector.level.CollisionListener.getInstance());
+        physicsWorld.setContactListener(CollisionListener.getInstance());
     }
 
     public static Level getInstance() {
@@ -71,6 +73,8 @@ public final class Level implements IUpdate {
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
 
         id = loadable.getId();
+
+        respawnPosition.set(loadable.getRespawnPosition());
 
         clearPhysicsWorld();
         Canvas.getInstance().addToLayer(0, loadable.getBackground());
@@ -115,6 +119,10 @@ public final class Level implements IUpdate {
 
     public int getId() {
         return id;
+    }
+
+    public Vector2 getRespawnPosition() {
+        return respawnPosition;
     }
 
     public String getAvailableEntityId() {

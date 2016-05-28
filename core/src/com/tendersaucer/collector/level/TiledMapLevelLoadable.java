@@ -21,6 +21,7 @@ import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.background.TextureParallaxLayer;
 import com.tendersaucer.collector.entity.EntityDefinition;
+import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
 import com.tendersaucer.collector.screen.Canvas;
@@ -45,6 +46,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
     private final int id;
     private final String filename;
     private final TiledMap tiledMap;
+    private final Vector2 respawnPosition;
     private final ParallaxBackground background;
     private final Array<FixtureBodyDefinition> freeBodyDefinitions;
     private final Array<EntityDefinition> entityDefinitions;
@@ -54,6 +56,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
     public TiledMapLevelLoadable(int levelId) {
         this.id = levelId;
 
+        respawnPosition = new Vector2();
         freeBodyDefinitions = new Array<FixtureBodyDefinition>();
         entityDefinitions = new Array<EntityDefinition>();
         canvasMap = new LinkedHashMap<IRender, Integer>();
@@ -78,6 +81,11 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public Vector2 getRespawnPosition() {
+        return respawnPosition;
     }
 
     @Override
@@ -215,6 +223,10 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
             EntityDefinition entityDefinition = new TiledEntityDefinition(object.getName(), type,
                     layerPos, bodyDef, bodySkeleton, object.getProperties(), object.getTextureRegion());
             entityDefinitions.add(entityDefinition);
+
+            if (type != null && type.equals(Player.TYPE)) {
+                respawnPosition.set(entityDefinition.getCenter());
+            }
         }
     }
 

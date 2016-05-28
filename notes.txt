@@ -1,31 +1,47 @@
-Working:
+------------------------------------------------------------------------------------------------
+
+[[WORKING TASKS]] ------------------------------------------------------------------------------
+
+- Player respawning at beginning of level
+    - Position needs to be set in tilemap
+- Randomness???
+- Collectables
 - Fix issue with tile maps being flipped or whatever (or shifted down one)
-- Rethink World/Room idea
-    - Depends on how game will be
 - Need to cache texture regions in AssetManager??
 - Platforms that hang on a spring
 
-Backlog:
-- DON'T APPEND 'Entity' / 'Script' TO CLASS NAMES!!!
+------------------------------------------------------------------------------------------------
+
+[[BACKLOG TASKS]] ------------------------------------------------------------------------------
+
 - Figure out what to do about friction
     - Keep everything frictionless or not?
 - Make sure everything (that needs it) is disposed of
 - Figure out how script system will work
     - ScriptTrigger entity?
 
-Game ideas:
-- dreamlike
-- in an unknown world
-- adventuring around
-- understanding this new world
-- lots of white, but with refreshing splashes of color
-- can let my imagination roam free
-- think of reality in new ways
-- a playground
-- things look kind of drawn, thin lines
-    - slight curve to them
-    - kind of like 'doodle jump'
+------------------------------------------------------------------------------------------------
 
+[[GAME IDEAS]] ---------------------------------------------------------------------------------
+
+- fast-paced, quick respawns
+- one small-to-medium-sized level after another
+- collectable at the end of each
+- randomness
+- each explores puzzles related to a "single simple idea"
+    - NEED TO DEFINE THIS!!!
+
+------------------------------------------------------------------------------------------------
+
+[[SCRATCH]] ------------------------------------------------------------------------------------
+
+- respawn when:
+    - hitting a "respawn" entity
+    - falling vertically too far
+    1. Jump begins when numFootContacts == 0
+    2. Save the y coordinate of your start position
+    3. When landing (numFootContacts > 0), check distance traveled vertically
+    4.
 
 
 

@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.level;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.entity.EntityDefinition;
@@ -21,6 +22,12 @@ public interface ILevelLoadable {
      * @return level's id
      */
     int getId();
+
+    /**
+     * Returns the level's respawn position for the player.
+     * @return respawn position
+     */
+    Vector2 getRespawnPosition();
 
     /**
      * Returns the level's background
