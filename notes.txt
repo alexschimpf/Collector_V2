@@ -2,8 +2,6 @@
 
 [[WORKING TASKS]] ------------------------------------------------------------------------------
 
-- Player respawning at beginning of level
-    - Position needs to be set in tilemap
 - Randomness???
 - Collectables
 - Fix issue with tile maps being flipped or whatever (or shifted down one)
@@ -34,19 +32,6 @@
 ------------------------------------------------------------------------------------------------
 
 [[SCRATCH]] ------------------------------------------------------------------------------------
-
-- respawn when:
-    - hitting a "respawn" entity
-    - falling vertically too far
-    1. Jump begins when numFootContacts == 0
-    2. Save the y coordinate of your start position
-    3. When landing (numFootContacts > 0), check distance traveled vertically
-    4.
-
-
-
-
-
 
 
 

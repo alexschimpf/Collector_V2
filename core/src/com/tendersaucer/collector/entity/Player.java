@@ -26,16 +26,16 @@ public final class Player extends RenderedEntity {
         LEFT, RIGHT
     }
 
+    public static final String TYPE = "player";
+    private static final String JUMP_ANIMATION_ID = "jump";
+    private static final String MOVE_ANIMATION_ID = "move";
     public static final float MOVE_SPEED = 20;
     public static final float JUMP_IMPULSE = -150;
     public static final float MASS = 5.69f;
     public static final short COLLISION_MASK = 0x0002;
-    public static final String TYPE = "player";
-    private static final String JUMP_ANIMATION_ID = "jump";
-    private static final String MOVE_ANIMATION_ID = "move";
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
-    private static final float MAX_FALL_TILES = 8;
+    private static final float MAX_FALL_TILES = 10;
 
     private int numFootContacts;
     private Direction direction;

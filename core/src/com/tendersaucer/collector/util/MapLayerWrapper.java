@@ -45,9 +45,9 @@ public final class MapLayerWrapper implements IRender {
     }
 
     private void flipCells(TiledMapTileLayer rawLayer) {
-        for (int x = 0; x < rawLayer.getWidth(); x++) {
-            for (int y = 0; y < rawLayer.getHeight(); y++) {
-                TiledMapTileLayer.Cell cell = rawLayer.getCell(x, y);
+        for (int col = 0; col < rawLayer.getWidth(); col++) {
+            for (int row = 0; row < rawLayer.getHeight(); row++) {
+                TiledMapTileLayer.Cell cell = rawLayer.getCell(col, row);
                 if (cell != null) {
                     cell.setFlipVertically(true);
                 }
