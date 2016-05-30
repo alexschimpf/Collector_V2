@@ -10,7 +10,7 @@
   <properties>
    <property name="layer" value="5"/>
   </properties>
-  <object id="52" name="player" type="player" gid="2" x="320" y="192" width="64" height="64">
+  <object id="52" name="player" type="player" gid="2" x="320" y="704" width="64" height="64">
    <properties>
     <property name="layer" type="int" value="6"/>
    </properties>

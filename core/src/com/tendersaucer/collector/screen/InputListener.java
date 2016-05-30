@@ -23,12 +23,14 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean update() {
         Player player = Level.getInstance().getPlayer();
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            player.moveRight();
-        } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            player.moveLeft();
-        } else if (!Globals.isAndroid()) {
-            player.stopHorizontalMove();
+        if (player != null) {
+            if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+                player.moveRight();
+            } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+                player.moveLeft();
+            } else if (!Globals.isAndroid()) {
+                player.stopHorizontalMove();
+            }
         }
 
         return false;
@@ -38,7 +40,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     public boolean keyDown(InputEvent event, int keyCode) {
         switch (keyCode) {
             case Keys.SPACE:
-                Level.getInstance().getPlayer().jump();
+                Player player = Level.getInstance().getPlayer();
+                if (player != null) {
+                    player.jump();
+                }
                 break;
             case Keys.ESCAPE:
                 Gdx.app.exit();
@@ -72,7 +77,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     public boolean keyUp(InputEvent event, int keyCode) {
         switch (keyCode) {
             case Keys.SPACE:
-                Level.getInstance().getPlayer().stopJump();
+                Player player = Level.getInstance().getPlayer();
+                if (player != null) {
+                    player.stopJump();
+                }
                 break;
             default:
                 return false;

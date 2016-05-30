@@ -91,6 +91,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     public void dispose() {
         Level.getInstance().getPhysicsWorld().destroyBody(body);
         Vector2Pool.getInstance().free(leftTop);
+        definition.getFixtureDef().shape.dispose();
     }
 
     public void setTopLeft(float left, float top) {
@@ -197,6 +198,11 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         return bounds.overlaps(entity.getBounds());
     }
 
+    public boolean overlapsPlayer() {
+        Level level = Level.getInstance();
+        return level.hasPlayer() && overlaps(level.getPlayer());
+    }
+
     public Vector2 getLinearVelocity() {
         return body.getLinearVelocity();
     }
@@ -236,7 +242,6 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         Body body = Level.getInstance().getPhysicsWorld().createBody(bodyDef);
         FixtureDef fixtureDef = definition.getFixtureDef();
         body.createFixture(fixtureDef);
-        fixtureDef.shape.dispose();
 
         return body;
     }

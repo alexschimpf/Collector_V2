@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.tendersaucer.collector.AssetManager;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
 import com.tendersaucer.collector.level.Level;
@@ -34,9 +35,11 @@ public final class Player extends RenderedEntity {
     private static final String MOVE_ANIMATION_ID = "move";
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
+    private static final float MAX_FALL_TILES = 8;
 
     private int numFootContacts;
     private Direction direction;
+    private float jumpStartY;
 
     public Player(EntityDefinition def) {
         super(def);
@@ -48,6 +51,15 @@ public final class Player extends RenderedEntity {
     @Override
     protected void tick() {
         super.tick();
+
+        if (numFootContacts > 0) {
+            jumpStartY = getCenterY();
+        }
+
+        float maxFallHeight = MAX_FALL_TILES * MainCamera.getInstance().getTileSize();
+        if (getCenterY() - jumpStartY > maxFallHeight) {
+            respawn();
+        }
 
         ((AnimatedSpriteSystem)sprite).update();
     }
@@ -84,7 +96,7 @@ public final class Player extends RenderedEntity {
         bodyDef.position.set(definition.getCenter());
         Body body = Level.getInstance().getPhysicsWorld().createBody(bodyDef);
 
-        FixtureDef fixtureDef = createFixtureDef(definition);
+        FixtureDef fixtureDef = createFixtureDef();
         body.createFixture(fixtureDef);
         fixtureDef.shape.dispose();
 
@@ -109,7 +121,13 @@ public final class Player extends RenderedEntity {
             if (!animationSystem.isCurrent(JUMP_ANIMATION_ID)) {
                 animationSystem.switchTo(JUMP_ANIMATION_ID, AnimatedSprite.State.PLAYING, true);
             }
+
+            jumpStartY = getCenterY();
         }
+    }
+
+    public void land() {
+        // TODO:
     }
 
     public void stopJump() {
@@ -171,6 +189,13 @@ public final class Player extends RenderedEntity {
         this.direction = direction;
     }
 
+    private void respawn() {
+        Level level = Level.getInstance();
+        Vector2 respawnPosition = level.getRespawnPosition();
+        setLinearVelocity(0, 0);
+        setPosition(respawnPosition.x, respawnPosition.y);
+    }
+
     private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
         Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
@@ -188,6 +213,10 @@ public final class Player extends RenderedEntity {
                     (footSensor == contact.getFixtureA()) ? contact.getFixtureB() : contact.getFixtureA();
             if (!otherFixture.isSensor()) {
                 if (onBeginContact) {
+                    if (numFootContacts == 0) {
+                        land();
+                    }
+
                     numFootContacts++;
                 } else {
                     numFootContacts--;
@@ -211,7 +240,7 @@ public final class Player extends RenderedEntity {
         return body.getFixtureList().get(1);
     }
 
-    private FixtureDef createFixtureDef(EntityDefinition definition) {
+    private FixtureDef createFixtureDef() {
         PolygonShape shape = new PolygonShape();
         shape.set(new Vector2[]{
                 new Vector2(0.9f, -1.29f),
@@ -224,7 +253,6 @@ public final class Player extends RenderedEntity {
                 new Vector2(0.9f, 1.29f)
         });
 
-        definition.getFixtureDef().shape.dispose();
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1;

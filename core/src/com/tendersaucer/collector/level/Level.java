@@ -113,8 +113,24 @@ public final class Level implements IUpdate {
         return player;
     }
 
-    private void setPlayer(Player player) {
-        this.player = player;
+    public boolean hasPlayer() {
+        return player != null;
+    }
+
+    public void addEntity(String id, Entity entity) {
+        entityMap.put(id, entity);
+
+        if (id.equals(Player.TYPE)) {
+            player = (Player)entity;
+        }
+    }
+
+    public void removeEntity(String id) {
+        entityMap.remove(id);
+
+        if (id.equals(Player.TYPE)) {
+            player = null;
+        }
     }
 
     public int getId() {
@@ -136,21 +152,20 @@ public final class Level implements IUpdate {
 
     private void loadEntities(ILevelLoadable loadable) {
         for (EntityDefinition entityDefinition : loadable.getEntityDefinitions()) {
-            Entity entity = EntityFactory.buildEntity(entityDefinition);
-
-            String id = entity.getId();
-            if (entityMap.containsKey(id)) {
+            String id = entityDefinition.getId();
+            if (id != null && entityMap.containsKey(id)) {
                 throw new InvalidConfigException("Duplicate entity id: " + id);
             }
 
-            entityMap.put(id, entity);
+            Entity entity = EntityFactory.buildEntity(entityDefinition);
             if (Entity.isPlayer(entity)) {
-                setPlayer((Player)entity);
+                player = (Player)entity;
             }
-
             if (entity instanceof RenderedEntity) {
                 ((RenderedEntity)entity).addToCanvas();
             }
+
+            addEntity(entity.getId(), entity);
         }
     }
 

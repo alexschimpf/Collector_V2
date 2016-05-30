@@ -11,7 +11,7 @@ import com.tendersaucer.collector.level.Level;
  */
 public final class MainCamera implements IUpdate {
 
-    public static final int NUM_TILES_PER_SCREEN_WIDTH = 18;
+    private static final int TILES_PER_SCREEN_WIDTH = 18;
     private static final MainCamera instance = new MainCamera();
     private static final int TILE_SIZE_PIXELS = 64;
     private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2D to handle
@@ -59,7 +59,7 @@ public final class MainCamera implements IUpdate {
     }
 
     public float getTileMapScale() {
-        float viewportTileSize = getViewportWidth() / NUM_TILES_PER_SCREEN_WIDTH;
+        float viewportTileSize = getViewportWidth() / TILES_PER_SCREEN_WIDTH;
         return viewportTileSize / TILE_SIZE_PIXELS;
     }
 
@@ -85,6 +85,10 @@ public final class MainCamera implements IUpdate {
 
     public float getBottom() {
         return getCenterY() + (getViewportHeight() / 2);
+    }
+
+    public float getTileSize() {
+        return getViewportWidth() / TILES_PER_SCREEN_WIDTH;
     }
 }
 
