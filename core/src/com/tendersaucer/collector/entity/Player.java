@@ -162,6 +162,10 @@ public final class Player extends RenderedEntity {
             // If moving straight off a surface, without jumping.
             animationSystem.switchToDefault();
         }
+
+        if (!isJumping()) {
+            beginMoveParticleEffect();
+        }
     }
 
     public void stopHorizontalMove() {
@@ -260,5 +264,17 @@ public final class Player extends RenderedEntity {
         fixtureDef.restitution = 0;
 
         return fixtureDef;
+    }
+
+    private void beginMoveParticleEffect() {
+//        Vector2Pool vector2Pool = Vector2Pool.getInstance();
+//        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
+//        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
+//        ParticleEffect effect =
+//                ParticleEffectManager.getInstance().buildParticleEffect("player_move");
+//        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
+//        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
+//        vector2Pool.free(position);
+//        vector2Pool.free(sizeRange);
     }
 }

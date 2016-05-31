@@ -2,9 +2,12 @@
 
 [[WORKING TASKS]] ------------------------------------------------------------------------------
 
+- Take the best entity ideas from V1.
+- Scripts?
+- Particle effects
 - Randomness???
 - Collectables
-- Fix issue with tile maps being flipped or whatever (or shifted down one)
+    - And switching between levels
 - Need to cache texture regions in AssetManager??
 - Platforms that hang on a spring
 
@@ -15,8 +18,6 @@
 - Figure out what to do about friction
     - Keep everything frictionless or not?
 - Make sure everything (that needs it) is disposed of
-- Figure out how script system will work
-    - ScriptTrigger entity?
 
 ------------------------------------------------------------------------------------------------
 

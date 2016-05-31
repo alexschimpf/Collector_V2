@@ -154,6 +154,126 @@ public class ParticleEffect implements IUpdate, IRender, Disposable {
         return loopDelay != null;
     }
 
+    public void setDurationRange(float min, float max) {
+        durationRange.set(min, max);
+    }
+
+    public void setParticlesRange(float min, float max) {
+        particlesRange.set(min, max);
+    }
+
+    public void setXOffsetRange(float min, float max) {
+        xOffsetRange.set(min, max);
+    }
+
+    public void setYOffsetRange(float min, float max) {
+        yOffsetRange.set(min, max);
+    }
+
+    public void setVXRange(float min, float max) {
+        vxRange.set(min, max);
+    }
+
+    public void setVYRange(float min, float max) {
+        vyRange.set(min, max);
+    }
+
+    public void setVelocitySplits(float x, float y) {
+        velocitySplits.set(x, y);
+    }
+
+    public void setAngularVelocityRange(float min, float max) {
+        angularVelocityRange.set(min, max);
+    }
+
+    public void setRedRange(float min, float max) {
+        redRange.set(min, max);
+    }
+
+    public void setGreenRange(float min, float max) {
+        greenRange.set(min, max);
+    }
+
+    public void setBlueRange(float min, float max) {
+        blueRange.set(min, max);
+    }
+
+    public void setAlphaRange(float min, float max) {
+        alphaRange.set(min, max);
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public Vector2 getSizeRange() {
+        return sizeRange;
+    }
+
+    public Array<Sprite> getSprites() {
+        return sprites;
+    }
+
+    public Array<Particle> getParticles() {
+        return particles;
+    }
+
+    public Array<ParticleModifier> getModifiers() {
+        return modifiers;
+    }
+
+    public Vector2 getDurationRange() {
+        return durationRange;
+    }
+
+    public Vector2 getParticlesRange() {
+        return particlesRange;
+    }
+
+    public Vector2 getXOffsetRange() {
+        return xOffsetRange;
+    }
+
+    public Vector2 getYOffsetRange() {
+        return yOffsetRange;
+    }
+
+    public Vector2 getVXRange() {
+        return vxRange;
+    }
+
+    public Vector2 getVYRange() {
+        return vyRange;
+    }
+
+    public Vector2 getVelocitySplits() {
+        return velocitySplits;
+    }
+
+    public Vector2 getAngularVelocityRange() {
+        return angularVelocityRange;
+    }
+
+    public Vector2 getRedRange() {
+        return redRange;
+    }
+
+    public Vector2 getBlueRange() {
+        return blueRange;
+    }
+
+    public Vector2 getGreenRange() {
+        return greenRange;
+    }
+
+    public Vector2 getAlphaRange() {
+        return alphaRange;
+    }
+
+    public Float getLoopDelay() {
+        return loopDelay;
+    }
+
     protected void load(JsonValue json) {
         if (json.has("loop_delay")) {
             loopDelay = json.getFloat("loop_delay");
