@@ -14,7 +14,11 @@ import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
+import com.tendersaucer.collector.gen.ParticleConstants;
 import com.tendersaucer.collector.level.Level;
+import com.tendersaucer.collector.particle.ParticleEffect;
+import com.tendersaucer.collector.particle.ParticleEffectManager;
+import com.tendersaucer.collector.util.Vector2Pool;
 
 /**
  * User-controlled player
@@ -26,12 +30,10 @@ public final class Player extends RenderedEntity {
         LEFT, RIGHT
     }
 
-    public static final String TYPE = "player";
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
     public static final float MOVE_SPEED = 20;
     public static final float JUMP_IMPULSE = -150;
-    public static final float MASS = 5.69f;
     public static final short COLLISION_MASK = 0x0002;
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
@@ -101,7 +103,6 @@ public final class Player extends RenderedEntity {
         fixtureDef.shape.dispose();
 
         body.setBullet(true);
-        body.getMassData().mass = MASS;
         attachFootSensor(body, definition.getSize().x);
 
         Filter filter = new Filter();
@@ -203,7 +204,7 @@ public final class Player extends RenderedEntity {
     private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
         Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
-        shape.setAsBox(width / 2 * 0.83f, 0.12f, localBottom, 0);
+        shape.setAsBox(width / 2.1f, 0.12f, localBottom, 0);
         Fixture fixture = body.createFixture(shape, 0);
         fixture.setSensor(true);
 
@@ -247,19 +248,19 @@ public final class Player extends RenderedEntity {
     private FixtureDef createFixtureDef() {
         PolygonShape shape = new PolygonShape();
         shape.set(new Vector2[]{
-                new Vector2(0.9f, -1.29f),
-                new Vector2(0.6f, -1.3f),
-                new Vector2(-0.6f, -1.3f),
-                new Vector2(-0.9f, -1.29f),
-                new Vector2(-0.9f, 1.29f),
-                new Vector2(-0.6f, 1.3f),
-                new Vector2(0.6f, 1.3f),
-                new Vector2(0.9f, 1.29f)
+                new Vector2(1.3f, -1.29f),
+                new Vector2(1f, -1.3f),
+                new Vector2(-1f, -1.3f),
+                new Vector2(-1.3f, -1.29f),
+                new Vector2(-1.3f, 1.29f),
+                new Vector2(-1f, 1.3f),
+                new Vector2(1f, 1.3f),
+                new Vector2(1.3f, 1.29f)
         });
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1;
+        fixtureDef.density = 0.7f;
         fixtureDef.friction = 0f;
         fixtureDef.restitution = 0;
 
@@ -267,14 +268,14 @@ public final class Player extends RenderedEntity {
     }
 
     private void beginMoveParticleEffect() {
-//        Vector2Pool vector2Pool = Vector2Pool.getInstance();
-//        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
-//        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
-//        ParticleEffect effect =
-//                ParticleEffectManager.getInstance().buildParticleEffect("player_move");
-//        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
-//        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
-//        vector2Pool.free(position);
-//        vector2Pool.free(sizeRange);
+        Vector2Pool vector2Pool = Vector2Pool.getInstance();
+        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
+        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
+        ParticleEffect effect =
+                ParticleEffectManager.getInstance().buildParticleEffect(ParticleConstants.PLAYER_MOVE);
+        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
+        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
+        vector2Pool.free(position);
+        vector2Pool.free(sizeRange);
     }
 }

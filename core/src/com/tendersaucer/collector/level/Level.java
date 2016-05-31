@@ -14,6 +14,7 @@ import com.tendersaucer.collector.entity.RenderedEntity;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
 import com.tendersaucer.collector.event.LevelLoadEndEvent;
+import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
@@ -120,7 +121,7 @@ public final class Level implements IUpdate {
     public void addEntity(String id, Entity entity) {
         entityMap.put(id, entity);
 
-        if (id.equals(Player.TYPE)) {
+        if (id.equals(EntityConstants.PLAYER)) {
             player = (Player)entity;
         }
     }
@@ -128,7 +129,7 @@ public final class Level implements IUpdate {
     public void removeEntity(String id) {
         entityMap.remove(id);
 
-        if (id.equals(Player.TYPE)) {
+        if (id.equals(EntityConstants.PLAYER)) {
             player = null;
         }
     }

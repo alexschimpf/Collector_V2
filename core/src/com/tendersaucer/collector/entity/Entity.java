@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.tendersaucer.collector.IDisposable;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.level.ICollide;
 import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.util.BodyData;
@@ -63,7 +64,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     }
 
     public static boolean isPlayer(Entity entity) {
-        return entity != null && entity.getType().equals(Player.TYPE);
+        return entity != null && entity.getType().equals(EntityConstants.PLAYER);
     }
 
     /**

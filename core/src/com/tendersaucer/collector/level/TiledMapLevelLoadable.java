@@ -22,9 +22,9 @@ import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.background.ParallaxBackground;
 import com.tendersaucer.collector.background.TextureParallaxLayer;
 import com.tendersaucer.collector.entity.EntityDefinition;
-import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.entity.TiledEntityDefinition;
 import com.tendersaucer.collector.entity.TiledEntityPropertyValidator;
+import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.Driver;
 import com.tendersaucer.collector.screen.IRender;
@@ -230,7 +230,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
                     layerPos, bodyDef, bodySkeleton, object.getProperties(), object.getTextureRegion());
             entityDefinitions.add(entityDefinition);
 
-            if (type != null && type.equals(Player.TYPE)) {
+            if (type != null && type.equals(EntityConstants.PLAYER)) {
                 respawnPosition.set(entityDefinition.getCenter());
             }
         }
