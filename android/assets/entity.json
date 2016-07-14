@@ -30,12 +30,6 @@
                                 ]
                             }
                         },
-                        "detection_line": {
-                            "class": "DetectionLine",
-                            "properties": {
-                                "required": [ "duration" ]
-                            }
-                        },
                         "color_system_platform": {
                             "class": "ColorSystemPlatform",
                             "properties": {
@@ -46,6 +40,19 @@
                             "class": "ColorSystemProvider",
                             "properties": {
                                 "required": [ "change_delay", "colors" ]
+                            }
+                        },
+                        "next_level_token": {
+                            "class": "NextLevelToken"
+                        },
+                        "chain_platform": {
+                            "class": "ChainPlatform",
+                            "properties": {
+                                "required": [ "group_id", "activated_duration" ]
+                                "optional": [
+                                    { "name": "next_ids", "default": "" },
+                                    { "name": "is_start", "default": "false" }
+                                ]
                             }
                         }
                     }

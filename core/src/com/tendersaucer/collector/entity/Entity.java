@@ -46,8 +46,9 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         float height = definition.getSize().y;
         float left = centerX - (width / 2);
         float bottom = centerY + (height / 2);
-        float top = centerY - (height / 2);
         bounds = new Rectangle(left, bottom, width, height);
+
+        float top = centerY - (height / 2);
         leftTop = Vector2Pool.getInstance().obtain(left, top);
 
         id = getOrCreateId();
@@ -96,7 +97,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     }
 
     public void setTopLeft(float left, float top) {
-        setCenter(left + getWidth(), top + getHeight());
+        setCenter(left + (getWidth() / 2), top + (getHeight() / 2));
     }
 
     public void setCenter(float x, float y) {
@@ -104,7 +105,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     }
 
     public void rotateDegrees(float degrees) {
-        rotateRadians(MathUtils.radiansToDegrees * degrees);
+        rotateRadians(MathUtils.degreesToRadians * degrees);
     }
 
     public void rotateRadians(float radians) {
@@ -121,10 +122,6 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
 
     public void setActive(boolean active) {
         state = active ? State.ACTIVE : State.INACTIVE;
-    }
-
-    public boolean isInactive() {
-        return state == State.INACTIVE;
     }
 
     public boolean isDone() {
@@ -184,7 +181,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
     }
 
     public float getCenterY() {
-        return bounds.getY() + (bounds.getHeight() / 2);
+        return bounds.getY() - (bounds.getHeight() / 2);
     }
 
     public Vector2 getLeftTop() {

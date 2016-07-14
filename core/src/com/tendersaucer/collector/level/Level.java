@@ -94,6 +94,10 @@ public final class Level implements IUpdate {
         EventManager.getInstance().notify(new LevelLoadEndEvent());
     }
 
+    public void loadNext() {
+        load(new TiledMapLevelLoadable(getNextLevelId()));
+    }
+
     public World getPhysicsWorld() {
         return physicsWorld;
     }
@@ -132,6 +136,10 @@ public final class Level implements IUpdate {
         if (id.equals(EntityConstants.PLAYER)) {
             player = null;
         }
+    }
+
+    public Entity getEntity(String id) {
+        return entityMap.get(id);
     }
 
     public int getId() {

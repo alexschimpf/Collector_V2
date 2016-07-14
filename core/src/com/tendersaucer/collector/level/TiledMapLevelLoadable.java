@@ -131,13 +131,13 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
                     throw new InvalidConfigException(filename, "layer", "null");
                 }
 
-                int layerPos = TiledUtils.getIntProperty(layerWrapper, "layer");
-                if (!isLayerPosValid(layerPos)) {
-                    throw new InvalidConfigException(filename, "layer", layerPos);
+                int layerPosition = TiledUtils.getIntProperty(layerWrapper, "layer");
+                if (!isLayerPositionValid(layerPosition)) {
+                    throw new InvalidConfigException(filename, "layer", layerPosition);
                 }
 
                 layersToProcess.add(layerWrapper);
-                canvasMap.put(layerWrapper, layerPos);
+                canvasMap.put(layerWrapper, layerPosition);
             }
         }
 
@@ -224,10 +224,10 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
                 }
             }
 
-            int layerPos = getLayerPos(layer, object);
+            int layerPosition = getLayerPosition(layer, object);
             BodyDef bodyDef = getBodyDef(layer, object);
             EntityDefinition entityDefinition = new TiledEntityDefinition(object.getName(), type,
-                    layerPos, bodyDef, bodySkeleton, object.getProperties(), object.getTextureRegion());
+                    layerPosition, bodyDef, bodySkeleton, object.getProperties(), object.getTextureRegion());
             entityDefinitions.add(entityDefinition);
 
             if (type != null && type.equals(EntityConstants.PLAYER)) {
@@ -250,14 +250,14 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
         }
     }
 
-    private int getLayerPos(MapLayerWrapper layer, TextureMapObject object) {
-     if (TiledUtils.propertyExists(object, "layer")) {
-        return TiledUtils.getIntProperty(object, "layer");
-    } else if (TiledUtils.propertyExists(layer, "layer")) {
-        return TiledUtils.getIntProperty(layer, "layer");
-    } else {
-        throw new InvalidConfigException(filename, "layer", "null");
-    }
+    private int getLayerPosition(MapLayerWrapper layer, TextureMapObject object) {
+         if (TiledUtils.propertyExists(object, "layer")) {
+            return TiledUtils.getIntProperty(object, "layer");
+        } else if (TiledUtils.propertyExists(layer, "layer")) {
+            return TiledUtils.getIntProperty(layer, "layer");
+        } else {
+            throw new InvalidConfigException(filename, "layer", "null");
+        }
     }
 
     private BodyDef getBodyDef(MapLayerWrapper layer, MapObject object) {
@@ -279,8 +279,8 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
         return new Vector2(x, y);
     }
 
-    private boolean isLayerPosValid(int layerPos) {
-        return layerPos > -1 && layerPos < Canvas.NUM_LAYERS;
+    private boolean isLayerPositionValid(int layerPosition) {
+        return layerPosition > -1 && layerPosition < Canvas.NUM_LAYERS;
     }
 
     private boolean isBodySkeleton(String type) {

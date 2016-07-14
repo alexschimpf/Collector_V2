@@ -14,11 +14,7 @@ import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
-import com.tendersaucer.collector.gen.ParticleConstants;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.particle.ParticleEffect;
-import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.util.Vector2Pool;
 
 /**
  * User-controlled player
@@ -197,8 +193,10 @@ public final class Player extends RenderedEntity {
     private void respawn() {
         Level level = Level.getInstance();
         Vector2 respawnPosition = level.getRespawnPosition();
-        setLinearVelocity(0, 0);
+        setLinearVelocity(0, 0.0001f);
         setPosition(respawnPosition.x, respawnPosition.y);
+
+        jumpStartY = getCenterY();
     }
 
     private void attachFootSensor(Body body, float width) {
@@ -268,14 +266,14 @@ public final class Player extends RenderedEntity {
     }
 
     private void beginMoveParticleEffect() {
-        Vector2Pool vector2Pool = Vector2Pool.getInstance();
-        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
-        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
-        ParticleEffect effect =
-                ParticleEffectManager.getInstance().buildParticleEffect(ParticleConstants.PLAYER_MOVE);
-        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
-        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
-        vector2Pool.free(position);
-        vector2Pool.free(sizeRange);
+//        Vector2Pool vector2Pool = Vector2Pool.getInstance();
+//        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
+//        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
+//        ParticleEffect effect =
+//                ParticleEffectManager.getInstance().buildParticleEffect(ParticleConstants.PLAYER_MOVE);
+//        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
+//        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
+//        vector2Pool.free(position);
+//        vector2Pool.free(sizeRange);
     }
 }

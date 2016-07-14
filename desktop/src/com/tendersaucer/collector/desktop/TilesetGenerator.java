@@ -24,7 +24,7 @@ public class TilesetGenerator {
     private static final int NUM_TILES_WIDE = TILESET_SIZE / (TILE_SIZE + (SPACING * 2));
     private static final int NUM_TILES_TALL = NUM_TILES_WIDE;
     private static final String TEXTURES_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/texture_atlas/textures";
-    private static final String OUTPUT_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/worlds/0/rooms/";
+    private static final String OUTPUT_DIR = "/Users/Alex/Desktop/libgdx/Collector/android/assets/levels/";
 
     private TilesetGenerator() {
     }

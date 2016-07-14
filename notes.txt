@@ -1,15 +1,30 @@
+
+
+
+
+
+- 1st level is semi-long, but there is a time limit
+    - bottom of terrain is random and interesting
+    - terrain is kinda hilly and random so you have to jump "perfectly"
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------
 
 [[WORKING TASKS]] ------------------------------------------------------------------------------
 
 - Take the best entity ideas from V1.
 - Scripts?
+    - You reach the end of a chain
+    - Now you must tell a MovableEntity to move
+    - How do you do that?
+        - MovableEntities MAY NOT need this functionality
 - Particle effects
 - Randomness???
-- Collectables
-    - And switching between levels
 - Need to cache texture regions in AssetManager??
-- Platforms that hang on a spring
 
 ------------------------------------------------------------------------------------------------
 
@@ -34,5 +49,10 @@
 
 [[SCRATCH]] ------------------------------------------------------------------------------------
 
+- Platforms that hang on a spring
+    - More for effect
+- Platforms that disappear and reappear
+    - Few little "tricks"
+- Cool camera effect when level is completed
 
 
