@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Level implements IUpdate {
 
     public static final float DEFAULT_GRAVITY = 50;
-    public static final float LOAD_DURATION = 500;
+    public static final float LOAD_DURATION = 800;
     private static final Level instance = new Level();
 
     private int id;
@@ -80,14 +80,20 @@ public final class Level implements IUpdate {
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
         Globals.setGameState(Globals.GameState.LOADING);
 
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                loadStartTime = null;
-                EventManager.getInstance().postNotify(new LevelLoadEndEvent());
-                Globals.setGameState(Globals.GameState.RUNNING);
-            }
-        }, LOAD_DURATION / 1000);
+        if (loadable.getId() == 0) {
+            loadStartTime = null;
+            EventManager.getInstance().postNotify(new LevelLoadEndEvent());
+            Globals.setGameState(Globals.GameState.RUNNING);
+        } else {
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    loadStartTime = null;
+                    EventManager.getInstance().postNotify(new LevelLoadEndEvent());
+                    Globals.setGameState(Globals.GameState.RUNNING);
+                }
+            }, LOAD_DURATION / 1000);
+        }
 
         id = loadable.getId();
         respawnPosition.set(loadable.getRespawnPosition());
