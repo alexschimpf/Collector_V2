@@ -22,12 +22,30 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean update() {
+        MainCamera camera = MainCamera.getInstance();
         Player player = Level.getInstance().getPlayer();
         if (player != null) {
             if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-                player.moveRight();
+                if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+                    camera.move(camera.getTileSize(), 0);
+                    MainCamera.getInstance().setPlayerFocus(false);
+                } else {
+                    player.moveRight();
+                }
             } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-                player.moveLeft();
+                if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+                    camera.move(-camera.getTileSize(), 0);
+                    MainCamera.getInstance().setPlayerFocus(false);
+                } else {
+                    player.moveLeft();
+                }
+            } else if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+                if (Gdx.input.isKeyPressed(Keys.UP)) {
+                    camera.move(0, -camera.getTileSize());
+                    MainCamera.getInstance().setPlayerFocus(false);
+                } else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+                    camera.move(0, camera.getTileSize());
+                }
             } else if (!Globals.isAndroid()) {
                 player.stopHorizontalMove();
             }
@@ -65,6 +83,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 break;
             case Keys.P:
                 Globals.PRINT_DEBUG_INFO = !Globals.PRINT_DEBUG_INFO;
+                break;
+            case Keys.E:
+                Globals.CUSTOM_CAMERA_MODE = !Globals.CUSTOM_CAMERA_MODE;
+                MainCamera.getInstance().setPlayerFocus(true);
                 break;
             default:
                 return false;

@@ -7,6 +7,8 @@
     - bottom of terrain is random and interesting
     - terrain is kinda hilly and random so you have to jump "perfectly"
 
+- run past a "post", then get to a certain point, activate something, then run back past the "post", and the map has (visibly) rotated over
+
 
 
 

@@ -17,6 +17,7 @@ public final class MainCamera implements IUpdate {
     private static final int BASE_VIEWPORT_WIDTH = 50; // 50m is small enough for Box2D to handle
     private static final int BASE_VIEWPORT_HEIGHT = 50;
 
+    private boolean playerFocus = true;
     private final OrthographicCamera rawCamera;
 
     private MainCamera() {
@@ -30,9 +31,11 @@ public final class MainCamera implements IUpdate {
 
     @Override
     public boolean update() {
-        Player player = Level.getInstance().getPlayer();
-        if (player != null) {
-            rawCamera.position.set(player.getCenterX(), player.getCenterY(), 0);
+        if (playerFocus) {
+            Player player = Level.getInstance().getPlayer();
+            if (player != null) {
+                rawCamera.position.set(player.getCenterX(), player.getCenterY(), 0);
+            }
         }
 
         rawCamera.update();
@@ -42,6 +45,16 @@ public final class MainCamera implements IUpdate {
 
     public OrthographicCamera getRawCamera() {
         return rawCamera;
+    }
+
+    public void setPosition(float centerX, float centerY) {
+        rawCamera.position.x = centerX;
+        rawCamera.position.y = centerY;
+    }
+
+    public void move(float dx, float dy) {
+        rawCamera.position.x += dx;
+        rawCamera.position.y += dy;
     }
 
     public void resizeViewport(float width, float height) {
@@ -89,6 +102,10 @@ public final class MainCamera implements IUpdate {
 
     public float getTileSize() {
         return getViewportWidth() / TILES_PER_SCREEN_WIDTH;
+    }
+
+    public void setPlayerFocus(boolean playerFocus) {
+        this.playerFocus = playerFocus;
     }
 }
 

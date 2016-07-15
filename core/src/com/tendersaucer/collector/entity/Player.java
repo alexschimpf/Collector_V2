@@ -33,7 +33,7 @@ public final class Player extends RenderedEntity {
     public static final short COLLISION_MASK = 0x0002;
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
-    private static final float MAX_FALL_TILES = 10;
+    private static final float MAX_FALL_TILES = 9.5f; // don't have to worry about rounding
 
     private int numFootContacts;
     private Direction direction;
