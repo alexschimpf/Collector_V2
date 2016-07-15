@@ -41,6 +41,10 @@ public final class Globals {
         return Gdx.app.getType().equals(ApplicationType.iOS);
     }
 
+    public static void  setGameState(GameState gameState) {
+        Globals.gameState = gameState;
+    }
+
     public static GameState getGameState() {
         return gameState;
     }

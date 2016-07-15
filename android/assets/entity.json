@@ -43,7 +43,12 @@
                             }
                         },
                         "next_level_token": {
-                            "class": "NextLevelToken"
+                            "class": "NextLevelToken",
+                            "properties": {
+                                "optional": [
+                                    { "name": "body_type", "default": "kinematic" }
+                                ]
+                            }
                         },
                         "chain_platform": {
                             "class": "ChainPlatform",

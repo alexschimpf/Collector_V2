@@ -22,6 +22,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean update() {
+        if (Globals.isGameLoading()) {
+            return false;
+        }
+
         MainCamera camera = MainCamera.getInstance();
         Player player = Level.getInstance().getPlayer();
         if (player != null) {
@@ -56,6 +60,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyDown(InputEvent event, int keyCode) {
+        if (Globals.isGameLoading()) {
+            return true;
+        }
+
         switch (keyCode) {
             case Keys.SPACE:
                 Player player = Level.getInstance().getPlayer();
@@ -97,6 +105,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyUp(InputEvent event, int keyCode) {
+        if (Globals.isGameLoading()) {
+            return true;
+        }
+
         switch (keyCode) {
             case Keys.SPACE:
                 Player player = Level.getInstance().getPlayer();

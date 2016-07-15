@@ -13,7 +13,7 @@ public class NextLevelToken extends RenderedEntity {
     public NextLevelToken(EntityDefinition def) {
         super(def);
 
-        body.setAngularVelocity(0.1f);
+        body.setAngularVelocity(1.5f);
         sprite.setColor(Color.RED);
     }
 

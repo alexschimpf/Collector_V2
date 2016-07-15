@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
@@ -32,13 +35,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Level implements IUpdate {
 
     public static final float DEFAULT_GRAVITY = 50;
+    public static final float LOAD_DURATION = 500;
     private static final Level instance = new Level();
 
-    private final Map<String, Entity> entityMap;
     private int id;
+    private Long loadStartTime;
     private Player player;
     private World physicsWorld;
     private Vector2 respawnPosition;
+    private final Map<String, Entity> entityMap;
 
     private Level() {
         entityMap = new ConcurrentHashMap<String, Entity>();
@@ -71,10 +76,20 @@ public final class Level implements IUpdate {
     }
 
     public void load(ILevelLoadable loadable) {
+        loadStartTime = TimeUtils.millis();
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
+        Globals.setGameState(Globals.GameState.LOADING);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                loadStartTime = null;
+                EventManager.getInstance().postNotify(new LevelLoadEndEvent());
+                Globals.setGameState(Globals.GameState.RUNNING);
+            }
+        }, LOAD_DURATION / 1000);
 
         id = loadable.getId();
-
         respawnPosition.set(loadable.getRespawnPosition());
 
         clearPhysicsWorld();
@@ -90,8 +105,6 @@ public final class Level implements IUpdate {
         entityMap.clear();
         loadEntities(loadable);
         loadFreeBodies(loadable);
-
-        EventManager.getInstance().notify(new LevelLoadEndEvent());
     }
 
     public void loadNext() {
@@ -157,6 +170,10 @@ public final class Level implements IUpdate {
         } while (entityMap.containsKey(id));
 
         return id;
+    }
+
+    public Long getLoadStartTime() {
+        return loadStartTime;
     }
 
     private void loadEntities(ILevelLoadable loadable) {
