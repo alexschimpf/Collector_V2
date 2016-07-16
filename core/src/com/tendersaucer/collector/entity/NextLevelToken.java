@@ -27,5 +27,7 @@ public class NextLevelToken extends RenderedEntity {
                 }
             });
         }
+
+        contact.setEnabled(false);
     }
 }

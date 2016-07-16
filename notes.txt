@@ -10,8 +10,8 @@
 - run past a "post", then get to a certain point, activate something, then run back past the "post", and the map has (visibly) rotated over
 
 
-
-
+During next-level-load:
+com.badlogic.gdx.utils.SerializationException: Error parsing file: levels/2.tmx
 
 
 ------------------------------------------------------------------------------------------------

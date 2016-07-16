@@ -31,24 +31,24 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
         if (player != null) {
             if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
                 if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
-                    camera.move(camera.getTileSize(), 0);
-                    MainCamera.getInstance().setPlayerFocus(false);
+                    camera.move(camera.getTileSize() / 2, 0);
+                    camera.setPlayerFocus(false);
                 } else {
                     player.moveRight();
                 }
             } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
                 if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
-                    camera.move(-camera.getTileSize(), 0);
-                    MainCamera.getInstance().setPlayerFocus(false);
+                    camera.move(-camera.getTileSize() / 2, 0);
+                    camera.setPlayerFocus(false);
                 } else {
                     player.moveLeft();
                 }
             } else if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
                 if (Gdx.input.isKeyPressed(Keys.UP)) {
-                    camera.move(0, -camera.getTileSize());
-                    MainCamera.getInstance().setPlayerFocus(false);
+                    camera.move(0, -camera.getTileSize() / 2);
+                    camera.setPlayerFocus(false);
                 } else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-                    camera.move(0, camera.getTileSize());
+                    camera.move(0, camera.getTileSize() / 2);
                 }
             } else if (!Globals.isAndroid()) {
                 player.stopHorizontalMove();

@@ -13,7 +13,6 @@ import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.level.TiledMapLevelLoadable;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
 
@@ -47,7 +46,7 @@ public final class Driver implements Screen {
         eventManager.listen(LevelLoadBeginEvent.class, ParticleEffectManager.getInstance());
 
         AssetManager.getInstance().load();
-        Level.getInstance().load(new TiledMapLevelLoadable(0));
+        Level.getInstance().load(0);
 
         ParticleEffectManager.getInstance().loadDefinitions();
     }

@@ -75,46 +75,52 @@ public final class Level implements IUpdate {
         return false;
     }
 
-    public void load(ILevelLoadable loadable) {
-        loadStartTime = TimeUtils.millis();
-        EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
-        Globals.setGameState(Globals.GameState.LOADING);
+    public void load(int levelId) {
+        synchronized (this) {
+            id = levelId;
+            loadStartTime = TimeUtils.millis();
+            Globals.setGameState(Globals.GameState.LOADING);
 
-        if (loadable.getId() == 0) {
-            loadStartTime = null;
-            EventManager.getInstance().postNotify(new LevelLoadEndEvent());
-            Globals.setGameState(Globals.GameState.RUNNING);
-        } else {
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    loadStartTime = null;
-                    EventManager.getInstance().postNotify(new LevelLoadEndEvent());
-                    Globals.setGameState(Globals.GameState.RUNNING);
-                }
-            }, LOAD_DURATION / 1000);
+            TiledMapLevelLoadable loadable = new TiledMapLevelLoadable(levelId);
+            EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
+
+            // Loading first level...
+            if (loadable.getId() == 0) {
+                loadStartTime = null;
+                EventManager.getInstance().notify(new LevelLoadEndEvent());
+                Globals.setGameState(Globals.GameState.RUNNING);
+            } else {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        loadStartTime = null;
+                        EventManager.getInstance().notify(new LevelLoadEndEvent());
+                        Globals.setGameState(Globals.GameState.RUNNING);
+                    }
+                }, LOAD_DURATION / 1000);
+            }
+
+            id = loadable.getId();
+            respawnPosition.set(loadable.getRespawnPosition());
+
+            clearPhysicsWorld();
+            Canvas.getInstance().addToLayer(0, loadable.getBackground());
+
+            // Add non-entity/background canvas objects.
+            Map<IRender, Integer> canvasMap = loadable.getCanvasMap();
+            for (IRender object : canvasMap.keySet()) {
+                int layer = canvasMap.get(object);
+                Canvas.getInstance().addToLayer(layer, object);
+            }
+
+            entityMap.clear();
+            loadEntities(loadable);
+            loadFreeBodies(loadable);
         }
-
-        id = loadable.getId();
-        respawnPosition.set(loadable.getRespawnPosition());
-
-        clearPhysicsWorld();
-        Canvas.getInstance().addToLayer(0, loadable.getBackground());
-
-        // Add non-entity/background canvas objects.
-        Map<IRender, Integer> canvasMap = loadable.getCanvasMap();
-        for (IRender object : canvasMap.keySet()) {
-            int layer = canvasMap.get(object);
-            Canvas.getInstance().addToLayer(layer, object);
-        }
-
-        entityMap.clear();
-        loadEntities(loadable);
-        loadFreeBodies(loadable);
     }
 
     public void loadNext() {
-        load(new TiledMapLevelLoadable(getNextLevelId()));
+        load(id + 1);
     }
 
     public World getPhysicsWorld() {
@@ -126,11 +132,6 @@ public final class Level implements IUpdate {
         physicsWorld.getBodies(bodies);
 
         return bodies;
-    }
-
-    // TODO: When does a room have no next room?
-    public Integer getNextLevelId() {
-        return id + 1;
     }
 
     public Player getPlayer() {

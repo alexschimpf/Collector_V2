@@ -66,6 +66,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
         filename = AssetManager.getFilePath("levels", levelId + ".tmx");
         TmxMapLoader.Parameters params = new TmxMapLoader.Parameters();
         params.flipY = false;
+
         tiledMap = new TmxMapLoader().load(filename, params);
 
         background = new ParallaxBackground();
