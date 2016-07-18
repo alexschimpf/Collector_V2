@@ -1,7 +1,5 @@
 package com.tendersaucer.collector.event;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,14 +56,5 @@ public final class EventManager {
                 event.notify(listener);
             }
         }
-    }
-
-    public <L> void postNotify(final Event<L> event) {
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                EventManager.this.notify(event);
-            }
-        });
     }
 }

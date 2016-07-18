@@ -10,16 +10,21 @@ import com.tendersaucer.collector.level.Level;
  */
 public class NextLevelToken extends RenderedEntity {
 
+    private boolean obtained;
+
     public NextLevelToken(EntityDefinition def) {
         super(def);
 
+        obtained = false;
         body.setAngularVelocity(1.5f);
         sprite.setColor(Color.RED);
     }
 
     @Override
     public void onBeginContact(Contact contact, Entity entity) {
-        if (Entity.isPlayer(entity)) {
+        if (!obtained && Entity.isPlayer(entity)) {
+            obtained = true;
+
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {

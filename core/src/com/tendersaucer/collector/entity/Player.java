@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
@@ -111,7 +110,7 @@ public final class Player extends RenderedEntity {
 
     public void jump() {
         if (!isJumping()) {
-            AssetManager.getInstance().getSound("jump").play();
+            //AssetManager.getInstance().getSound("jump").play();
             body.applyLinearImpulse(0, JUMP_IMPULSE, getCenterX(), getCenterY(), true);
 
             AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;

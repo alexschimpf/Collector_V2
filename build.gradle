@@ -113,6 +113,7 @@ project(":core") {
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.2"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.0.0"
         compile "com.github.czyzby:gdx-kiwi:1.5.1.8.0"
+        runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
     }
 }
 
