@@ -5,8 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.Timer;
+import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
@@ -36,11 +35,9 @@ import java.util.concurrent.TimeUnit;
 public final class Level implements IUpdate {
 
     public static final float DEFAULT_GRAVITY = 50;
-    public static final float LOAD_DURATION = 800;
     private static final Level instance = new Level();
 
     private int id;
-    private Long loadStartTime;
     private Player player;
     private World physicsWorld;
     private Vector2 respawnPosition;
@@ -66,9 +63,10 @@ public final class Level implements IUpdate {
 
         Iterator<String> entityIdIter = entityMap.keySet().iterator();
         while (entityIdIter.hasNext()) {
-            Entity entity = entityMap.get(entityIdIter.next());
+            String id = entityIdIter.next();
+            Entity entity = entityMap.get(id);
             if (entity.update()) {
-                entity.dispose();
+                removeEntity(id);
                 entityIdIter.remove();
             }
         }
@@ -78,31 +76,19 @@ public final class Level implements IUpdate {
 
     public void load(int levelId) {
         try {
-            TimeUnit.MILLISECONDS.sleep(250);
+            // Seems to be preventing concurrency issue.
+            TimeUnit.MILLISECONDS.sleep(5);
         } catch (InterruptedException e) {
+            // TODO:
         }
 
         id = levelId;
-        loadStartTime = TimeUtils.millis();
-        Globals.setGameState(Globals.GameState.LOADING);
 
         TiledMapLevelLoadable loadable = new TiledMapLevelLoadable(levelId);
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
 
-        if (loadable.getId() == 0) {
-            loadStartTime = null;
-            EventManager.getInstance().notify(new LevelLoadEndEvent());
-            Globals.setGameState(Globals.GameState.RUNNING);
-        } else {
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    loadStartTime = null;
-                    EventManager.getInstance().notify(new LevelLoadEndEvent());
-                    Globals.setGameState(Globals.GameState.RUNNING);
-                }
-            }, LOAD_DURATION / 1000);
-        }
+        EventManager.getInstance().notify(new LevelLoadEndEvent());
+        Globals.setGameState(GameState.RUNNING);
 
         id = loadable.getId();
         respawnPosition.set(loadable.getRespawnPosition());
@@ -124,6 +110,10 @@ public final class Level implements IUpdate {
 
     public void loadNext() {
         load(id + 1);
+    }
+
+    public void replay() {
+        load(id);
     }
 
     public World getPhysicsWorld() {
@@ -154,11 +144,12 @@ public final class Level implements IUpdate {
     }
 
     public void removeEntity(String id) {
-        entityMap.remove(id);
-
         if (id.equals(EntityConstants.PLAYER)) {
             player = null;
         }
+
+        entityMap.get(id).dispose();
+        entityMap.remove(id);
     }
 
     public Entity getEntity(String id) {
@@ -180,10 +171,6 @@ public final class Level implements IUpdate {
         } while (entityMap.containsKey(id));
 
         return id;
-    }
-
-    public Long getLoadStartTime() {
-        return loadStartTime;
     }
 
     private void loadEntities(ILevelLoadable loadable) {

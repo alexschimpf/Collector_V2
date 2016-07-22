@@ -53,7 +53,7 @@
                         "chain_platform": {
                             "class": "ChainPlatform",
                             "properties": {
-                                "required": [ "group_id", "activated_duration" ]
+                                "required": [ "group_id", "activated_duration" ],
                                 "optional": [
                                     { "name": "next_ids", "default": "" },
                                     { "name": "is_start", "default": "false" }

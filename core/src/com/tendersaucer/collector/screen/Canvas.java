@@ -1,13 +1,11 @@
 package com.tendersaucer.collector.screen;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.tendersaucer.collector.GameState;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.event.ILevelLoadBeginListener;
 import com.tendersaucer.collector.level.ILevelLoadable;
-import com.tendersaucer.collector.level.Level;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -41,21 +39,9 @@ public final class Canvas implements IRender, ILevelLoadBeginListener {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        Long loadStartTime = Level.getInstance().getLoadStartTime();
-        if (Level.getInstance().getId() > 0 && loadStartTime != null) {
-            float timeSinceLoadStart = TimeUtils.timeSinceMillis(loadStartTime);
-            float ageLifeRatio = timeSinceLoadStart / Level.LOAD_DURATION;
-            Color color = spriteBatch.getColor();
-            if (timeSinceLoadStart < Level.LOAD_DURATION / 2) {
-                color.a = MathUtils.clamp(1 - (ageLifeRatio * 2), 0, 1);
-            } else {
-                color.a = MathUtils.clamp((float)(ageLifeRatio - 0.5) * 2, 0, 1);
-            }
-            spriteBatch.setColor(color);
-        } else {
-            Color color = spriteBatch.getColor();
-            color.a = 1;
-            spriteBatch.setColor(color);
+        if (Globals.getGameState() == GameState.LEVEL_COMPLETE) {
+            HUD.getInstance().render(spriteBatch);
+            return;
         }
 
         for (int i = 0; i < layers.size; i++) {
@@ -113,3 +99,4 @@ public final class Canvas implements IRender, ILevelLoadBeginListener {
         }
     }
 }
+

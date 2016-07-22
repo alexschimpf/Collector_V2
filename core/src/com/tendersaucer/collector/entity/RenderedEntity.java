@@ -23,7 +23,7 @@ public abstract class RenderedEntity extends Entity implements IRender {
     public void dispose() {
         super.dispose();
 
-        Canvas.getInstance().remove(this);
+        removeFromCanvas();
     }
 
     @Override
@@ -48,6 +48,10 @@ public abstract class RenderedEntity extends Entity implements IRender {
 
     public void addToCanvas() {
         Canvas.getInstance().addToLayer(definition.getLayer(), this);
+    }
+
+    public void removeFromCanvas() {
+        Canvas.getInstance().remove(this);
     }
 
     public Sprite getSprite() {

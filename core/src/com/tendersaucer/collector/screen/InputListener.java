@@ -3,6 +3,7 @@ package com.tendersaucer.collector.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.MainCamera;
@@ -22,8 +23,8 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean update() {
-        if (Globals.isGameLoading()) {
-            return false;
+        if (Globals.getGameState() != GameState.RUNNING) {
+            return true;
         }
 
         MainCamera camera = MainCamera.getInstance();
@@ -60,17 +61,16 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyDown(InputEvent event, int keyCode) {
-        if (Globals.isGameLoading()) {
-            return true;
-        }
-
-        switch (keyCode) {
-            case Keys.SPACE:
+        if (Globals.getGameState() == GameState.RUNNING) {
+            if (keyCode == Keys.SPACE) {
                 Player player = Level.getInstance().getPlayer();
                 if (player != null) {
                     player.jump();
                 }
-                break;
+            }
+        }
+
+        switch (keyCode) {
             case Keys.ESCAPE:
                 Gdx.app.exit();
                 break;
@@ -96,6 +96,8 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 Globals.CUSTOM_CAMERA_MODE = !Globals.CUSTOM_CAMERA_MODE;
                 MainCamera.getInstance().setPlayerFocus(true);
                 break;
+            case Keys.SPACE:
+                break;
             default:
                 return false;
         }
@@ -105,21 +107,13 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyUp(InputEvent event, int keyCode) {
-        if (Globals.isGameLoading()) {
-            return true;
+        if (Globals.getGameState() == GameState.RUNNING) {
+            Player player = Level.getInstance().getPlayer();
+            if (player != null) {
+                player.stopJump();
+            }
         }
 
-        switch (keyCode) {
-            case Keys.SPACE:
-                Player player = Level.getInstance().getPlayer();
-                if (player != null) {
-                    player.stopJump();
-                }
-                break;
-            default:
-                return false;
-        }
-
-        return true;
+        return false;
     }
 }

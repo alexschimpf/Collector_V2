@@ -11,6 +11,7 @@ import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
+import com.tendersaucer.collector.event.GameStateChangeEvent;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
 import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
@@ -41,14 +42,15 @@ public final class Driver implements Screen {
 
     @Override
     public void show() {
+        AssetManager.getInstance().load();
+        ParticleEffectManager.getInstance().loadDefinitions();
+
         EventManager eventManager = EventManager.getInstance();
         eventManager.listen(LevelLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(LevelLoadBeginEvent.class, ParticleEffectManager.getInstance());
+        eventManager.listen(GameStateChangeEvent.class, HUD.getInstance());
 
-        AssetManager.getInstance().load();
         Level.getInstance().load(0);
-
-        ParticleEffectManager.getInstance().loadDefinitions();
     }
 
     @Override
@@ -103,14 +105,13 @@ public final class Driver implements Screen {
             Debug.printDebugInfo();
         }
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         OrthographicCamera camera = MainCamera.getInstance().getRawCamera();
         spriteBatch.setProjectionMatrix(camera.combined);
 
-        spriteBatch.begin();
-        {
+        spriteBatch.begin(); {
             Canvas.getInstance().render(spriteBatch);
         }
         spriteBatch.end();

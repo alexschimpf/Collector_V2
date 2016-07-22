@@ -2,6 +2,8 @@ package com.tendersaucer.collector;
 
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
+import com.tendersaucer.collector.event.EventManager;
+import com.tendersaucer.collector.event.GameStateChangeEvent;
 
 /**
  * Game global variables
@@ -9,10 +11,6 @@ import com.badlogic.gdx.Gdx;
  * Created by Alex on 4/8/2016.
  */
 public final class Globals {
-
-    public enum GameState {
-        RUNNING, PAUSED, LOADING
-    }
 
     public static boolean ENABLE_MUSIC = false;
     public static boolean FULLSCREEN_MODE = true;
@@ -23,10 +21,6 @@ public final class Globals {
 
     private Globals() {
         gameState = GameState.RUNNING;
-    }
-
-    public static ApplicationType getApplicationType() {
-        return Gdx.app.getType();
     }
 
     public static boolean isAndroid() {
@@ -42,22 +36,14 @@ public final class Globals {
     }
 
     public static void  setGameState(GameState gameState) {
+        GameState oldGameState = Globals.gameState;
+        Gdx.app.log("Globals", "Game state changed from '" + oldGameState + "' to '" + gameState + "'");
+
         Globals.gameState = gameState;
+        EventManager.getInstance().notify(new GameStateChangeEvent(oldGameState, gameState));
     }
 
     public static GameState getGameState() {
         return gameState;
-    }
-
-    public static boolean isGameRunning() {
-        return gameState == GameState.RUNNING;
-    }
-
-    public static boolean isGamePaused() {
-        return gameState == GameState.PAUSED;
-    }
-
-    public static boolean isGameLoading() {
-        return gameState == GameState.LOADING;
     }
 }
