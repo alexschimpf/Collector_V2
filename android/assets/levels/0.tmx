@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="70" height="32" tilewidth="64" tileheight="64" nextobjectid="110">
+ <properties>
+  <property name="background" value="default, 0.8"/>
+ </properties>
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64" spacing="1" margin="1" tilecount="225" columns="15">
+  <image source="tiles.png" width="976" height="975"/>
+ </tileset>
+ <layer name="background" width="70" height="32">
+  <properties>
+   <property name="layer" type="int" value="0"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="bodies">
+  <properties>
+   <property name="layer" type="int" value="5"/>
+  </properties>
+  <object id="2" name="player" type="player" gid="2" x="64" y="1344" width="64" height="64">
+   <properties>
+    <property name="layer" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="14" x="0" y="1344" width="1344" height="64"/>
+  <object id="15" x="1152" y="1280" width="64" height="64"/>
+  <object id="16" x="1280" y="1408" width="512" height="64"/>
+  <object id="17" x="1920" y="1280" width="512" height="64"/>
+  <object id="18" x="3008" y="1280" width="576" height="64"/>
+  <object id="21" x="3648" y="1216" width="64" height="64"/>
+  <object id="25" x="3648" y="1216" width="64" height="64"/>
+  <object id="27" x="3776" y="1152" width="64" height="64"/>
+  <object id="28" x="3904" y="1024" width="64" height="64"/>
+  <object id="29" x="4032" y="832" width="192" height="64"/>
+  <object id="33" gid="32" x="4416" y="576" width="32" height="32">
+   <properties>
+    <property name="fixed_rotation" type="bool" value="false"/>
+    <property name="type" value="next_level_token"/>
+   </properties>
+  </object>
+  <object id="34" x="2560" y="1088" width="64" height="64"/>
+  <object id="54" name="tcl_0" type="timer_chain_link" gid="32" x="0" y="1408" width="64" height="64">
+   <properties>
+    <property name="is_start" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="57" name="tcl_1" type="timer_chain_link" gid="32" x="64" y="1472" width="64" height="128"/>
+  <object id="58" name="tcl_2" type="timer_chain_link" gid="32" x="128" y="1472" width="64" height="128"/>
+  <object id="59" name="tcl_3" type="timer_chain_link" gid="32" x="192" y="1536" width="64" height="192"/>
+  <object id="60" name="tcl_4" type="timer_chain_link" gid="32" x="256" y="1536" width="64" height="192"/>
+  <object id="61" name="tcl_5" type="timer_chain_link" gid="32" x="320" y="1536" width="64" height="192"/>
+  <object id="62" name="tcl_6" type="timer_chain_link" gid="32" x="384" y="1536" width="64" height="192"/>
+  <object id="63" name="tcl_7" type="timer_chain_link" gid="32" x="448" y="1536" width="64" height="192"/>
+  <object id="64" name="tcl_8" type="timer_chain_link" gid="32" x="512" y="1408" width="64" height="64"/>
+  <object id="65" name="tcl_10" type="timer_chain_link" gid="32" x="640" y="1472" width="64" height="128"/>
+  <object id="66" name="tcl_9" type="timer_chain_link" gid="32" x="576" y="1472" width="64" height="128"/>
+  <object id="67" name="tcl_11" type="timer_chain_link" gid="32" x="704" y="1472" width="64" height="128"/>
+  <object id="68" name="tcl_12" type="timer_chain_link" gid="32" x="768" y="1664" width="64" height="320"/>
+  <object id="69" name="tcl_13" type="timer_chain_link" gid="32" x="832" y="1600" width="64" height="256"/>
+  <object id="70" name="tcl_14" type="timer_chain_link" gid="32" x="896" y="1536" width="64" height="192"/>
+  <object id="71" name="tcl_15" type="timer_chain_link" gid="32" x="960" y="1408" width="64" height="64"/>
+  <object id="72" name="tcl_16" type="timer_chain_link" gid="32" x="1024" y="1408" width="64" height="64"/>
+  <object id="73" name="tcl_17" type="timer_chain_link" gid="32" x="1088" y="1408" width="64" height="64"/>
+  <object id="74" name="tcl_18" type="timer_chain_link" gid="32" x="1152" y="1408" width="64" height="128"/>
+  <object id="75" name="tcl_19" type="timer_chain_link" gid="32" x="1216" y="1408" width="64" height="64"/>
+  <object id="76" name="tcl_20" type="timer_chain_link" gid="32" x="1280" y="1472" width="64" height="128"/>
+  <object id="78" name="tcl_21" type="timer_chain_link" gid="32" x="1344" y="1472" width="64" height="64"/>
+  <object id="79" name="tcl_22" type="timer_chain_link" gid="32" x="1408" y="1472" width="64" height="64"/>
+  <object id="80" name="tcl_23" type="timer_chain_link" gid="32" x="1472" y="1472" width="64" height="64"/>
+  <object id="81" name="tcl_24" type="timer_chain_link" gid="32" x="1536" y="1472" width="64" height="64"/>
+  <object id="82" name="tcl_25" type="timer_chain_link" gid="32" x="1600" y="1472" width="64" height="64"/>
+  <object id="83" name="tcl_26" type="timer_chain_link" gid="32" x="1664" y="1472" width="64" height="64"/>
+  <object id="84" name="tcl_27" type="timer_chain_link" gid="32" x="1728" y="1472" width="64" height="64"/>
+  <object id="85" name="tcl_28" type="timer_chain_link" gid="32" x="1920" y="1344" width="64" height="64"/>
+  <object id="86" name="tcl_29" type="timer_chain_link" gid="32" x="1984" y="1344" width="64" height="64"/>
+  <object id="87" name="tcl_30" type="timer_chain_link" gid="32" x="2048" y="1408" width="64" height="128"/>
+  <object id="88" name="tcl_31" type="timer_chain_link" gid="32" x="2112" y="1344" width="64" height="64"/>
+  <object id="89" name="tcl_32" type="timer_chain_link" gid="32" x="2176" y="1344" width="64" height="64"/>
+  <object id="90" name="tcl_33" type="timer_chain_link" gid="32" x="2240" y="1344" width="64" height="64"/>
+  <object id="91" name="tcl_34" type="timer_chain_link" gid="32" x="2304" y="1472" width="64" height="192"/>
+  <object id="92" name="tcl_35" type="timer_chain_link" gid="32" x="2368" y="1408" width="64" height="128"/>
+  <object id="93" name="tcl_36" type="timer_chain_link" gid="32" x="2560" y="1152" width="64" height="64"/>
+  <object id="94" name="tcl_37" type="timer_chain_link" gid="32" x="3008" y="1344" width="64" height="64"/>
+  <object id="95" name="tcl_38" type="timer_chain_link" gid="32" x="3072" y="1344" width="64" height="64"/>
+  <object id="96" name="tcl_39" type="timer_chain_link" gid="32" x="3136" y="1536" width="64" height="256"/>
+  <object id="97" name="tcl_40" type="timer_chain_link" gid="32" x="3200" y="1344" width="64" height="64"/>
+  <object id="98" name="tcl_41" type="timer_chain_link" gid="32" x="3264" y="1472" width="64" height="192"/>
+  <object id="99" name="tcl_42" type="timer_chain_link" gid="32" x="3328" y="1344" width="64" height="64"/>
+  <object id="100" name="tcl_43" type="timer_chain_link" gid="32" x="3392" y="1344" width="64" height="64"/>
+  <object id="101" name="tcl_45" type="timer_chain_link" gid="32" x="3520" y="1344" width="64" height="64"/>
+  <object id="102" name="tcl_44" type="timer_chain_link" gid="32" x="3456" y="1408" width="64" height="128"/>
+  <object id="103" name="tcl_46" type="timer_chain_link" gid="32" x="3648" y="1280" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+   </properties>
+  </object>
+  <object id="104" name="tcl_47" type="timer_chain_link" gid="32" x="3776" y="1216" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+   </properties>
+  </object>
+  <object id="105" name="tcl_48" type="timer_chain_link" gid="32" x="3904" y="1088" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+   </properties>
+  </object>
+  <object id="106" name="tcl_49" type="timer_chain_link" gid="32" x="4032" y="896" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+   </properties>
+  </object>
+  <object id="108" name="tcl_50" type="timer_chain_link" gid="32" x="4096" y="896" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+   </properties>
+  </object>
+  <object id="109" name="tcl_51" type="timer_chain_link" gid="32" x="4160" y="896" width="64" height="64">
+   <properties>
+    <property name="delay" type="float" value="500"/>
+    <property name="is_end" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
