@@ -59,15 +59,23 @@ public final class Level implements IUpdate {
 
     @Override
     public boolean update() {
+        if (Globals.getGameState() != GameState.RUNNING) {
+            return false;
+        }
+
         physicsWorld.step(1 / 45.0f, 5, 5);
 
         Iterator<String> entityIdIter = entityMap.keySet().iterator();
         while (entityIdIter.hasNext()) {
             String id = entityIdIter.next();
             Entity entity = entityMap.get(id);
-            if (entity.update()) {
-                removeEntity(id);
+            if (entity != null && entity.update()) {
+                if (id.equals(EntityConstants.PLAYER)) {
+                    player = null;
+                }
+
                 entityIdIter.remove();
+                entity.dispose();
             }
         }
 
@@ -87,9 +95,6 @@ public final class Level implements IUpdate {
         TiledMapLevelLoadable loadable = new TiledMapLevelLoadable(levelId);
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
 
-        EventManager.getInstance().notify(new LevelLoadEndEvent());
-        Globals.setGameState(GameState.RUNNING);
-
         id = loadable.getId();
         respawnPosition.set(loadable.getRespawnPosition());
 
@@ -106,6 +111,9 @@ public final class Level implements IUpdate {
         entityMap.clear();
         loadEntities(loadable);
         loadFreeBodies(loadable);
+
+        EventManager.getInstance().notify(new LevelLoadEndEvent());
+        Globals.setGameState(GameState.RUNNING);
     }
 
     public void loadNext() {
@@ -141,15 +149,6 @@ public final class Level implements IUpdate {
         if (id.equals(EntityConstants.PLAYER)) {
             player = (Player)entity;
         }
-    }
-
-    public void removeEntity(String id) {
-        if (id.equals(EntityConstants.PLAYER)) {
-            player = null;
-        }
-
-        entityMap.get(id).dispose();
-        entityMap.remove(id);
     }
 
     public Entity getEntity(String id) {

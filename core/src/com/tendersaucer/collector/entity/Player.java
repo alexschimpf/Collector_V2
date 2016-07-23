@@ -27,12 +27,12 @@ public final class Player extends RenderedEntity {
 
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
-    public static final float MOVE_SPEED = 20;
+    public static final float MOVE_SPEED = 30;
     public static final float JUMP_IMPULSE = -150;
     public static final short COLLISION_MASK = 0x0002;
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
-    private static final float MAX_FALL_TILES = 9.5f; // don't have to worry about rounding
+    private static final float MAX_FALL_TILES = 9.5f; // won't have to worry about rounding
 
     private int numFootContacts;
     private Direction direction;
@@ -190,12 +190,7 @@ public final class Player extends RenderedEntity {
     }
 
     private void respawn() {
-        Level level = Level.getInstance();
-        Vector2 respawnPosition = level.getRespawnPosition();
-        setLinearVelocity(0, 0.0001f);
-        setPosition(respawnPosition.x, respawnPosition.y);
-
-        jumpStartY = getCenterY();
+        Level.getInstance().replay();
     }
 
     private void attachFootSensor(Body body, float width) {
@@ -232,10 +227,6 @@ public final class Player extends RenderedEntity {
     private boolean isJumping() {
         // May have not left the ground yet but is still in the process of jumping
         return numFootContacts == 0 || ((AnimatedSpriteSystem)sprite).isPlaying(JUMP_ANIMATION_ID);
-    }
-
-    private Fixture getMainFixture() {
-        return body.getFixtureList().get(0);
     }
 
     private Fixture getFootSensor() {

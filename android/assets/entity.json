@@ -30,23 +30,21 @@
                                 ]
                             }
                         },
-                        "color_system_platform": {
-                            "class": "ColorSystemPlatform",
-                            "properties": {
-                                "required": [ "color", "provider_id" ]
-                            }
-                        },
-                        "color_system_provider": {
-                            "class": "ColorSystemProvider",
-                            "properties": {
-                                "required": [ "change_delay", "colors" ]
-                            }
-                        },
                         "next_level_token": {
                             "class": "NextLevelToken",
                             "properties": {
                                 "optional": [
                                     { "name": "body_type", "default": "kinematic" }
+                                ]
+                            }
+                        },
+                        "timer_chain_link": {
+                            "class": "TimerChainLink",
+                            "properties": {
+                                "optional": [
+                                    { "name": "is_start", "default": "false" },
+                                    { "name": "is_end", "default": "false" },
+                                    { "name": "delay", "default": "100" }
                                 ]
                             }
                         },

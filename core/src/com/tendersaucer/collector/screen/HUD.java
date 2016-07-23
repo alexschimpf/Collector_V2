@@ -95,6 +95,9 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         replayButton.setVisible(true);
     }
 
+    /**
+     * TODO: Do this in the skin file...
+     */
     private void createLevelCompleteButtons() {
         if (Level.getInstance().getPlayer() != null){
             Level.getInstance().getPlayer().setDone();
@@ -104,23 +107,21 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         float screenHeight = Gdx.graphics.getHeight();
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        float buttonSpacing = screenWidth * .1f;
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = (int)(screenWidth / 10);
-        TextButtonStyle buttonStyle = new TextButtonStyle();
-        buttonStyle.font = generator.generateFont(parameter);
-        buttonStyle.fontColor = Color.BLACK;
 
-        float nextButtonWidth = screenWidth * 0.75f;
-        float nextButtonHeight = screenHeight * 0.35f;
-        float nextButtonX = (screenWidth - nextButtonWidth) / 2;
-        float nextButtonY = buttonSpacing + nextButtonHeight;
-        nextButton = new TextButton("next", skin);
-        nextButton.setSize(nextButtonWidth, nextButtonHeight);
-        nextButton.setPosition(nextButtonX, nextButtonY);
-        nextButton.setStyle(buttonStyle);
+        float nextButtonHeight = screenHeight * 0.6f;
+        FreeTypeFontParameter nextParameter = new FreeTypeFontParameter();
+        nextParameter.size = (int)(screenWidth / 4);
+        nextParameter.borderWidth = nextParameter.size / 50;
+        nextParameter.spaceX = (int)screenWidth / 100;
+        nextParameter.spaceY = -nextParameter.size + (nextParameter.size / 2);
+        TextButtonStyle nextButtonStyle = new TextButtonStyle();
+        nextButtonStyle.font = generator.generateFont(nextParameter);
+        nextButtonStyle.fontColor = Color.RED;
+        nextButton = new TextButton("\nNEXT", skin);
+        nextButton.setSize(screenWidth, nextButtonHeight);
+        nextButton.setPosition(0, screenHeight - nextButtonHeight);
+        nextButton.setStyle(nextButtonStyle);
         nextButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -129,14 +130,17 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             }
         });
 
-        float replayButtonWidth = screenWidth * 0.55f;
-        float replayButtonHeight = screenHeight * 0.25f;
-        float replayButtonX = (screenWidth - replayButtonWidth) / 2;
-        float replayButtonY = nextButtonY - buttonSpacing - replayButtonHeight;
-        replayButton = new TextButton("replay", skin);
-        replayButton.setSize(replayButtonWidth, replayButtonHeight);
-        replayButton.setPosition(replayButtonX, replayButtonY);
-        replayButton.setStyle(buttonStyle);
+        float replayButtonHeight = screenHeight * 0.4f;
+        FreeTypeFontParameter replayParameter = new FreeTypeFontParameter();
+        replayParameter.size = (int)(screenWidth / 20);
+        replayParameter.spaceX = (int)screenWidth / 100;
+        TextButtonStyle replayButtonStyle = new TextButtonStyle();
+        replayButtonStyle.font = generator.generateFont(replayParameter);
+        replayButtonStyle.fontColor = Color.BLACK;
+        replayButton = new TextButton("REPLAY", skin);
+        replayButton.setSize(screenWidth, replayButtonHeight);
+        replayButton.setPosition(0, 0);
+        replayButton.setStyle(replayButtonStyle);
         replayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
