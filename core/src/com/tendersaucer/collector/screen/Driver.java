@@ -24,7 +24,7 @@ import com.tendersaucer.collector.util.Debug;
  */
 public final class Driver implements Screen {
 
-    public static Driver instance = new Driver();
+    public static final Driver instance = new Driver();
 
     private final Matrix4 debugMatrix;
     private final SpriteBatch spriteBatch;

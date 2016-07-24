@@ -107,13 +107,17 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
 
     @Override
     public boolean keyUp(InputEvent event, int keyCode) {
-        if (Globals.getGameState() == GameState.RUNNING) {
+        if (Globals.getGameState() != GameState.RUNNING ) {
+            return false;
+        }
+
+        if (keyCode == Keys.SPACE) {
             Player player = Level.getInstance().getPlayer();
             if (player != null) {
                 player.stopJump();
             }
         }
 
-        return false;
+        return true;
     }
 }

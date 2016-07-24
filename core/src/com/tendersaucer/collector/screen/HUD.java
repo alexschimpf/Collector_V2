@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 import com.tendersaucer.collector.level.Level;
 
@@ -27,11 +28,17 @@ import com.tendersaucer.collector.level.Level;
 public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
     private static final HUD instance = new HUD();
+    private static final float BUTTON_ALPHA = 0.5f;
 
     private Stage stage;
     private InputListener inputListener;
     private Button nextButton;
     private Button replayButton;
+    private Button moveButton;
+    private Button jumpButton;
+    private Button interactButton;
+    private Integer movePointer;
+    private Skin skin;
 
     private HUD() {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -39,8 +46,13 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
 
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
         createLevelCompleteButtons();
         hideLevelCompleteButtons();
+
+        if (Globals.isDesktop()) {
+            createMobileButtons();
+        }
     }
 
     public static HUD getInstance() {
@@ -96,6 +108,13 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     }
 
     /**
+     * TODO: Do this in skin file...
+     */
+    private void createMobileButtons() {
+
+    }
+
+    /**
      * TODO: Do this in the skin file...
      */
     private void createLevelCompleteButtons() {
@@ -105,7 +124,6 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 
@@ -151,5 +169,107 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         stage.addActor(replayButton);
         stage.addActor(nextButton);
+    }	
+    
+    private void checkPressedButtons() {
+        if(movePointer == null || Globals.getGameState() != GameState.RUNNING) {
+            return;
+        }
+
+        float moveCenterX = moveButton.getX() + (moveButton.getWidth() / 2);
+        float x = Gdx.input.getX(movePointer);
+        Player player = Level.getInstance().getPlayer();
+        if(moveButton.isPressed()) {
+            if(x < moveCenterX) {
+                player.moveLeft();
+            } else {
+                player.moveRight();
+            }
+        } else {
+            player.stopHorizontalMove();
+        }
     }
+
+    private void buildMobileUI() {
+        createMoveButton();
+        createJumpButton();
+        createInteractButton();
+    }
+
+    private void createMoveButton() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        moveButton = new Button(skin);
+        moveButton.setColor(1, 1, 1, BUTTON_ALPHA);
+        moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
+        moveButton.setPosition(0, screenHeight / 32f);
+
+        moveButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    movePointer = pointer;
+                }
+
+                return true;
+            }
+        });
+
+        stage.addActor(moveButton);
+    }
+
+    private void createJumpButton() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        jumpButton = new Button(skin);
+        jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
+        jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
+        float buttonWidth = jumpButton.getWidth();
+
+        jumpButton.setPosition(screenWidth - (buttonWidth * 2.2f), screenHeight / 32f);
+
+        jumpButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    Level.getInstance().getPlayer().jump();
+                }
+
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    Level.getInstance().getPlayer().stopJump();
+                }
+            }
+        });
+
+        stage.addActor(jumpButton);
+    }
+
+    private void createInteractButton() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        interactButton = new Button(skin);
+        interactButton.setColor(1, 1, 1, BUTTON_ALPHA);
+        interactButton.setSize(screenWidth / 7f, screenHeight / 5f);
+        float buttonWidth = interactButton.getWidth();
+
+        interactButton.setPosition(screenWidth - (buttonWidth * 1.1f), screenHeight / 32f);
+        interactButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+
+        stage.addActor(interactButton);
+    }
+    
+    
 }
