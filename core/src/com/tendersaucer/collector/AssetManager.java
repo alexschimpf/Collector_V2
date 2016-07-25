@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 
-import java.nio.file.Paths;
-
 /**
  * Created by Alex on 5/5/2016.
  */
@@ -31,7 +29,12 @@ public final class AssetManager extends com.badlogic.gdx.assets.AssetManager {
     }
 
     public static String getFilePath(String first, String... more) {
-        return Paths.get(first, more).toString().replace("\\", "/");
+        StringBuilder path = new StringBuilder(first);
+        for (String p : more) {
+            path.append("/").append(p);
+        }
+
+        return path.toString();
     }
 
     public void load() {

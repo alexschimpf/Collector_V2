@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -27,12 +28,12 @@ public final class Player extends RenderedEntity {
 
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
-    public static final float MOVE_SPEED = 30;
-    public static final float JUMP_IMPULSE = -150;
+    public static final float MOVE_SPEED = 1800;
+    public static final float JUMP_IMPULSE = -160;
     public static final short COLLISION_MASK = 0x0002;
     private static final float JUMP_ANIMATION_DURATION = 400;
     private static final float MOVE_ANIMATION_DURATION = 200;
-    private static final float MAX_FALL_TILES = 9.5f; // won't have to worry about rounding
+    private static final float MAX_FALL_TILES = 15.5f; // won't have to worry about rounding
 
     private int numFootContacts;
     private Direction direction;
@@ -111,7 +112,8 @@ public final class Player extends RenderedEntity {
     public void jump() {
         if (!isJumping()) {
             //AssetManager.getInstance().getSound("jump").play();
-            body.applyLinearImpulse(0, JUMP_IMPULSE, getCenterX(), getCenterY(), true);
+            body.applyLinearImpulse(0, JUMP_IMPULSE, getCenterX(),
+                    getCenterY(), true);
 
             AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
             if (!animationSystem.isCurrent(JUMP_ANIMATION_ID)) {
@@ -148,7 +150,7 @@ public final class Player extends RenderedEntity {
     private void move(Direction direction) {
         setDirection(direction);
 
-        float vx = Player.MOVE_SPEED * (isFacingLeft() ? -1 : 1);
+        float vx = Gdx.graphics.getDeltaTime() * Player.MOVE_SPEED * (isFacingLeft() ? -1 : 1);
         setLinearVelocity(vx, getLinearVelocity().y);
 
         AnimatedSpriteSystem animationSystem = (AnimatedSpriteSystem)sprite;
@@ -196,7 +198,7 @@ public final class Player extends RenderedEntity {
     private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
         Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
-        shape.setAsBox(width / 2.1f, 0.12f, localBottom, 0);
+        shape.setAsBox(width / 2.2f, 0.1f, localBottom, 0);
         Fixture fixture = body.createFixture(shape, 0);
         fixture.setSensor(true);
 
@@ -235,16 +237,17 @@ public final class Player extends RenderedEntity {
 
     private FixtureDef createFixtureDef() {
         PolygonShape shape = new PolygonShape();
-        shape.set(new Vector2[]{
-                new Vector2(1.3f, -1.29f),
-                new Vector2(1f, -1.3f),
-                new Vector2(-1f, -1.3f),
-                new Vector2(-1.3f, -1.29f),
-                new Vector2(-1.3f, 1.29f),
-                new Vector2(-1f, 1.3f),
-                new Vector2(1f, 1.3f),
-                new Vector2(1.3f, 1.29f)
-        });
+//        shape.set(new Vector2[]{
+//                new Vector2(1.3f, -1.29f),
+//                new Vector2(1f, -1.3f),
+//                new Vector2(-1f, -1.3f),
+//                new Vector2(-1.3f, -1.29f),
+//                new Vector2(-1.3f, 1.29f),
+//                new Vector2(-1f, 1.3f),
+//                new Vector2(1f, 1.3f),
+//                new Vector2(1.3f, 1.29f)
+//        });
+        shape.setAsBox(getWidth() / 2.05f, getHeight() / 2.05f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
