@@ -53,7 +53,7 @@ public class TimerChainLink extends RenderedEntity implements IGameStateChangeLi
                 int currId = Integer.valueOf(getId().replace(ID_PREFIX, ""));
                 String nextId = ID_PREFIX + (currId + 1);
                 ((TimerChainLink)Level.getInstance().getEntity(nextId)).activate();
-            } else if (Globals.getGameState() == GameState.RUNNING) {
+            } else if (Globals.getGameState() == GameState.RUNNING){
                 Level.getInstance().replay();
             }
         }

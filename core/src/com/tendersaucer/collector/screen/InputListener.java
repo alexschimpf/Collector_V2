@@ -24,7 +24,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean update() {
         if (Globals.getGameState() != GameState.RUNNING) {
-            return true;
+            return false;
         }
 
         MainCamera camera = MainCamera.getInstance();
@@ -62,7 +62,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
     @Override
     public boolean keyDown(InputEvent event, int keyCode) {
         if (Globals.getGameState() == GameState.RUNNING) {
-            if (keyCode == Keys.SPACE) {
+            if (keyCode == Keys.A) {
                 Player player = Level.getInstance().getPlayer();
                 if (player != null) {
                     player.jump();
@@ -99,6 +99,10 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
             case Keys.SPACE:
                 break;
             default:
+                if (Globals.getGameState() != GameState.RUNNING) {
+                    Globals.setGameState(GameState.RUNNING);
+                }
+
                 return false;
         }
 
@@ -111,7 +115,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
             return false;
         }
 
-        if (keyCode == Keys.SPACE) {
+        if (keyCode == Keys.A) {
             Player player = Level.getInstance().getPlayer();
             if (player != null) {
                 player.stopJump();

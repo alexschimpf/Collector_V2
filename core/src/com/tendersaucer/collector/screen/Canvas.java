@@ -2,8 +2,6 @@ package com.tendersaucer.collector.screen;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.GameState;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.event.ILevelLoadBeginListener;
 import com.tendersaucer.collector.level.ILevelLoadable;
 
@@ -39,11 +37,6 @@ public final class Canvas implements IRender, ILevelLoadBeginListener {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        if (Globals.getGameState() == GameState.LEVEL_COMPLETE) {
-            HUD.getInstance().render(spriteBatch);
-            return;
-        }
-
         for (int i = 0; i < layers.size; i++) {
             LinkedHashMap<IRender, Boolean> layer = layers.get(i);
             for (IRender object : layer.keySet()) {

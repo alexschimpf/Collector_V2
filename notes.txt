@@ -1,7 +1,8 @@
 
 
 
-
+- can get rid of "getting caught between 2 adjacent bodies" problem by making the entities sensors,
+  with a free body surrounding them all
 
 - 1st level is semi-long, but there is a time limit
     - bottom of terrain is random and interesting

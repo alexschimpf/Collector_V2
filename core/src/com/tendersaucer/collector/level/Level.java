@@ -59,10 +59,6 @@ public final class Level implements IUpdate {
 
     @Override
     public boolean update() {
-        if (Globals.getGameState() != GameState.RUNNING) {
-            return false;
-        }
-
         physicsWorld.step(1 / 45.0f, 5, 5);
 
         Iterator<String> entityIdIter = entityMap.keySet().iterator();
@@ -113,7 +109,7 @@ public final class Level implements IUpdate {
         loadFreeBodies(loadable);
 
         EventManager.getInstance().notify(new LevelLoadEndEvent());
-        Globals.setGameState(GameState.RUNNING);
+        Globals.setGameState(GameState.WAIT_FOR_INPUT);
     }
 
     public void loadNext() {

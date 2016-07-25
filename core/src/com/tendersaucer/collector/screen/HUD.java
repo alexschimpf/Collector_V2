@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
@@ -32,11 +34,11 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
     private Stage stage;
     private InputListener inputListener;
-    private Button nextButton;
-    private Button replayButton;
+    private Image levelCompleteBackground;
+    private TextButton nextButton;
+    private TextButton replayButton;
     private Button moveButton;
     private Button jumpButton;
-    private Button interactButton;
     private Integer movePointer;
     private Skin skin;
 
@@ -48,9 +50,9 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         createLevelCompleteButtons();
-        hideLevelCompleteButtons();
+        hideLevelComplete();
 
-        if (Globals.isDesktop()) {
+        if (Globals.isAndroid() || Globals.isIOS()) {
             createMobileButtons();
         }
     }
@@ -69,7 +71,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         if (Globals.isDesktop()) {
             inputListener.update();
         } else {
-            // TODO
+            checkMobileButtons();
         }
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -81,7 +83,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     public void onGameStateChange(GameState oldEvent, GameState newEvent) {
         if (newEvent == GameState.LEVEL_COMPLETE) {
             Gdx.app.log("HUD", "Showing level completion dialog...");
-            showLevelCompleteButtons();
+            showLevelComplete();
         }
     }
 
@@ -93,25 +95,20 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         return inputListener;
     }
 
-    private void hideLevelCompleteButtons() {
+    private void hideLevelComplete() {
+        levelCompleteBackground.setVisible(false);
         nextButton.setDisabled(true);
         replayButton.setDisabled(true);
         nextButton.setVisible(false);
         replayButton.setVisible(false);
     }
 
-    private void showLevelCompleteButtons() {
+    private void showLevelComplete() {
+        levelCompleteBackground.setVisible(true);
         nextButton.setDisabled(false);
         replayButton.setDisabled(false);
         nextButton.setVisible(true);
         replayButton.setVisible(true);
-    }
-
-    /**
-     * TODO: Do this in skin file...
-     */
-    private void createMobileButtons() {
-
     }
 
     /**
@@ -124,6 +121,12 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
+
+        levelCompleteBackground = new Image(AssetManager.getInstance().getTextureRegion("default"));
+        levelCompleteBackground.setPosition(0, 0);
+        levelCompleteBackground.setSize(screenWidth, screenHeight);
+        levelCompleteBackground.setColor(0.2f, 0.2f, 0.2f, 0.8f);
+        stage.addActor(levelCompleteBackground);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
 
@@ -142,11 +145,19 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         nextButton.setStyle(nextButtonStyle);
         nextButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hideLevelCompleteButtons();
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                nextButton.getStyle().fontColor = Color.WHITE;
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                hideLevelComplete();
                 Level.getInstance().loadNext();
+                nextButton.getStyle().fontColor = Color.RED;
             }
         });
+        stage.addActor(nextButton);
 
         float replayButtonHeight = screenHeight * 0.4f;
         FreeTypeFontParameter replayParameter = new FreeTypeFontParameter();
@@ -161,17 +172,86 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         replayButton.setStyle(replayButtonStyle);
         replayButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hideLevelCompleteButtons();
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                replayButton.getStyle().fontColor = Color.WHITE;
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                replayButton.getStyle().fontColor = Color.BLACK;
+                hideLevelComplete();
                 Level.getInstance().replay();
             }
         });
-
         stage.addActor(replayButton);
-        stage.addActor(nextButton);
-    }	
-    
-    private void checkPressedButtons() {
+    }
+
+    private void createMobileButtons() {
+        createMobileMoveButton();
+        createMobileJumpButton();
+    }
+
+    private void createMobileMoveButton() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        moveButton = new Button(skin);
+        moveButton.setColor(1, 1, 1, BUTTON_ALPHA);
+        moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
+        moveButton.setPosition(0, screenHeight / 32f);
+
+        moveButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    movePointer = pointer;
+                } else if (Globals.getGameState() == GameState.WAIT_FOR_INPUT) {
+                    Globals.setGameState(GameState.RUNNING);
+                }
+
+                return true;
+            }
+        });
+
+        stage.addActor(moveButton);
+    }
+
+    private void createMobileJumpButton() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        jumpButton = new Button(skin);
+        jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
+        jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
+        float buttonWidth = jumpButton.getWidth();
+
+        jumpButton.setPosition(screenWidth - (buttonWidth * 2.2f), screenHeight / 32f);
+
+        jumpButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    Level.getInstance().getPlayer().jump();
+                } else if (Globals.getGameState() == GameState.WAIT_FOR_INPUT) {
+                    Globals.setGameState(GameState.RUNNING);
+                }
+
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if(Globals.getGameState() == GameState.RUNNING) {
+                    Level.getInstance().getPlayer().stopJump();
+                }
+            }
+        });
+
+        stage.addActor(jumpButton);
+    }
+
+    private void checkMobileButtons() {
         if(movePointer == null || Globals.getGameState() != GameState.RUNNING) {
             return;
         }
@@ -189,87 +269,4 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             player.stopHorizontalMove();
         }
     }
-
-    private void buildMobileUI() {
-        createMoveButton();
-        createJumpButton();
-        createInteractButton();
-    }
-
-    private void createMoveButton() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        moveButton = new Button(skin);
-        moveButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
-        moveButton.setPosition(0, screenHeight / 32f);
-
-        moveButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(Globals.getGameState() == GameState.RUNNING) {
-                    movePointer = pointer;
-                }
-
-                return true;
-            }
-        });
-
-        stage.addActor(moveButton);
-    }
-
-    private void createJumpButton() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        jumpButton = new Button(skin);
-        jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
-        float buttonWidth = jumpButton.getWidth();
-
-        jumpButton.setPosition(screenWidth - (buttonWidth * 2.2f), screenHeight / 32f);
-
-        jumpButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(Globals.getGameState() == GameState.RUNNING) {
-                    Level.getInstance().getPlayer().jump();
-                }
-
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if(Globals.getGameState() == GameState.RUNNING) {
-                    Level.getInstance().getPlayer().stopJump();
-                }
-            }
-        });
-
-        stage.addActor(jumpButton);
-    }
-
-    private void createInteractButton() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        interactButton = new Button(skin);
-        interactButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        interactButton.setSize(screenWidth / 7f, screenHeight / 5f);
-        float buttonWidth = interactButton.getWidth();
-
-        interactButton.setPosition(screenWidth - (buttonWidth * 1.1f), screenHeight / 32f);
-        interactButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-
-        stage.addActor(interactButton);
-    }
-    
-    
 }
