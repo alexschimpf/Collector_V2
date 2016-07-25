@@ -138,7 +138,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         nextParameter.spaceY = -nextParameter.size + (nextParameter.size / 2);
         TextButtonStyle nextButtonStyle = new TextButtonStyle();
         nextButtonStyle.font = generator.generateFont(nextParameter);
-        nextButtonStyle.fontColor = Color.RED;
+        nextButtonStyle.fontColor = Color.BLACK;
         nextButton = new TextButton("\nNEXT", skin);
         nextButton.setSize(screenWidth, nextButtonHeight);
         nextButton.setPosition(0, screenHeight - nextButtonHeight);
@@ -154,7 +154,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 hideLevelComplete();
                 Level.getInstance().loadNext();
-                nextButton.getStyle().fontColor = Color.RED;
+                nextButton.getStyle().fontColor = Color.BLACK;
             }
         });
         stage.addActor(nextButton);

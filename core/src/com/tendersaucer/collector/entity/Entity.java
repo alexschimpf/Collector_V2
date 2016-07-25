@@ -57,6 +57,7 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
         try {
             body = createBody(definition);
             body.setFixedRotation(definition.getBooleanProperty("fixed_rotation"));
+            body.setActive(definition.getBooleanProperty("is_body_active"));
             setAngle(MathUtils.degreesToRadians * definition.getFloatProperty("rotation"));
         } catch (Exception e) {
             Gdx.app.log("entity", "Error creating body for entity with id=" + id);

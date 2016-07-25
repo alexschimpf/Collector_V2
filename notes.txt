@@ -1,5 +1,6 @@
 
 
+- Level complete dialog should tell you how many times you died, and your average duration-before-death/complete
 
 - can get rid of "getting caught between 2 adjacent bodies" problem by making the entities sensors,
   with a free body surrounding them all

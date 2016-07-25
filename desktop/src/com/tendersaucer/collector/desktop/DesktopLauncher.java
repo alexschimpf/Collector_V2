@@ -1,6 +1,5 @@
 package com.tendersaucer.collector.desktop;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.tendersaucer.collector.Game;
@@ -21,7 +20,6 @@ public class DesktopLauncher {
         config.fullscreen = Globals.FULLSCREEN_MODE;
         config.resizable = false;
         config.title = "Collector";
-        config.addIcon("texture_atlas/textures/icon.png", Files.FileType.Internal);
 
         // TODO: How to get native resolution?
         if (Globals.FULLSCREEN_MODE) {

@@ -6,22 +6,23 @@
         "path_linear": "LinearPathParticleModifier"
     },
     "effects": {
-        "player_move": {
+        "level_complete": {
             "textures": ["default"],
+            "loop_delay": "5000",
             "ranges": {
-                "duration": [200, 350],
-                "num_particles": [1, 1],
-                "position_offset": [[0, 0], [0, 0]],
-                "angular_velocity": [0, 90],
+                "duration": [7500, 7500],
+                "num_particles": [300, 300],
+                "position_offset": [[-1.5, -1.5], [1.5, 1.5]],
+                "angular_velocity": [0, 60],
+                "color": [[0.1, 0.1, 0.1, 1], [0.9, 0.9, 0.9, 1]],
                 "velocity": {
-                    "range": [[2, -6], [4, -1]],
+                    "range": [[-12, -12], [12, 12]],
                     "splits": [0, 0]
                 }
             },
             "modifiers": {
                 "color_linear": {
-                    "start": [0.8, 0.8, 0.8, 1],
-                    "end": [0.4, 0.4, 0.4, 0]
+                    "end": [0, 0, 0, 0]
                 }
             }
         },
