@@ -45,7 +45,7 @@
                                 "optional": [
                                     { "name": "is_start", "default": "false" },
                                     { "name": "is_end", "default": "false" },
-                                    { "name": "delay", "default": "150" },
+                                    { "name": "delay", "default": "145" },
                                     { "name": "is_body_active", "default": "false" }
                                 ]
                             }

@@ -1,4 +1,9 @@
+Can only move forward. At the end, it starts back from the beginning.
+EXCEPT... it alternates the horizontal flipping each time
+AND... it gets a little more colorful each time (until every entity is colored)
+    - the percentage of colored entitiese increases each time, starting from 0, and ending (game over) at 1
 
+------------------
 
 - Level complete dialog should tell you how many times you died, and your average duration-before-death/complete
 

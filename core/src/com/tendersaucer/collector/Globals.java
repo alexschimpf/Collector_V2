@@ -12,6 +12,7 @@ import com.tendersaucer.collector.event.GameStateChangeEvent;
  */
 public final class Globals {
 
+    public static final int NUM_LEVELS = 2;
     public static boolean ENABLE_MUSIC = false;
     public static boolean FULLSCREEN_MODE = true;
     public static boolean DEBUG_PHYSICS = false;

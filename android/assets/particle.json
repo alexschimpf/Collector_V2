@@ -8,10 +8,10 @@
     "effects": {
         "level_complete": {
             "textures": ["default"],
-            "loop_delay": "5000",
+            "loop_delay": "2000",
             "ranges": {
-                "duration": [7500, 7500],
-                "num_particles": [300, 300],
+                "duration": [4000, 8000],
+                "num_particles": [190, 210],
                 "position_offset": [[-1.5, -1.5], [1.5, 1.5]],
                 "angular_velocity": [0, 60],
                 "color": [[0.1, 0.1, 0.1, 1], [0.9, 0.9, 0.9, 1]],

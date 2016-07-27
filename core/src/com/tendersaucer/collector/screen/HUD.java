@@ -198,8 +198,8 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         moveButton = new Button(skin);
         moveButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        moveButton.setSize(screenWidth / 2.75f, screenHeight / 5f);
-        moveButton.setPosition(0, screenHeight / 32f);
+        moveButton.setSize(screenWidth / 3f, screenHeight / 5f);
+        moveButton.setPosition(screenWidth / 32, screenHeight / 32f);
         moveButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -223,10 +223,9 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         jumpButton = new Button(skin);
         jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        jumpButton.setSize(screenWidth / 7f, screenHeight / 5f);
+        jumpButton.setSize(screenWidth / 6f, screenHeight / 5f);
         float buttonWidth = jumpButton.getWidth();
-
-        jumpButton.setPosition(screenWidth - (buttonWidth * 2.2f), screenHeight / 32f);
+        jumpButton.setPosition(((31.0f / 32.0f) * screenWidth) - buttonWidth, screenHeight / 32f);
         jumpButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

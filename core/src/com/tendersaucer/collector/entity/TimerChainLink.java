@@ -70,7 +70,7 @@ public class TimerChainLink extends RenderedEntity implements IGameStateChangeLi
 
     private void activate() {
         activatedStartTime = TimeUtils.millis();
-        sprite.setColor(1, 0, 0, 1);
+        sprite.setColor(0, 0, 0, 1);
     }
 
     private void deactivate() {
