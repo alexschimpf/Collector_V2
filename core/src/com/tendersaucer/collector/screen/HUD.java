@@ -131,6 +131,13 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         levelSummaryLabel.setText("");
         levelSummaryLabel.setVisible(false);
+
+        if (!Globals.isDesktop() && moveButton != null && jumpButton != null) {
+            moveButton.setDisabled(false);
+            moveButton.setVisible(true);
+            jumpButton.setDisabled(false);
+            jumpButton.setVisible(true);
+        }
     }
 
     private void showLevelComplete() {
@@ -141,6 +148,13 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         long duration = StatisticsListener.getInstance().getTotalTime();
         levelSummaryLabel.setText("You spent " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds doing that...");
         levelSummaryLabel.setVisible(true);
+
+        if (!Globals.isDesktop() && moveButton != null && jumpButton != null) {
+            moveButton.setDisabled(true);
+            moveButton.setVisible(false);
+            jumpButton.setDisabled(true);
+            jumpButton.setVisible(false);
+        }
     }
 
     private void createProgressLabel() {
