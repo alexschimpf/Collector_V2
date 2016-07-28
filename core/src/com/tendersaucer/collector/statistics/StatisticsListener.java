@@ -1,29 +1,28 @@
-package com.tendersaucer.collector.harvester;
+package com.tendersaucer.collector.statistics;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import com.tendersaucer.collector.GameState;
-import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.*;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 
 /**
  * Created by Alex on 7/27/2016.
  */
-public final class Harvester implements IGameStateChangeListener {
+public final class StatisticsListener implements IGameStateChangeListener {
 
-    private static final String ITERATION_ID_FIELD = "iteration_id";
-    private static final String LEVEL_ID_FIELD = "level_id";
-    private static final String NUM_RUNS_FIELD = "num_runs";
-    private static final String TOTAL_TIME_FIELD = "total_time";
-    private static final Harvester instance = new Harvester();
+    private static final String ITERATION_ID_KEY = "iteration_id";
+    private static final String LEVEL_ID_KEY = "level_id";
+    private static final String NUM_RUNS_KEY = "num_runs";
+    private static final String TOTAL_TIME_KEY = "total_time";
+    private static final StatisticsListener instance = new StatisticsListener();
 
     private Long runStartTime;
-    private HarvesterDao dao;
+    private StatisticsDAO dao;
 
-    private Harvester() {
-        dao = HarvesterDao.getInstance();
+    private StatisticsListener() {
+        dao = StatisticsDAO.getInstance();
     }
 
-    public static Harvester getInstance() {
+    public static StatisticsListener getInstance() {
         return instance;
     }
 
@@ -34,38 +33,38 @@ public final class Harvester implements IGameStateChangeListener {
         }
         if (isRunEnd(oldEvent, newEvent)) {
             if (runStartTime != null) {
-                dao.increment(NUM_RUNS_FIELD);
+                dao.increment(NUM_RUNS_KEY);
 
                 long duration = TimeUtils.timeSinceMillis(runStartTime);
-                dao.add(TOTAL_TIME_FIELD, duration);
+                dao.add(TOTAL_TIME_KEY, duration);
                 runStartTime = null;
             }
         }
         if (isLevelEnd(newEvent)) {
-            dao.increment(LEVEL_ID_FIELD);
+            dao.increment(LEVEL_ID_KEY);
 
-            long levelId = dao.getLong(LEVEL_ID_FIELD);
+            long levelId = dao.getLong(LEVEL_ID_KEY);
             if (levelId >= Globals.NUM_LEVELS) {
-                dao.reset(LEVEL_ID_FIELD);
-                dao.increment(ITERATION_ID_FIELD);
+                dao.reset(LEVEL_ID_KEY);
+                dao.increment(ITERATION_ID_KEY);
             }
         }
     }
 
     public long getIterationId() {
-        return dao.getLong(ITERATION_ID_FIELD);
+        return dao.getLong(ITERATION_ID_KEY);
     }
 
     public long getLevelId() {
-        return dao.getLong(LEVEL_ID_FIELD);
+        return dao.getLong(LEVEL_ID_KEY);
     }
 
     public long getNumRuns() {
-        return dao.getLong(NUM_RUNS_FIELD);
+        return dao.getLong(NUM_RUNS_KEY);
     }
 
     public long getTotalTime() {
-        return dao.getLong(TOTAL_TIME_FIELD);
+        return dao.getLong(TOTAL_TIME_KEY);
     }
 
     private boolean isRunBegin(GameState newEvent) {

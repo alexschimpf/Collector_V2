@@ -19,6 +19,7 @@ import com.tendersaucer.collector.event.LevelLoadEndEvent;
 import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
+import com.tendersaucer.collector.statistics.StatisticsListener;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -78,7 +79,9 @@ public final class Level implements IUpdate {
         return false;
     }
 
-    public void load(int levelId) {
+    // TODO: Flip every other iteration
+    // TODO: More color after each iteration
+    public void load(long iterationId, int levelId) {
         try {
             // Seems to be preventing concurrency issue.
             TimeUnit.MILLISECONDS.sleep(5);
@@ -113,11 +116,16 @@ public final class Level implements IUpdate {
     }
 
     public void loadNext() {
-        load(id + 1);
+        long iterationId = StatisticsListener.getInstance().getIterationId();
+        int nextLevelId = (id + 1) % (Globals.NUM_LEVELS - 1);
+        if (nextLevelId == 0) {
+            iterationId++;
+        }
+        load(iterationId, nextLevelId);
     }
 
     public void replay() {
-        load(id);
+        load(StatisticsListener.getInstance().getIterationId(), id);
     }
 
     public World getPhysicsWorld() {

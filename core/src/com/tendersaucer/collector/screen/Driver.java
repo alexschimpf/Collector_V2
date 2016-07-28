@@ -13,7 +13,7 @@ import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.GameStateChangeEvent;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
-import com.tendersaucer.collector.harvester.Harvester;
+import com.tendersaucer.collector.statistics.StatisticsListener;
 import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
@@ -50,9 +50,12 @@ public final class Driver implements Screen {
         eventManager.listen(LevelLoadBeginEvent.class, Canvas.getInstance());
         eventManager.listen(LevelLoadBeginEvent.class, ParticleEffectManager.getInstance());
         eventManager.listen(GameStateChangeEvent.class, HUD.getInstance());
-        eventManager.listen(GameStateChangeEvent.class, Harvester.getInstance());
+        eventManager.listen(GameStateChangeEvent.class, StatisticsListener.getInstance());
 
-        Level.getInstance().load(0);
+        StatisticsListener staisticsListener = StatisticsListener.getInstance();
+        int iterationId = (int)staisticsListener.getIterationId();
+        int levelId = (int)staisticsListener.getLevelId();
+        Level.getInstance().load(iterationId, levelId);
     }
 
     @Override

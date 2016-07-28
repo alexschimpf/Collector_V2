@@ -1,4 +1,4 @@
-package com.tendersaucer.collector.harvester;
+package com.tendersaucer.collector.statistics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -6,24 +6,24 @@ import com.badlogic.gdx.Preferences;
 import java.util.Map;
 
 /**
- * Super inefficient by easy-to-use DAO for Harvester
+ * Inefficient but easy-to-use DAO for StatisticsListener
  *
  * Created by Alex on 7/27/2016.
  */
-public final class HarvesterDao {
+public final class StatisticsDAO {
 
-    private static final String PREFS_FILE_NAME = "Collector";
-    private static final HarvesterDao instance =  new HarvesterDao();
+    private static final String PREFERENCES_NAME = "Collector";
+    private static final StatisticsDAO instance = new StatisticsDAO();
 
     private Map<String, ?> preferencesMap;
     private Preferences preferences;
 
-    private HarvesterDao() {
-        preferences = Gdx.app.getPreferences(PREFS_FILE_NAME);
+    private StatisticsDAO() {
+        preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
         loadFromPreferences();
     }
 
-    public static HarvesterDao getInstance() {
+    public static StatisticsDAO getInstance() {
         return instance;
     }
 
@@ -32,10 +32,13 @@ public final class HarvesterDao {
             return 0;
         }
 
-        return (Long)preferencesMap.get(key);
+        return Long.parseLong(preferencesMap.get(key).toString());
     }
 
-    // Always use long over int!
+    public void increment(String key) {
+        add(key, 1);
+    }
+
     public void add(String key, long amount) {
         if (preferences.contains(key)) {
             long curr = preferences.getLong(key);
@@ -44,11 +47,7 @@ public final class HarvesterDao {
             preferences.putLong(key, amount);
         }
 
-        persistToPreferences();
-    }
-
-    public void increment(String key) {
-        add(key, 1);
+        preferences.flush();
     }
 
     public void reset(String key) {
@@ -56,14 +55,10 @@ public final class HarvesterDao {
             preferences.remove(key);
         }
 
-        persistToPreferences();
+        preferences.flush();
     }
 
     private void loadFromPreferences() {
         preferencesMap = preferences.get();
-    }
-
-    private void persistToPreferences() {
-        preferences.put(preferencesMap);
     }
 }
