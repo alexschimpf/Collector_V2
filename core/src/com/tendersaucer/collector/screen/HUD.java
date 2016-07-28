@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -21,6 +23,9 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 import com.tendersaucer.collector.level.Level;
+import com.tendersaucer.collector.statistics.StatisticsListener;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Game heads up display
@@ -35,11 +40,13 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     private Stage stage;
     private InputListener inputListener;
     private Image levelCompleteBackground;
+    private Label levelSummaryLabel;
     private TextButton nextButton;
-    private TextButton replayButton;
+    private Label progressLabel;
     private Button moveButton;
     private Button jumpButton;
     private Integer movePointer;
+    private FreeTypeFontGenerator fontGenerator;
     private Skin skin;
 
     private HUD() {
@@ -48,7 +55,10 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
 
+        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        createProgressLabel();
         createLevelCompleteUI();
         hideLevelComplete();
 
@@ -74,6 +84,18 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             checkMobileButtons();
         }
 
+        StatisticsListener statisticsListener = StatisticsListener.getInstance();
+        long iterationId = statisticsListener.getIterationId();
+        long levelId = statisticsListener.getLevelId();
+        long runId = statisticsListener.getRunId();
+        progressLabel.setText(iterationId + "." + levelId + "." + runId);
+
+        float labelHeight = progressLabel.getPrefHeight();
+        float screenHeight = Gdx.graphics.getHeight();
+        float margin = screenHeight / 50;
+        progressLabel.setPosition(margin, screenHeight - (labelHeight / 2) - margin);
+        levelSummaryLabel.setPosition(margin, margin + (labelHeight / 2));
+
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 
         return false;
@@ -82,8 +104,15 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     @Override
     public void onGameStateChange(GameState oldEvent, GameState newEvent) {
         if (newEvent == GameState.LEVEL_COMPLETE) {
-            Gdx.app.log("HUD", "Showing level completion dialog...");
-            showLevelComplete();
+            Gdx.app.debug("HUD", "Showing level completion dialog...");
+
+            // TODO: Hacky way to ensure statistics have been updated first.
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    showLevelComplete();
+                }
+            });
         }
     }
 
@@ -98,17 +127,33 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     private void hideLevelComplete() {
         levelCompleteBackground.setVisible(false);
         nextButton.setDisabled(true);
-        replayButton.setDisabled(true);
         nextButton.setVisible(false);
-        replayButton.setVisible(false);
+
+        levelSummaryLabel.setText("");
+        levelSummaryLabel.setVisible(false);
     }
 
     private void showLevelComplete() {
         levelCompleteBackground.setVisible(true);
         nextButton.setDisabled(false);
-        replayButton.setDisabled(false);
         nextButton.setVisible(true);
-        replayButton.setVisible(true);
+
+        long duration = StatisticsListener.getInstance().getTotalTime();
+        levelSummaryLabel.setText("You spent " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds doing that...");
+        levelSummaryLabel.setVisible(true);
+    }
+
+    private void createProgressLabel() {
+        progressLabel = new Label("", skin);
+
+        FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
+        fontParameter.size = Gdx.graphics.getWidth() / 30;
+        LabelStyle style = new LabelStyle();
+        style.font = fontGenerator.generateFont(fontParameter);
+        style.fontColor = Color.BLACK;
+        progressLabel.setStyle(style);
+
+        stage.addActor(progressLabel);
     }
 
     /**
@@ -121,27 +166,23 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-
         levelCompleteBackground = new Image(AssetManager.getInstance().getTextureRegion("default"));
         levelCompleteBackground.setPosition(0, 0);
         levelCompleteBackground.setSize(screenWidth, screenHeight);
         levelCompleteBackground.setColor(0.7f, 0.7f, 0.7f, 0.8f);
         stage.addActor(levelCompleteBackground);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
-
-        float nextButtonHeight = screenHeight * 0.6f;
+        float nextButtonHeight = screenWidth / 4;
         FreeTypeFontParameter nextParameter = new FreeTypeFontParameter();
-        nextParameter.size = (int)(screenWidth / 4);
+        nextParameter.size = (int)nextButtonHeight;
         nextParameter.borderWidth = nextParameter.size / 50;
         nextParameter.spaceX = (int)screenWidth / 100;
-        nextParameter.spaceY = -nextParameter.size + (nextParameter.size / 2);
         TextButtonStyle nextButtonStyle = new TextButtonStyle();
-        nextButtonStyle.font = generator.generateFont(nextParameter);
+        nextButtonStyle.font = fontGenerator.generateFont(nextParameter);
         nextButtonStyle.fontColor = Color.BLACK;
         nextButton = new TextButton("\nNEXT", skin);
         nextButton.setSize(screenWidth, nextButtonHeight);
-        nextButton.setPosition(0, screenHeight - nextButtonHeight);
+        nextButton.setPosition(0, screenHeight / 2);
         nextButton.setStyle(nextButtonStyle);
         nextButton.addListener(new ClickListener() {
             @Override
@@ -153,38 +194,24 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 hideLevelComplete();
-                Level.getInstance().loadNext();
                 nextButton.getStyle().fontColor = Color.BLACK;
+
+                StatisticsListener statisticsListener = StatisticsListener.getInstance();
+                long iterationId = statisticsListener.getIterationId();
+                int levelId = (int)statisticsListener.getLevelId();
+                Level.getInstance().load(iterationId, levelId);
             }
         });
         stage.addActor(nextButton);
 
-        float replayButtonHeight = screenHeight * 0.4f;
-        FreeTypeFontParameter replayParameter = new FreeTypeFontParameter();
-        replayParameter.size = (int)(screenWidth / 20);
-        replayParameter.spaceX = (int)screenWidth / 100;
-        TextButtonStyle replayButtonStyle = new TextButtonStyle();
-        replayButtonStyle.font = generator.generateFont(replayParameter);
-        replayButtonStyle.fontColor = Color.BLACK;
-        replayButton = new TextButton("REPLAY", skin);
-        replayButton.setSize(screenWidth, replayButtonHeight);
-        replayButton.setPosition(0, 0);
-        replayButton.setStyle(replayButtonStyle);
-        replayButton.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                replayButton.getStyle().fontColor = Color.WHITE;
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                replayButton.getStyle().fontColor = Color.BLACK;
-                hideLevelComplete();
-                Level.getInstance().replay();
-            }
-        });
-        stage.addActor(replayButton);
+        FreeTypeFontParameter fontParameter = new FreeTypeFontParameter();
+        fontParameter.size = Gdx.graphics.getWidth() / 30;
+        LabelStyle style = new LabelStyle();
+        style.font = fontGenerator.generateFont(fontParameter);
+        style.fontColor = Color.BLACK;
+        levelSummaryLabel = new Label("", skin);
+        levelSummaryLabel.setStyle(style);
+        stage.addActor(levelSummaryLabel);
     }
 
     private void createMobileButtons() {

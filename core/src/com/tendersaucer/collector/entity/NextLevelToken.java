@@ -34,7 +34,7 @@ public class NextLevelToken extends RenderedEntity {
         if (!obtained && Entity.isPlayer(entity)) {
             obtained = true;
 
-            Gdx.app.log("NextLevelToken", "Next level token obtained...");
+            Gdx.app.debug("NextLevelToken", "Next level token obtained...");
             setDone();
             Level.getInstance().getPlayer().setDone();
             beginParticleEffect();

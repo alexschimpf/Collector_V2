@@ -2,6 +2,7 @@ package com.tendersaucer.collector.statistics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.tendersaucer.collector.Globals;
 
 import java.util.Map;
 
@@ -15,12 +16,16 @@ public final class StatisticsDAO {
     private static final String PREFERENCES_NAME = "Collector";
     private static final StatisticsDAO instance = new StatisticsDAO();
 
-    private Map<String, ?> preferencesMap;
+    private Map<String, ?> preferencesCache;
     private Preferences preferences;
 
     private StatisticsDAO() {
         preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
         loadFromPreferences();
+
+        if (Globals.CLEAR_PREFERENCES) {
+            clear();
+        }
     }
 
     public static StatisticsDAO getInstance() {
@@ -28,11 +33,11 @@ public final class StatisticsDAO {
     }
 
     public long getLong(String key) {
-        if (!preferencesMap.containsKey(key)) {
+        if (!preferencesCache.containsKey(key)) {
             return 0;
         }
 
-        return Long.parseLong(preferencesMap.get(key).toString());
+        return Long.parseLong(preferencesCache.get(key).toString());
     }
 
     public void increment(String key) {
@@ -40,6 +45,7 @@ public final class StatisticsDAO {
     }
 
     public void add(String key, long amount) {
+        Gdx.app.debug("StatisticsDAO", "Adding " + amount + " to " + key);
         if (preferences.contains(key)) {
             long curr = preferences.getLong(key);
             preferences.putLong(key, curr + amount);
@@ -48,17 +54,26 @@ public final class StatisticsDAO {
         }
 
         preferences.flush();
+        loadFromPreferences();
     }
 
     public void reset(String key) {
+        Gdx.app.debug("StatisticsDAO", "Resetting " + key);
         if (preferences.contains(key)) {
             preferences.remove(key);
         }
 
         preferences.flush();
+        loadFromPreferences();
+    }
+
+    private void clear() {
+        preferences.clear();
+        preferences.flush();
+        preferencesCache.clear();
     }
 
     private void loadFromPreferences() {
-        preferencesMap = preferences.get();
+        preferencesCache = preferences.get();
     }
 }

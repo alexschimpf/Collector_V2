@@ -115,15 +115,6 @@ public final class Level implements IUpdate {
         Globals.setGameState(GameState.WAIT_FOR_INPUT);
     }
 
-    public void loadNext() {
-        long iterationId = StatisticsListener.getInstance().getIterationId();
-        int nextLevelId = (id + 1) % (Globals.NUM_LEVELS - 1);
-        if (nextLevelId == 0) {
-            iterationId++;
-        }
-        load(iterationId, nextLevelId);
-    }
-
     public void replay() {
         load(StatisticsListener.getInstance().getIterationId(), id);
     }
