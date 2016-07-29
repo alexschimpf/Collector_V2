@@ -14,6 +14,10 @@ import java.util.Map;
 public final class StatisticsDAO {
 
     private static final String PREFERENCES_NAME = "Collector";
+    public static final String ITERATION_ID_KEY = "iteration_id";
+    public static final String LEVEL_ID_KEY = "level_id";
+    public static final String RUN_ID_KEY = "run_id";
+    public static final String TOTAL_TIME_KEY = "total_time";
     private static final StatisticsDAO instance = new StatisticsDAO();
 
     private Map<String, ?> preferencesCache;
@@ -30,6 +34,22 @@ public final class StatisticsDAO {
 
     public static StatisticsDAO getInstance() {
         return instance;
+    }
+
+    public long getIterationId() {
+        return getLong(ITERATION_ID_KEY);
+    }
+
+    public long getLevelId() {
+        return getLong(LEVEL_ID_KEY);
+    }
+
+    public long getRunId() {
+        return getLong(RUN_ID_KEY);
+    }
+
+    public long getTotalTime() {
+        return getLong(TOTAL_TIME_KEY);
     }
 
     public long getLong(String key) {

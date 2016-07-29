@@ -23,7 +23,7 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.statistics.StatisticsListener;
+import com.tendersaucer.collector.statistics.StatisticsDAO;
 
 import java.util.concurrent.TimeUnit;
 
@@ -84,10 +84,10 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             checkMobileButtons();
         }
 
-        StatisticsListener statisticsListener = StatisticsListener.getInstance();
-        long iterationId = statisticsListener.getIterationId();
-        long levelId = statisticsListener.getLevelId();
-        long runId = statisticsListener.getRunId();
+        StatisticsDAO statisticsDAO = StatisticsDAO.getInstance();
+        long iterationId = statisticsDAO.getIterationId();
+        long levelId = statisticsDAO.getLevelId();
+        long runId = statisticsDAO.getRunId();
         progressLabel.setText(iterationId + "." + levelId + "." + runId);
 
         float labelHeight = progressLabel.getPrefHeight();
@@ -145,7 +145,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         nextButton.setDisabled(false);
         nextButton.setVisible(true);
 
-        long duration = StatisticsListener.getInstance().getTotalTime();
+        long duration = StatisticsDAO.getInstance().getTotalTime();
         levelSummaryLabel.setText("You spent " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds doing that...");
         levelSummaryLabel.setVisible(true);
 
@@ -210,9 +210,9 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
                 hideLevelComplete();
                 nextButton.getStyle().fontColor = Color.BLACK;
 
-                StatisticsListener statisticsListener = StatisticsListener.getInstance();
-                long iterationId = statisticsListener.getIterationId();
-                int levelId = (int)statisticsListener.getLevelId();
+                StatisticsDAO statisticsDAO = StatisticsDAO.getInstance();
+                long iterationId = statisticsDAO.getIterationId();
+                int levelId = (int)statisticsDAO.getLevelId();
                 Level.getInstance().load(iterationId, levelId);
             }
         });

@@ -19,7 +19,7 @@ import com.tendersaucer.collector.event.LevelLoadEndEvent;
 import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
-import com.tendersaucer.collector.statistics.StatisticsListener;
+import com.tendersaucer.collector.statistics.StatisticsDAO;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -116,7 +116,7 @@ public final class Level implements IUpdate {
     }
 
     public void replay() {
-        load(StatisticsListener.getInstance().getIterationId(), id);
+        load(StatisticsDAO.getInstance().getIterationId(), id);
     }
 
     public World getPhysicsWorld() {

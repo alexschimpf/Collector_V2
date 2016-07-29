@@ -9,10 +9,6 @@ import com.tendersaucer.collector.event.IGameStateChangeListener;
  */
 public final class StatisticsListener implements IGameStateChangeListener {
 
-    private static final String ITERATION_ID_KEY = "iteration_id";
-    private static final String LEVEL_ID_KEY = "level_id";
-    private static final String RUN_ID_KEY = "run_id";
-    private static final String TOTAL_TIME_KEY = "total_time";
     private static final StatisticsListener instance = new StatisticsListener();
 
     private Long runStartTime;
@@ -31,42 +27,26 @@ public final class StatisticsListener implements IGameStateChangeListener {
         if (isRunBegin(newEvent)) {
             runStartTime = TimeUtils.millis();
         }
-        if (isRunEnd(oldEvent, newEvent)) {
-            if (runStartTime != null) {
-                dao.increment(RUN_ID_KEY);
-
-                long duration = TimeUtils.timeSinceMillis(runStartTime);
-                dao.add(TOTAL_TIME_KEY, duration);
-                runStartTime = null;
+        if (isRunEnd(oldEvent, newEvent) && runStartTime != null) {
+            if (!isLevelEnd(newEvent)) {
+                dao.increment(StatisticsDAO.RUN_ID_KEY);
             }
-        }
-        if (isLevelEnd(newEvent)) {
-            dao.reset(RUN_ID_KEY);
 
-            long levelId = dao.getLong(LEVEL_ID_KEY);
+            long duration = TimeUtils.timeSinceMillis(runStartTime);
+            dao.add(StatisticsDAO.TOTAL_TIME_KEY, duration);
+            runStartTime = null;
+        }
+        if (isLevelFirstRun(oldEvent, newEvent)) {
+            dao.reset(StatisticsDAO.RUN_ID_KEY);
+            dao.reset(StatisticsDAO.TOTAL_TIME_KEY);
+            long levelId = dao.getLong(StatisticsDAO.LEVEL_ID_KEY);
             if (levelId >= Globals.NUM_LEVELS - 1) {
-                dao.reset(LEVEL_ID_KEY);
-                dao.increment(ITERATION_ID_KEY);
+                dao.reset(StatisticsDAO.LEVEL_ID_KEY);
+                dao.increment(StatisticsDAO.ITERATION_ID_KEY);
             } else {
-                dao.increment(LEVEL_ID_KEY);
+                dao.increment(StatisticsDAO.LEVEL_ID_KEY);
             }
         }
-    }
-
-    public long getIterationId() {
-        return dao.getLong(ITERATION_ID_KEY);
-    }
-
-    public long getLevelId() {
-        return dao.getLong(LEVEL_ID_KEY);
-    }
-
-    public long getRunId() {
-        return dao.getLong(RUN_ID_KEY);
-    }
-
-    public long getTotalTime() {
-        return dao.getLong(TOTAL_TIME_KEY);
     }
 
     private boolean isRunBegin(GameState newEvent) {
@@ -76,6 +56,10 @@ public final class StatisticsListener implements IGameStateChangeListener {
     private boolean isRunEnd(GameState oldEvent, GameState newEvent) {
         return (oldEvent == GameState.RUNNING && newEvent == GameState.WAIT_FOR_INPUT) ||
                 isLevelEnd(newEvent);
+    }
+
+    private boolean isLevelFirstRun(GameState oldEvent, GameState newEvent) {
+        return oldEvent == GameState.LEVEL_COMPLETE && newEvent == GameState.WAIT_FOR_INPUT;
     }
 
     private boolean isLevelEnd(GameState newEvent) {
