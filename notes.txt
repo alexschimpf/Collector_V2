@@ -1,7 +1,6 @@
 - flips horizontally every other iteration
 - gets more colorful every other iteration
 - handling paused state
-- get rid of factories and put the build function inside the target object's class
 
 ------------------
 

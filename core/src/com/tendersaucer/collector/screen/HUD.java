@@ -16,10 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tendersaucer.collector.AssetManager;
-import com.tendersaucer.collector.GameState;
-import com.tendersaucer.collector.Globals;
-import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.*;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 import com.tendersaucer.collector.level.Level;
@@ -38,7 +35,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     private static final float BUTTON_ALPHA = 0.5f;
 
     private Stage stage;
-    private InputListener inputListener;
+    private com.tendersaucer.collector.InputListener inputListener;
     private Image levelCompleteBackground;
     private Label levelSummaryLabel;
     private TextButton nextButton;
@@ -51,7 +48,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
     private HUD() {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        inputListener = new InputListener();
+        inputListener = new com.tendersaucer.collector.InputListener();
         stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
 
@@ -120,7 +117,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         stage.getViewport().update(width, height);
     }
 
-    public InputListener getInputListener() {
+    public com.tendersaucer.collector.InputListener getInputListener() {
         return inputListener;
     }
 

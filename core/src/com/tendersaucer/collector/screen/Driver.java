@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.AssetManager;
 import com.tendersaucer.collector.Globals;
+import com.tendersaucer.collector.LifecycleListener;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.GameStateChangeEvent;
@@ -44,6 +45,8 @@ public final class Driver implements Screen {
 
     @Override
     public void show() {
+        Gdx.app.addLifecycleListener(new LifecycleListener());
+
         AssetManager.getInstance().load();
         ParticleEffectManager.getInstance().loadDefinitions();
 
