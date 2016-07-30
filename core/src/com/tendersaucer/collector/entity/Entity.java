@@ -16,6 +16,7 @@ import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.util.BodyData;
 import com.tendersaucer.collector.util.Vector2Pool;
 
+import java.lang.reflect.Constructor;
 import java.util.UUID;
 
 /**
@@ -24,6 +25,8 @@ import java.util.UUID;
  * Created by Alex on 4/8/2016.
  */
 public abstract class Entity implements IUpdate, ICollide, IDisposable {
+
+    private static final String ENTITIES_CLASS_PATH = "com.tendersaucer.collector.entity.";
 
     public enum State {
         ACTIVE, INACTIVE, DONE
@@ -63,6 +66,24 @@ public abstract class Entity implements IUpdate, ICollide, IDisposable {
             Gdx.app.log("entity", "Error creating body for entity with id=" + id);
             Gdx.app.log("entity", e.toString());
         }
+    }
+
+    public static Entity build(EntityDefinition entityDef) {
+        Entity entity = null;
+        try {
+            String entityType = entityDef.getType();
+            String className = ENTITIES_CLASS_PATH + EntityConfig.getInstance().getClassName(entityType);
+            Class<?> c = Class.forName(className);
+            Constructor<?> constructor = c.getConstructor(EntityDefinition.class);
+            entity = (Entity)constructor.newInstance(entityDef);
+            entity.init();
+        } catch (Exception e) {
+            String entityInfo = "type=" + entityDef.getType() + ", id=" + entityDef.getId();
+            Gdx.app.log("entity", "Error building entity (" + entityInfo + ")");
+            Gdx.app.log("entity", e.toString());
+        }
+
+        return entity;
     }
 
     public static boolean isPlayer(Entity entity) {

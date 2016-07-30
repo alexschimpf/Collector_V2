@@ -10,7 +10,6 @@ import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
-import com.tendersaucer.collector.entity.EntityFactory;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.entity.RenderedEntity;
 import com.tendersaucer.collector.event.EventManager;
@@ -174,7 +173,7 @@ public final class Level implements IUpdate {
                 throw new InvalidConfigException("Duplicate entity id: " + id);
             }
 
-            Entity entity = EntityFactory.buildEntity(entityDefinition);
+            Entity entity = Entity.build(entityDefinition);
             if (Entity.isPlayer(entity)) {
                 player = (Player)entity;
             }

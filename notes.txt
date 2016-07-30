@@ -1,7 +1,7 @@
-Can only move forward. At the end, it starts back from the beginning.
-EXCEPT... it alternates the horizontal flipping each time
-AND... it gets a little more colorful each time (until every entity is colored)
-    - the percentage of colored entitiese increases each time, starting from 0, and ending (game over) at 1
+- flips horizontally every other iteration
+- gets more colorful every other iteration
+- handling paused state
+- get rid of factories and put the build function inside the target object's class
 
 ------------------
 

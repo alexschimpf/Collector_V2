@@ -87,7 +87,7 @@ public final class StatisticsDAO {
         loadFromPreferences();
     }
 
-    private void clear() {
+    public void clear() {
         preferences.clear();
         preferences.flush();
         preferencesCache.clear();

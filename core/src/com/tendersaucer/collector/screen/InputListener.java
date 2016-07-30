@@ -9,7 +9,7 @@ import com.tendersaucer.collector.IUpdate;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.particle.ParticleEffectManager;
+import com.tendersaucer.collector.statistics.StatisticsDAO;
 
 /**
  * Game input listener
@@ -84,7 +84,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 Globals.DEBUG_PHYSICS = !Globals.DEBUG_PHYSICS;
                 break;
             case Keys.C:
-                ParticleEffectManager.getInstance().clearLiveEffects();
+                StatisticsDAO.getInstance().clear();
                 break;
             case Keys.M:
                 Globals.ENABLE_MUSIC = !Globals.ENABLE_MUSIC;
