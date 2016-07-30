@@ -5,5 +5,5 @@ package com.tendersaucer.collector;
  */
 public enum GameState {
 
-    WAIT_FOR_INPUT, RUNNING, PAUSED, LEVEL_COMPLETE
+    WAIT_FOR_INPUT, RUNNING, PAUSED, LEVEL_COMPLETE, DISPOSE
 }
