@@ -23,7 +23,6 @@ import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.ConversionUtils;
-import com.tendersaucer.collector.util.Debug;
 import com.tendersaucer.collector.util.Vector2Pool;
 
 /**
@@ -93,7 +92,10 @@ public class ParticleEffectViewer implements Screen {
 
     private void render() {
         if (Globals.PRINT_DEBUG_INFO) {
-            Debug.printDebugInfo();
+            Gdx.app.debug("debug", "FPS: " + Gdx.graphics.getFramesPerSecond());
+            Gdx.app.debug("debug", "V2Pool #Free: " + Vector2Pool.getInstance().getFree());
+            Gdx.app.debug("debug", "V3Pool #Free: " + Vector2Pool.getInstance().getFree());
+            Gdx.app.debug("debug", "Heap size (MB): " + Gdx.app.getJavaHeap() / 1000000.0f);
         }
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
