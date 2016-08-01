@@ -19,7 +19,7 @@ public final class Globals {
     public static boolean DEBUG_PHYSICS = false;
     public static boolean PRINT_DEBUG_INFO = false;
     public static boolean CUSTOM_CAMERA_MODE = false;
-    public static boolean CLEAR_PREFERENCES = true;
+    public static boolean CLEAR_PREFERENCES = false;
     public static int LOG_LEVEL = Application.LOG_ERROR;
     private static GameState gameState;
 

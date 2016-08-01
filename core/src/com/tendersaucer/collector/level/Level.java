@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.tendersaucer.collector.DAO;
 import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
+import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.entity.Entity;
 import com.tendersaucer.collector.entity.EntityDefinition;
 import com.tendersaucer.collector.entity.Player;
@@ -18,7 +20,6 @@ import com.tendersaucer.collector.event.LevelLoadEndEvent;
 import com.tendersaucer.collector.gen.EntityConstants;
 import com.tendersaucer.collector.screen.Canvas;
 import com.tendersaucer.collector.screen.IRender;
-import com.tendersaucer.collector.statistics.StatisticsDAO;
 import com.tendersaucer.collector.util.FixtureBodyDefinition;
 import com.tendersaucer.collector.util.InvalidConfigException;
 
@@ -38,6 +39,7 @@ public final class Level implements IUpdate {
     private static final Level instance = new Level();
 
     private int id;
+    private long iterationId;
     private Player player;
     private World physicsWorld;
     private Vector2 respawnPosition;
@@ -78,7 +80,6 @@ public final class Level implements IUpdate {
         return false;
     }
 
-    // TODO: Flip every other iteration
     // TODO: More color after each iteration
     public void load(long iterationId, int levelId) {
         try {
@@ -89,6 +90,7 @@ public final class Level implements IUpdate {
         }
 
         id = levelId;
+        this.iterationId = iterationId;
 
         TiledMapLevelLoadable loadable = new TiledMapLevelLoadable(levelId);
         EventManager.getInstance().notify(new LevelLoadBeginEvent(loadable));
@@ -112,10 +114,31 @@ public final class Level implements IUpdate {
 
         EventManager.getInstance().notify(new LevelLoadEndEvent());
         Globals.setGameState(GameState.WAIT_FOR_INPUT);
+
+        boolean isCameraFlipped = MainCamera.getInstance().isFlipped();
+        if ((iterationId % 2 == 0 && isCameraFlipped) ||
+                (iterationId % 2 == 1 && !isCameraFlipped)) {
+            MainCamera.getInstance().flipHorizontally();
+        }
+    }
+
+    public void loadNext() {
+        id++;
+        DAO dao = DAO.getInstance();
+        if (id >= Globals.NUM_LEVELS - 1) {
+            id = 0;
+            iterationId++;
+            dao.reset(DAO.LEVEL_ID_KEY);
+            dao.increment(DAO.ITERATION_ID_KEY);
+        } else {
+            dao.increment(DAO.LEVEL_ID_KEY);
+        }
+
+        load(iterationId, id);
     }
 
     public void replay() {
-        load(StatisticsDAO.getInstance().getIterationId(), id);
+        load(iterationId, id);
     }
 
     public World getPhysicsWorld() {
@@ -151,6 +174,10 @@ public final class Level implements IUpdate {
 
     public int getId() {
         return id;
+    }
+
+    public long getIterationId() {
+        return iterationId;
     }
 
     public Vector2 getRespawnPosition() {

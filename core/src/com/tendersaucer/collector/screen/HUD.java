@@ -20,7 +20,7 @@ import com.tendersaucer.collector.*;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.event.IGameStateChangeListener;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.statistics.StatisticsDAO;
+import com.tendersaucer.collector.DAO;
 
 import java.util.concurrent.TimeUnit;
 
@@ -81,10 +81,10 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             checkMobileButtons();
         }
 
-        StatisticsDAO statisticsDAO = StatisticsDAO.getInstance();
-        long iterationId = statisticsDAO.getIterationId();
-        long levelId = statisticsDAO.getLevelId();
-        long runId = statisticsDAO.getRunId();
+        Level level = Level.getInstance();
+        long iterationId = level.getIterationId();
+        int levelId = level.getId();
+        long runId = DAO.getInstance().getRunId();
         progressLabel.setText(iterationId + "." + levelId + "." + runId);
 
         float labelHeight = progressLabel.getPrefHeight();
@@ -142,7 +142,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         nextButton.setDisabled(false);
         nextButton.setVisible(true);
 
-        long duration = StatisticsDAO.getInstance().getTotalTime();
+        long duration = DAO.getInstance().getTotalTime();
         levelSummaryLabel.setText("You spent " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds doing that...");
         levelSummaryLabel.setVisible(true);
 
@@ -206,11 +206,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 hideLevelComplete();
                 nextButton.getStyle().fontColor = Color.BLACK;
-
-                StatisticsDAO statisticsDAO = StatisticsDAO.getInstance();
-                long iterationId = statisticsDAO.getIterationId();
-                int levelId = (int)statisticsDAO.getLevelId();
-                Level.getInstance().load(iterationId, levelId);
+                Level.getInstance().loadNext();
             }
         });
         stage.addActor(nextButton);

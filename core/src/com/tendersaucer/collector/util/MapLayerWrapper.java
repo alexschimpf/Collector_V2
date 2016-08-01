@@ -22,7 +22,7 @@ public final class MapLayerWrapper implements IRender {
         this.renderer = renderer;
 
         if (rawLayer instanceof TiledMapTileLayer) {
-            flipCells((TiledMapTileLayer)rawLayer);
+            correctCells((TiledMapTileLayer)rawLayer);
         }
         this.rawLayer = rawLayer;
     }
@@ -44,7 +44,7 @@ public final class MapLayerWrapper implements IRender {
         return rawLayer.getObjects();
     }
 
-    private void flipCells(TiledMapTileLayer rawLayer) {
+    private void correctCells(TiledMapTileLayer rawLayer) {
         for (int col = 0; col < rawLayer.getWidth(); col++) {
             for (int row = 0; row < rawLayer.getHeight(); row++) {
                 TiledMapTileLayer.Cell cell = rawLayer.getCell(col, row);

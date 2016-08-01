@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.level.Level;
-import com.tendersaucer.collector.statistics.StatisticsDAO;
 
 /**
  * Game input listener
@@ -26,26 +25,32 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
         MainCamera camera = MainCamera.getInstance();
         Player player = Level.getInstance().getPlayer();
         if (player != null) {
+            boolean isCameraFlipped = camera.isFlipped();
+            float multiplier = isCameraFlipped ? -1 : 1;
             if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
                 if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
-                    camera.move(camera.getTileSize() / 2, 0);
+                    camera.move(camera.getTileSize() / 2 * multiplier, 0);
                     camera.setPlayerFocus(false);
+                } else if (isCameraFlipped){
+                    player.moveLeft();
                 } else {
                     player.moveRight();
                 }
             } else if (Gdx.input.isKeyPressed(Keys.LEFT)) {
                 if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
-                    camera.move(-camera.getTileSize() / 2, 0);
+                    camera.move(-camera.getTileSize() / 2 * multiplier, 0);
                     camera.setPlayerFocus(false);
+                } else if (isCameraFlipped){
+                    player.moveRight();
                 } else {
                     player.moveLeft();
                 }
             } else if (Globals.CUSTOM_CAMERA_MODE && Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
                 if (Gdx.input.isKeyPressed(Keys.UP)) {
-                    camera.move(0, -camera.getTileSize() / 2);
+                    camera.move(0, -camera.getTileSize() / 2 * multiplier);
                     camera.setPlayerFocus(false);
                 } else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-                    camera.move(0, camera.getTileSize() / 2);
+                    camera.move(0, camera.getTileSize() / 2  * multiplier);
                 }
             } else if (!Globals.isAndroid()) {
                 player.stopHorizontalMove();
@@ -80,7 +85,7 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 Globals.DEBUG_PHYSICS = !Globals.DEBUG_PHYSICS;
                 break;
             case Keys.C:
-                StatisticsDAO.getInstance().clear();
+                DAO.getInstance().clear();
                 break;
             case Keys.M:
                 Globals.ENABLE_MUSIC = !Globals.ENABLE_MUSIC;

@@ -16,8 +16,8 @@ import com.tendersaucer.collector.event.GameStateChangeEvent;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
 import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.statistics.StatisticsDAO;
-import com.tendersaucer.collector.statistics.StatisticsListener;
+import com.tendersaucer.collector.DAO;
+import com.tendersaucer.collector.StatisticsListener;
 import com.tendersaucer.collector.util.Debug;
 
 /**
@@ -54,9 +54,9 @@ public final class Driver implements Screen {
         eventManager.listen(GameStateChangeEvent.class, HUD.getInstance());
         eventManager.listen(GameStateChangeEvent.class, StatisticsListener.getInstance());
 
-        StatisticsDAO statisticsDAO = StatisticsDAO.getInstance();
-        int iterationId = (int)statisticsDAO.getIterationId();
-        int levelId = (int)statisticsDAO.getLevelId();
+        DAO dao = DAO.getInstance();
+        long iterationId = dao.getIterationId();
+        int levelId = (int)dao.getLevelId();
         Level.getInstance().load(iterationId, levelId);
     }
 
@@ -83,7 +83,7 @@ public final class Driver implements Screen {
 
     @Override
     public void resume() {
-        Level.getInstance().replay();
+        Level.getInstance().replay(); // then state becomes WAIT_FOR_INPUT
     }
 
     @Override
@@ -93,7 +93,7 @@ public final class Driver implements Screen {
 
     @Override
     public void dispose() {
-        Globals.setGameState(GameState.DISPOSE);
+        Globals.setGameState(GameState.SHUTDOWN);
     }
 
     public SpriteBatch getSpriteBatch() {

@@ -123,7 +123,6 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
         Array<MapLayerWrapper> layersToProcess = new Array<MapLayerWrapper>();
         for (MapLayer layer : tiledMap.getLayers()) {
             MapLayerWrapper layerWrapper = new MapLayerWrapper(renderer, layer);
-
             // Bodies must exist before entity objects.
             if (layerWrapper.getName().equals("bodies")) {
                 processLayer(layerWrapper);

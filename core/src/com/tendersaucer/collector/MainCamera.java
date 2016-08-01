@@ -72,9 +72,18 @@ public final class MainCamera implements IUpdate {
         return rawCamera.viewportHeight;
     }
 
+    public void flipHorizontally() {
+        rawCamera.position.z *= -1;
+        rawCamera.direction.z *= -1;
+    }
+
     public float getTileMapScale() {
         float viewportTileSize = getViewportWidth() / TILES_PER_SCREEN_WIDTH;
         return viewportTileSize / TILE_SIZE_PIXELS;
+    }
+
+    public boolean isFlipped() {
+        return rawCamera.direction.z < 0;
     }
 
     public float getCenterX() {

@@ -2,6 +2,11 @@
 - gets more colorful every other iteration
 - handling paused state
 
+
+- Store LEVEL_DIRECTION variable
+    - Entities can choose to use it or not (e.g. entity moves in pre-determined path, but direction matters)
+-
+
 ------------------
 
 - Level complete dialog should tell you how many times you died, and your average duration-before-death/complete
