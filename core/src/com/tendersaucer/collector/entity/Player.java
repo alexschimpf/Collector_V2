@@ -19,6 +19,10 @@ import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
 import com.tendersaucer.collector.level.Level;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * User-controlled player
  * Created by Alex on 4/8/2016.
@@ -31,6 +35,7 @@ public final class Player extends RenderedEntity {
 
     private static final String JUMP_ANIMATION_ID = "jump";
     private static final String MOVE_ANIMATION_ID = "move";
+    private static final float TARGET_COLOR_BRIGHTNESS = 0.7f;
     public static final float MOVE_SPEED = 1800;
     public static final float JUMP_IMPULSE = -160;
     public static final short COLLISION_MASK = 0x0002;
@@ -49,15 +54,20 @@ public final class Player extends RenderedEntity {
         direction = Direction.RIGHT;
 
         DAO dao = DAO.getInstance();
-        String[] colorCodes = dao.getString(DAO.COLOR_ORDER_KEY, "r,g,b").split(",");
-        String colorCode = colorCodes[(int)(Level.getInstance().getIterationId() % 3)];
+        if (dao.isNew()) {
+            dao.putString(DAO.COLOR_ORDER_KEY, getRandomColorOrder());
+        }
+
+        String colorCodes = dao.getString(DAO.COLOR_ORDER_KEY, "");
+        char colorCode = colorCodes.charAt((int)(Level.getInstance().getIterationId() % 3));
         float progress = Math.min((Level.getInstance().getId() + 1) / Globals.NUM_LEVELS, 1);
-        if (colorCode.equals("r")) {
-            sprite.setColor(new Color(1, 1 - progress, 1 - progress, 1));
-        } else if (colorCode.equals("g")) {
-            sprite.setColor(new Color(1 - progress, 1, 1 - progress, 1));
+        float brightness = TARGET_COLOR_BRIGHTNESS;
+        if (colorCode == 'r') {
+            sprite.setColor(new Color(brightness, brightness - progress, brightness - progress, 1));
+        } else if (colorCode == 'g') {
+            sprite.setColor(new Color(brightness - progress, brightness, brightness - progress, 1));
         } else {
-            sprite.setColor(new Color(1 - progress, 1 - progress, 1, 1));
+            sprite.setColor(new Color(brightness - progress, brightness - progress, brightness, 1));
         }
     }
 
@@ -283,5 +293,18 @@ public final class Player extends RenderedEntity {
 //        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
 //        vector2Pool.free(position);
 //        vector2Pool.free(sizeRange);
+    }
+
+    private String getRandomColorOrder() {
+        List<String> codes = new ArrayList<String>();
+        codes.add("r"); codes.add("g"); codes.add("b");
+        Collections.shuffle(codes);
+
+        String order = "";
+        for (int i = 0; i < codes.size(); i++) {
+            order += codes.get(i);
+        }
+
+        return order;
     }
 }

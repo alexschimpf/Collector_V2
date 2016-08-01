@@ -21,10 +21,6 @@ import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
 import com.tendersaucer.collector.util.Debug;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Main update and render logic
  * <p/>
@@ -66,22 +62,8 @@ public final class Driver implements Screen {
 
         if (dao.isNew()) {
             eventManager.notify(new NewUserEvent());
-            dao.putString(DAO.COLOR_ORDER_KEY, getRandomColorOrder());
             dao.putBoolean(DAO.IS_NEW_KEY, false);
         }
-    }
-
-    private String getRandomColorOrder() {
-        List<String> codes = new ArrayList<String>();
-        codes.add("r"); codes.add("g"); codes.add("b");
-        Collections.shuffle(codes);
-
-        String order = codes.get(0);
-        for (int i = 1; i < codes.size(); i++) {
-            order += "," + codes.get(i);
-        }
-
-        return order;
     }
 
     @Override

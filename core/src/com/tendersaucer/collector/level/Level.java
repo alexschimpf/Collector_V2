@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.tendersaucer.collector.DAO;
 import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.IUpdate;
@@ -124,14 +123,9 @@ public final class Level implements IUpdate {
 
     public void loadNext() {
         id++;
-        DAO dao = DAO.getInstance();
         if (id >= Globals.NUM_LEVELS - 1) {
             id = 0;
             iterationId++;
-            dao.reset(DAO.LEVEL_ID_KEY);
-            dao.increment(DAO.ITERATION_ID_KEY);
-        } else {
-            dao.increment(DAO.LEVEL_ID_KEY);
         }
 
         load(iterationId, id);
