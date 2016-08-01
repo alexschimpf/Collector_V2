@@ -294,10 +294,19 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         float x = Gdx.input.getX(movePointer);
         Player player = Level.getInstance().getPlayer();
         if(moveButton.isPressed()) {
+            MainCamera camera = MainCamera.getInstance();
             if(x < moveCenterX) {
-                player.moveLeft();
+                if (camera.isFlipped()) {
+                    player.moveRight();
+                } else  {
+                    player.moveLeft();
+                }
             } else {
-                player.moveRight();
+                if (camera.isFlipped()) {
+                    player.moveLeft();
+                } else  {
+                    player.moveRight();
+                }
             }
         } else {
             player.stopHorizontalMove();

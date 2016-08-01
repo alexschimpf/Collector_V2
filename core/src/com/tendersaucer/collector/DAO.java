@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public final class DAO {
 
-    private static final String PREFERENCES_NAME = "Collector";
     public static final String IS_NEW_KEY = "is_new";
     public static final String ITERATION_ID_KEY = "iteration_id";
     public static final String LEVEL_ID_KEY = "level_id";
     public static final String COLOR_ORDER_KEY = "color_order";
     public static final String RUN_ID_KEY = "run_id";
     public static final String TOTAL_TIME_KEY = "total_time";
+    private static final String PREFERENCES_NAME = "Collector";
     private static final DAO instance = new DAO();
 
     private Map<String, ?> preferencesCache;
