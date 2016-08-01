@@ -8,17 +8,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tendersaucer.collector.AssetManager;
+import com.tendersaucer.collector.DAO;
 import com.tendersaucer.collector.GameState;
 import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
+import com.tendersaucer.collector.StatisticsListener;
 import com.tendersaucer.collector.event.EventManager;
 import com.tendersaucer.collector.event.GameStateChangeEvent;
 import com.tendersaucer.collector.event.LevelLoadBeginEvent;
+import com.tendersaucer.collector.event.NewUserEvent;
 import com.tendersaucer.collector.level.Level;
 import com.tendersaucer.collector.particle.ParticleEffectManager;
-import com.tendersaucer.collector.DAO;
-import com.tendersaucer.collector.StatisticsListener;
 import com.tendersaucer.collector.util.Debug;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Main update and render logic
@@ -58,6 +63,25 @@ public final class Driver implements Screen {
         long iterationId = dao.getIterationId();
         int levelId = (int)dao.getLevelId();
         Level.getInstance().load(iterationId, levelId);
+
+        if (dao.isNew()) {
+            eventManager.notify(new NewUserEvent());
+            dao.putString(DAO.COLOR_ORDER_KEY, getRandomColorOrder());
+            dao.putBoolean(DAO.IS_NEW_KEY, false);
+        }
+    }
+
+    private String getRandomColorOrder() {
+        List<String> codes = new ArrayList<String>();
+        codes.add("r"); codes.add("g"); codes.add("b");
+        Collections.shuffle(codes);
+
+        String order = codes.get(0);
+        for (int i = 1; i < codes.size(); i++) {
+            order += "," + codes.get(i);
+        }
+
+        return order;
     }
 
     @Override

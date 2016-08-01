@@ -1,6 +1,7 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.tendersaucer.collector.DAO;
+import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
@@ -44,6 +47,18 @@ public final class Player extends RenderedEntity {
 
         numFootContacts = 0;
         direction = Direction.RIGHT;
+
+        DAO dao = DAO.getInstance();
+        String[] colorCodes = dao.getString(DAO.COLOR_ORDER_KEY, "r,g,b").split(",");
+        String colorCode = colorCodes[(int)(Level.getInstance().getIterationId() % 3)];
+        float progress = Math.min((Level.getInstance().getId() + 1) / Globals.NUM_LEVELS, 1);
+        if (colorCode.equals("r")) {
+            sprite.setColor(new Color(1, 1 - progress, 1 - progress, 1));
+        } else if (colorCode.equals("g")) {
+            sprite.setColor(new Color(1 - progress, 1, 1 - progress, 1));
+        } else {
+            sprite.setColor(new Color(1 - progress, 1 - progress, 1, 1));
+        }
     }
 
     @Override
