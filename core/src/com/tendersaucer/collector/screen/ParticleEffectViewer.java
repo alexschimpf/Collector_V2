@@ -195,9 +195,6 @@ public class ParticleEffectViewer implements Screen {
                 case Keys.C:
                     ParticleEffectManager.getInstance().clearLiveEffects();
                     break;
-                case Keys.M:
-                    Globals.ENABLE_MUSIC = !Globals.ENABLE_MUSIC;
-                    break;
                 case Keys.D:
                     Globals.PRINT_DEBUG_INFO = !Globals.PRINT_DEBUG_INFO;
                     break;

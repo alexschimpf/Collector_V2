@@ -13,6 +13,7 @@ import java.util.Map;
 public final class DAO {
 
     public static final String IS_NEW_KEY = "is_new";
+    public static final String IS_AUDIO_ENABLED = "is_audio_enabled";
     public static final String ITERATION_ID_KEY = "iteration_id";
     public static final String LEVEL_ID_KEY = "level_id";
     public static final String COLOR_ORDER_KEY = "color_order";

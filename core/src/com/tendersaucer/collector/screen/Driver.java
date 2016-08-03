@@ -1,5 +1,6 @@
 package com.tendersaucer.collector.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,24 +29,24 @@ import com.tendersaucer.collector.util.Vector2Pool;
  */
 public final class Driver implements Screen {
 
-    public static final Driver instance = new Driver();
+    public static SpriteBatch spriteBatch;
 
     private final Matrix4 debugMatrix;
-    private final SpriteBatch spriteBatch;
     private final Box2DDebugRenderer debugRenderer;
+    private final Game game;
 
-    private Driver() {
+    public Driver(Game game) {
+        this.game = game;
         debugMatrix = new Matrix4();
-        spriteBatch = new SpriteBatch();
         debugRenderer = new Box2DDebugRenderer();
-    }
 
-    public static Driver getInstance() {
-        return instance;
+        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
+
         AssetManager.getInstance().load();
         ParticleEffectManager.getInstance().loadDefinitions();
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.tendersaucer.collector.entity.Player;
 import com.tendersaucer.collector.level.Level;
+import com.tendersaucer.collector.screen.MainMenu;
 
 /**
  * Game input listener
@@ -13,7 +14,10 @@ import com.tendersaucer.collector.level.Level;
  */
 public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputListener implements IUpdate {
 
-    public InputListener() {
+    private boolean mainMenuOnBack;
+
+    public InputListener(boolean mainMenuOnBack) {
+        this.mainMenuOnBack = mainMenuOnBack;
     }
 
     @Override
@@ -72,6 +76,11 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
         }
 
         switch (keyCode) {
+            case Keys.BACK:
+                if (mainMenuOnBack) {
+                    Game.instance.setScreen(new MainMenu(Game.instance));
+                }
+                break;
             case Keys.ESCAPE:
                 Gdx.app.exit();
                 break;
@@ -86,9 +95,6 @@ public final class InputListener extends com.badlogic.gdx.scenes.scene2d.InputLi
                 break;
             case Keys.C:
                 DAO.getInstance().clear();
-                break;
-            case Keys.M:
-                Globals.ENABLE_MUSIC = !Globals.ENABLE_MUSIC;
                 break;
             case Keys.P:
                 Globals.PRINT_DEBUG_INFO = !Globals.PRINT_DEBUG_INFO;

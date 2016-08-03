@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 /**
+ * Determines velocity at a point in time, given path and total trip duration
+ *
  * Created by Alex on 5/5/2016.
  */
 public class PathHelper {

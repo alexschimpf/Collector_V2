@@ -112,7 +112,7 @@ public final class TiledMapLevelLoadable implements ILevelLoadable {
 
     private void processLayers() {
         final OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(tiledMap,
-                MainCamera.getInstance().getTileMapScale(), Driver.getInstance().getSpriteBatch()) {
+                MainCamera.getInstance().getTileMapScale(), Driver.spriteBatch) {
             @Override
             public void renderTileLayer(TiledMapTileLayer layer) {
                 setView(MainCamera.getInstance().getRawCamera());

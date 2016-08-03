@@ -35,7 +35,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
     private static final float BUTTON_ALPHA = 0.5f;
 
     private Stage stage;
-    private com.tendersaucer.collector.InputListener inputListener;
+    private InputListener inputListener;
     private Image levelCompleteBackground;
     private Label levelSummaryLabel;
     private TextButton nextButton;
@@ -48,7 +48,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
     private HUD() {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        inputListener = new com.tendersaucer.collector.InputListener();
+        inputListener = new InputListener(true);
         stage.addListener(inputListener);
         Gdx.input.setInputProcessor(stage);
 
@@ -143,7 +143,8 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
         nextButton.setVisible(true);
 
         long duration = DAO.getInstance().getTotalTime();
-        levelSummaryLabel.setText("You spent " + TimeUnit.MILLISECONDS.toSeconds(duration) + " seconds doing that...");
+        levelSummaryLabel.setText(String.format("TIME TAKEN: %s SECONDS",
+                TimeUnit.MILLISECONDS.toSeconds(duration)));
         levelSummaryLabel.setVisible(true);
 
         if (!Globals.isDesktop() && moveButton != null && jumpButton != null) {
@@ -257,7 +258,7 @@ public final class HUD implements IUpdate, IRender, IGameStateChangeListener {
 
         jumpButton = new Button(skin);
         jumpButton.setColor(1, 1, 1, BUTTON_ALPHA);
-        jumpButton.setSize(screenWidth / 6f, screenHeight / 5f);
+        jumpButton.setSize(screenWidth / 5f, screenHeight / 5f);
         float buttonWidth = jumpButton.getWidth();
         jumpButton.setPosition(((31.0f / 32.0f) * screenWidth) - buttonWidth, screenHeight / 32f);
         jumpButton.addListener(new com.badlogic.gdx.scenes.scene2d.InputListener() {

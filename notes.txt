@@ -1,11 +1,5 @@
-- flips horizontally every other iteration
-- gets more colorful every other iteration
-- handling paused state
-
-
-- Store LEVEL_DIRECTION variable
-    - Entities can choose to use it or not (e.g. entity moves in pre-determined path, but direction matters)
--
+- Main Menu - Play button, About info, Audio-off button
+- Back button goes to Main Menu (with dialog making sure)
 
 ------------------
 
@@ -13,10 +7,6 @@
 
 - can get rid of "getting caught between 2 adjacent bodies" problem by making the entities sensors,
   with a free body surrounding them all
-
-- 1st level is semi-long, but there is a time limit
-    - bottom of terrain is random and interesting
-    - terrain is kinda hilly and random so you have to jump "perfectly"
 
 - run past a "post", then get to a certain point, activate something, then run back past the "post", and the map has (visibly) rotated over
 

@@ -26,6 +26,25 @@
                 }
             }
         },
+        "player_land": {
+            "textures": ["player_default"],
+            "ranges": {
+                "duration": [400, 600],
+                "num_particles": [20, 30],
+                "position_offset": [[0, 0], [0, 0]],
+                "angular_velocity": [0, 30],
+                "color": [[1, 1, 1, 0.3], [1, 1, 1, 1]],
+                "velocity": {
+                    "range": [[-12, -6], [12, -1]],
+                    "splits": [4, 0]
+                }
+            },
+            "modifiers": {
+                "color_linear": {
+                    "end": [0.9, 0.9, 0.9, 0]
+                }
+            }
+        },
         "rainbow": {
             "textures": ["default"],
             "ranges": {

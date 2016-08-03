@@ -1,7 +1,6 @@
 package com.tendersaucer.collector.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.tendersaucer.collector.DAO;
-import com.tendersaucer.collector.Globals;
 import com.tendersaucer.collector.MainCamera;
 import com.tendersaucer.collector.animation.AnimatedSprite;
 import com.tendersaucer.collector.animation.AnimatedSpriteSystem;
@@ -58,17 +56,17 @@ public final class Player extends RenderedEntity {
             dao.putString(DAO.COLOR_ORDER_KEY, getRandomColorOrder());
         }
 
-        String colorCodes = dao.getString(DAO.COLOR_ORDER_KEY, "");
-        char colorCode = colorCodes.charAt((int)(Level.getInstance().getIterationId() % 3));
-        float progress = Math.min((Level.getInstance().getId() + 1) / Globals.NUM_LEVELS, 1);
-        float brightness = TARGET_COLOR_BRIGHTNESS;
-        if (colorCode == 'r') {
-            sprite.setColor(new Color(brightness, brightness - progress, brightness - progress, 1));
-        } else if (colorCode == 'g') {
-            sprite.setColor(new Color(brightness - progress, brightness, brightness - progress, 1));
-        } else {
-            sprite.setColor(new Color(brightness - progress, brightness - progress, brightness, 1));
-        }
+//        String colorCodes = dao.getString(DAO.COLOR_ORDER_KEY, "");
+//        char colorCode = colorCodes.charAt((int)(Level.getInstance().getIterationId() % 3));
+//        float progress = Math.min((Level.getInstance().getId() + 1) / Globals.NUM_LEVELS, 1);
+//        float brightness = TARGET_COLOR_BRIGHTNESS;
+//        if (colorCode == 'r') {
+//            sprite.setColor(new Color(brightness, brightness - progress, brightness - progress, 1));
+//        } else if (colorCode == 'g') {
+//            sprite.setColor(new Color(brightness - progress, brightness, brightness - progress, 1));
+//        } else {
+//            sprite.setColor(new Color(brightness - progress, brightness - progress, brightness, 1));
+//        }
     }
 
     @Override
@@ -150,7 +148,7 @@ public final class Player extends RenderedEntity {
     }
 
     public void land() {
-        // TODO:
+        beginLandParticleEffect();
     }
 
     public void stopJump() {
@@ -184,10 +182,6 @@ public final class Player extends RenderedEntity {
         } else if (numFootContacts == 0 && animationSystem.isCurrent(MOVE_ANIMATION_ID)) {
             // If moving straight off a surface, without jumping.
             animationSystem.switchToDefault();
-        }
-
-        if (!isJumping()) {
-            beginMoveParticleEffect();
         }
     }
 
@@ -223,7 +217,7 @@ public final class Player extends RenderedEntity {
     private void attachFootSensor(Body body, float width) {
         PolygonShape shape = new PolygonShape();
         Vector2 localBottom = body.getLocalPoint(new Vector2(getCenterX(), getBottom()));
-        shape.setAsBox(width / 2.2f, 0.1f, localBottom, 0);
+        shape.setAsBox(width * 0.45f, 0.12f, localBottom, 0);
         Fixture fixture = body.createFixture(shape, 0);
         fixture.setSensor(true);
 
@@ -272,7 +266,7 @@ public final class Player extends RenderedEntity {
 //                new Vector2(1f, 1.3f),
 //                new Vector2(1.3f, 1.29f)
 //        });
-        shape.setAsBox(getWidth() / 2.05f, getHeight() / 2.05f);
+        shape.setAsBox(getWidth() * 0.5f, getHeight() * 0.46875f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -283,13 +277,12 @@ public final class Player extends RenderedEntity {
         return fixtureDef;
     }
 
-    private void beginMoveParticleEffect() {
+    private void beginLandParticleEffect() {
 //        Vector2Pool vector2Pool = Vector2Pool.getInstance();
-//        Vector2 sizeRange = vector2Pool.obtain(getWidth() / 2, getWidth());
-//        Vector2 position = vector2Pool.obtain(getLeft(), getBottom() - (sizeRange.y / 2));
+//        Vector2 sizeRange = vector2Pool.obtain(getWidth() * 0.3f, getWidth() * 0.7f);
+//        Vector2 position = vector2Pool.obtain(getCenterX(), getBottom() - (sizeRange.y / 2));
 //        ParticleEffect effect =
-//                ParticleEffectManager.getInstance().buildParticleEffect(ParticleConstants.PLAYER_MOVE);
-//        effect.getVXRange().scl(isFacingLeft() ? 1 : -1);
+//                ParticleEffectManager.getInstance().buildParticleEffect(ParticleConstants.PLAYER_LAND);
 //        ParticleEffectManager.getInstance().beginParticleEffect(effect, position, sizeRange, 1);
 //        vector2Pool.free(position);
 //        vector2Pool.free(sizeRange);

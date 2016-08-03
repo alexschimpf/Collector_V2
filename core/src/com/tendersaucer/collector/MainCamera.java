@@ -23,7 +23,7 @@ public final class MainCamera implements IUpdate {
     private MainCamera() {
         rawCamera = new OrthographicCamera();
         rawCamera.setToOrtho(true, BASE_VIEWPORT_WIDTH, BASE_VIEWPORT_HEIGHT);
-        rawCamera.zoom += 0.2f; // TODO: Hack
+        rawCamera.zoom += 0.3f; // TODO: Hack
     }
 
     public static MainCamera getInstance() {

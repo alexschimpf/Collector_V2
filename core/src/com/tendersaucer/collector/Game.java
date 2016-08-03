@@ -1,6 +1,6 @@
 package com.tendersaucer.collector;
 
-import com.tendersaucer.collector.screen.Driver;
+import com.tendersaucer.collector.screen.MainMenu;
 
 /**
  * Game entry point
@@ -9,8 +9,11 @@ import com.tendersaucer.collector.screen.Driver;
  */
 public final class Game extends com.badlogic.gdx.Game {
 
+    public static Game instance;
+
     @Override
     public void create() {
-        setScreen(Driver.getInstance());
+        instance = this;
+        setScreen(new MainMenu(this));
     }
 }
